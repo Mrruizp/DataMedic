@@ -9,7 +9,7 @@
   <!-- JQVMap -->
   <link rel="stylesheet" href="../util/plugins/jqvmap/jqvmap.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../util/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../util/dist/css/adminlte.css">
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="../util/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Daterange picker -->
@@ -21,9 +21,9 @@
   
   
   
-  <!-- Google Font -->
+  <!-- Google Font 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  
+  -->
   
 <!--  
   <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">

@@ -8,6 +8,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <?php include_once 'estilos.view.php'; ?>
 </head>
+<style>
+/*
+         #myModal{
+            padding: 0 0 0 750px; 
+            width: 61% !important;
+            position: absolute;
+            
+        }
+        */
+        .modal-lg {
+                      max-width: 21% !important;
+                  }
+
+    </style>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
@@ -39,45 +53,53 @@
     <section class="content">
       <div class="">
         <!-- Small boxes (Stat box) -->
+        <div class="row col-lg-12">
+          <div class="col-lg-11 text-right"><br/>
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal" id="btnagregar">Iniciar sesión</button>
+            
+          </div>
+        </div>
         <div class="row">
           <div class="col-xs-1">
             <!-- small box -->
             <div class="">
               <div class="inner">
-                <img src="../images/LogoDental.jpg" class="img img-responsive center-block" width="150">
+                <img src="../images/datamedic.png" class="img img-responsive center-block" width="150">
               </div>
             </div>
           </div>
-          <!-- ./col -->
-          <div class="col-lg-5">
-            <!-- small box -->
-              <div class="card-header col-lg-10">
-                  <h3 class="text-bold">
-                    Estetica Dental Alcedo
-                  </h3>
-              </div>
-              <div><br/>
-                <div class="col-md-12 col-sm-4">
-                  <h6>
-                    <ion-icon name="location-outline"></ion-icon>
-                    Av las Nazarenas 186, Santiago de Surco
-                  </h6>
+            <!-- ./col -->
+            <div class="col-md-3">
+              <!-- small box -->
+                <div class="card-header">
+                    <h3 class="text-bold text-primary">
+                      Estetica Dental Alcedo
+                    </h3>
                 </div>
-              </div>
-                <div class="col-md-12 col-sm-4">
-                  <h6>
-                    <ion-icon name="phone-portrait-outline"></ion-icon>
-                     924869860
-                  </h6>
+                <div><br/>
+                  <div class="col-md-12 col-sm-4">
+                    <h6>
+                      <ion-icon name="location-outline"></ion-icon>
+                      Av las Nazarenas 186, Santiago de Surco
+                    </h6>
+                  </div>
                 </div>
-          </div>
+                  <div class="col-md-12 col-sm-4">
+                    <h6>
+                      <ion-icon name="phone-portrait-outline"></ion-icon>
+                       924869860
+                    </h6>
+                  </div>
+            </div>
           <!-- ./col -->
+
         </div>
         <!-- /.row -->
+        
         <!-- Main row -->
         <div class="row">
           <!-- Left col -->
-          <section class="col-lg-6">
+          <section class="col-lg-5">
             <!-- Custom tabs (Charts with tabs)-->
             <div class="card">
               <div class="card-header text-center bg-info">
@@ -89,7 +111,7 @@
               <div class="form-horizontal">
                 <div class="card-body">
                   <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Especialidad:</label>
+                    <label for="inputEmail3" class="col-sm-3 col-form-label">Especialidad:</label>
                     <div class="row">
                       <div class="col-sm-12">
                       <!-- select -->
@@ -106,7 +128,7 @@
                       </div>
                     </div>
                     <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Doctor:</label>
+                    <label for="inputEmail3" class="col-sm-3 col-form-label">Doctor:</label>
                     <div class="row">
                       <div class="col-sm-12">
                       <!-- select -->
@@ -125,7 +147,7 @@
                   </div>
               
               <div class="card-body">
-                <label for="inputEmail3" class="col-sm-2 col-form-label">Fecha y hora:</label>
+                <label for="inputEmail3" class="col-sm-3 col-form-label">Fecha y hora:</label>
                 <table class="table table-bordered">
                   <thead>                  
                     <tr style="background-color: #ededed; height:25px;">
@@ -236,6 +258,24 @@
                       <td>disponible</td>
                       <td></td>
                     </tr>
+                    <tr>
+                      <td>11.</td>
+                      <td>Lunes 11 de Mayo</td>
+                      <td>
+                        4:30
+                      </td>
+                      <td>disponible</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>11.</td>
+                      <td>Lunes 11 de Mayo</td>
+                      <td>
+                        5:00
+                      </td>
+                      <td>disponible</td>
+                      <td></td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -248,8 +288,8 @@
           <section class="col-lg-6">
             <div class="col-lg-12">
             <!-- small box -->
-              <div class="card-header small-box col-lg-10">
-                  <h5 class="text-bold">
+              <div class="card-header small-box col-lg-12">
+                  <h5 class="text-bold text-primary">
                     Más información
                   </h5>
               </div>
@@ -257,20 +297,20 @@
                 <div class="col-md-12 col-sm-4">
                   <h6>
                     <ion-icon name="earth-outline"></ion-icon>
-                    <b>Web: </b> http://alfirk.org.pe
+                    <b>Web: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> http://alfirk.org.pe
                   </h6>
                 </div>
                 <div class="col-md-12 col-sm-4">
                   <h6>
                     <ion-icon name="time-outline"></ion-icon>
-                     <b>Atención: </b> Lunes-Viernes
+                     <b>Atención: &nbsp;</b> Lunes-Viernes
                   </h6>
                 </div>
             </div><br/>
             <div class="col-lg-12">
             <!-- small box -->
-              <div class="card-header small-box col-lg-10">
-                  <h5 class="text-bold">
+              <div class="card-header small-box col-lg-12">
+                  <h5 class="text-bold text-primary">
                     Especialidades
                   </h5>
               </div>
@@ -300,12 +340,158 @@
                   </h6>
                 </div>
             </div>
+            <br/>
+            <div class="col-lg-12">
+            <!-- small box -->
+              <div class="card-header small-box col-lg-12">
+                  <h5 class="text-bold text-primary">
+                    Staff médico
+                  </h5>
+              </div>
+              <br/>
+              <div class="row">
+                <div class="col-lg-4">
+                  <!-- Profile Image -->
+                  <div class="card card-primary card-outline">
+                    <div class="card-body box-profile">
+                      <div class="text-center">
+                        <img class="profile-user-img img-fluid img-circle"
+                             src="../images/doctora2.png"
+                             alt="User profile picture">
+                      </div>
+                      <h3 class="profile-username text-center">
+                        Maritza Alcedo
+                      </h3>
+                      <p class="text-muted text-center">
+                        Estética Dental</p>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                  <!-- /.card -->
+                </div>
+                <div class="col-lg-4">
+                  <!-- Profile Image -->
+                  <div class="card card-primary card-outline">
+                    <div class="card-body box-profile">
+                      <div class="text-center">
+                        <img class="profile-user-img img-fluid img-circle"
+                             src="../images/doctor1.jpg"
+                             alt="User profile picture">
+                      </div>
+                      <h3 class="profile-username text-center">
+                        Mario Andretti
+                      </h3>
+                      <p class="text-muted text-center">
+                        Endodoncia</p>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                  <!-- /.card -->
+                </div>
+                <div class="col-lg-4">
+                  <!-- Profile Image -->
+                  <div class="card card-primary card-outline">
+                    <div class="card-body box-profile">
+                      <div class="text-center">
+                        <img class="profile-user-img img-fluid img-circle"
+                             src="../images/doctora2.png"
+                             alt="User profile picture">
+                      </div>
+                      <h3 class="profile-username text-center">
+                        Alejandra Díaz
+                      </h3>
+                      <p class="text-muted text-center">
+                        Implantología</p>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                  <!-- /.card -->
+                </div>
+              </div>
+            </div><br/>
           </section>
         </div>
         <!-- /.row (main row) -->
       </div><!-- /.container-fluid -->
     </section>
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-body">
+                <div class="login-box">
+                  <div class="login-logo">
+                    <img src="../images/datamedic.png" class="img img-responsive center-block" width="200">
+                
+                  </div>
+                  <!-- /.login-logo -->
+                  <div class="card">
+                    <div class="card-body login-card-body">
+                      <div class="login-logo">
+                    <img src="../images/user.png" class="img img-responsive center-block" width="80">
+                
+                  </div>
 
+                      <form action="../../index3.html" method="post">
+                        <div class="input-group mb-3">
+                          <input type="email" class="form-control" placeholder="Email">
+                          <div class="input-group-append">
+                            <div class="input-group-text">
+                              <span class="fas fa-envelope"></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="input-group mb-3">
+                          <input type="password" class="form-control" placeholder="Password">
+                          <div class="input-group-append">
+                            <div class="input-group-text">
+                              <span class="fas fa-lock"></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-10">
+                            <div class="icheck-primary">
+                              <input type="checkbox" id="remember">
+                              <label for="remember">
+                                Mantener la sesión iniciada
+                              </label>
+                            </div>
+                          </div>
+                          <!-- /.col -->
+                        </div>
+                        <div class="row">
+                          <!-- /.col -->
+                          <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-block btn-info">Iniciar sesión</button>
+                          </div>
+                          <!-- /.col -->
+                        </div>
+                      </form>
+                      <!--
+                      <div class="social-auth-links text-center mb-3">
+                        <p>- OR -</p>
+                        <a href="#" class="btn btn-block btn-primary">
+                          <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+                        </a>
+                        <a href="#" class="btn btn-block btn-danger">
+                          <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+                        </a>
+                      </div>-->
+                      <!-- /.social-auth-links -->
+
+                    </div>
+                    <!-- /.login-card-body -->
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
