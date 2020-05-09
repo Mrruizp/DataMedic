@@ -34,3 +34,16 @@
 <script src="../util/dist/js/demo.js"></script>
 
 <script src = "https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"> </script>
+
+<script>
+            function mostrarR() {
+							        document.getElementById('iniciarSesion').style.display    = 'none';
+							        document.getElementById('registrarCuenta').style.display  = 'block';
+
+							    }
+			function mostrarI() {
+							        document.getElementById('iniciarSesion').style.display    = 'block';
+							        document.getElementById('registrarCuenta').style.display  = 'none';
+
+							    }
+</script>

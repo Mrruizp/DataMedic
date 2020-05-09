@@ -375,8 +375,7 @@
                     <div class="card-body box-profile">
                       <div class="text-center">
                         <img class="profile-user-img img-fluid img-circle"
-                             src="../images/doctor1.jpg"
-                             alt="User profile picture">
+                             src="../images/doctor1.jpg" alt="User profile picture">
                       </div>
                       <h3 class="profile-username text-center">
                         Mario Andretti
@@ -424,12 +423,12 @@
                 
                   </div>
                   <!-- /.login-logo -->
-                  <div class="card">
+                  <div class="card" style="display:block;" id = "iniciarSesion">
                     <div class="card-body login-card-body">
                       <div class="login-logo">
-                    <img src="../images/user.png" class="img img-responsive center-block" width="80">
-                
-                  </div>
+                        <img src="../images/user.png" class="img img-responsive center-block" width="80">
+                    
+                      </div>
 
                       <form action="../../index3.html" method="post">
                         <div class="input-group mb-3">
@@ -460,6 +459,18 @@
                           <!-- /.col -->
                         </div>
                         <div class="row">
+                          <div class="col-10">
+                              <small>
+                                ¿No tiene una cuenta?<a href="#" onclick="mostrarR()" class="text-primary"> Cree una</a>
+
+                                <!--<button type="button" class="btn btn-default col-lg-2" class="btn btn-default" onclick="mostrarR()" >
+                                  Cree una
+                                </button>-->
+                              </small>
+                          </div>
+                          <!-- /.col -->
+                        </div><br/>
+                        <div class="row">
                           <!-- /.col -->
                           <div class="col-12">
                             <button type="submit" class="btn btn-primary btn-block btn-info">Iniciar sesión</button>
@@ -482,11 +493,62 @@
                     </div>
                     <!-- /.login-card-body -->
                   </div>
+
+
+
+
+
+                  <div class="card" style="display:none;" id = "registrarCuenta">
+                    <div class="card-body register-card-body">
+                      <p class="login-box-msg">Registrar nueva cuenta</p>
+
+                      <form action="../../index.html" method="post">
+                        <div class="input-group mb-3">
+                          <input type="text" class="form-control" placeholder="Nombre completo">
+                          <div class="input-group-append">
+                            <div class="input-group-text">
+                              <span class="fas fa-user"></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="input-group mb-3">
+                          <input type="email" class="form-control" placeholder="Email">
+                          <div class="input-group-append">
+                            <div class="input-group-text">
+                              <span class="fas fa-envelope"></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="input-group mb-3">
+                          <input type="password" class="form-control" placeholder="Password">
+                          <div class="input-group-append">
+                            <div class="input-group-text">
+                              <span class="fas fa-lock"></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <!-- /.col -->
+                          <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat">Registrar</button>
+                          </div>
+                          <!-- /.col -->
+                        </div>
+                      </form><br/>
+                      <div class="row">
+                        <div class="col-12 text-center">
+                          <button type="button" class="btn btn-default col-lg-6" onclick="mostrarI()" ><ion-icon name="arrow-back-outline" size="small"></ion-icon></button> 
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /.form-box -->
+                  </div><!-- /.card -->
                 </div>
               </div>
               <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                
+              </div>
           </div>
           <!-- /.modal-content -->
         </div>
