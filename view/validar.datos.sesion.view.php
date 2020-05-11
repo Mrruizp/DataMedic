@@ -7,6 +7,12 @@ session_start();
 
 
 
+if (!isset($_SESSION["s_usuario"])) {
+    //No inició sesión
+    Helper::mensaje("Usted no ha iniciado sesión", "e", "index.php", 5);
+    exit();
+}
+
 
 //Si ha iniciado sesiòn, entonces se carga en 2 variables los datos del usuario (nombre y el cargo)
 $nombreUsuario = ucwords(strtolower($_SESSION["s_usuario"]));

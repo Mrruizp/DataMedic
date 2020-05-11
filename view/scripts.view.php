@@ -32,6 +32,8 @@
 <script src="../util/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../util/dist/js/demo.js"></script>
+<!--sweetalert-->
+<script src="../util/plugins/swa/sweetalert-dev.js"></script>
 
 <script src = "https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"> </script>
 

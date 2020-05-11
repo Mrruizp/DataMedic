@@ -18,7 +18,7 @@
         }
         */
         .modal-lg {
-                      max-width: 21% !important;
+                      max-width: 394px;
                   }
 
     </style>
@@ -432,7 +432,7 @@
 
                       <form id="frmgrabar" class="form-horizontal">
                         <div class="input-group mb-3">
-                          <input type="email" class="form-control" id = "txtEmail" name = "txtEmail" placeholder="Email">
+                          <input type="email" class="form-control" id = "txtEmail" name = "txtEmail" placeholder="Email" required="true">
                           <div class="input-group-append">
                             <div class="input-group-text">
                               <span class="fas fa-envelope"></span>
@@ -440,7 +440,7 @@
                           </div>
                         </div>
                         <div class="input-group mb-3">
-                          <input type="password" class="form-control" id = "txtClave" name = "txtClave"  placeholder="Password">
+                          <input type="password" class="form-control" id = "txtClave" name = "txtClave"  placeholder="Password" required="true">
                           <div class="input-group-append">
                             <div class="input-group-text">
                               <span class="fas fa-lock"></span>

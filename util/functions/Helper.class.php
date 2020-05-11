@@ -90,6 +90,7 @@ class Helper {
                             <title>Mensaje del sistema</title>
                             <meta charset="utf-8">
                             <meta http-equiv="refresh" content="'.$tiempoRefrescar.';'.$destino.'">
+                            <link rel="stylesheet" href="../util/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.css">
                             <!-- Theme style -->
                             <link href="../util/dist/css/adminlte.css" rel="stylesheet" type="text/css" />
     
