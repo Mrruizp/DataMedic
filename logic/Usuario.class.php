@@ -163,24 +163,21 @@ class Usuario extends Conexion {
         try {
             $sql = "
                     select 
-                        u.doc_id,
-                        u.nombres,
-                        u.apellidos,
-                        u.direccion,
-                        u.telefono,
-                        u.sexo,
-                        u.edad,
-                        u.email,
-                        u.cargo_id,
-                        c.codigo_usuario,
-                        c.clave,
-                        c.tipo,
-                        c.estado
+                            u.doc_id,
+                            u.nombreCompleto,
+                            u.direccion,
+                            u.telefono,
+                            c.clave,                            
+                            c.estado,
+                            c.codigo_usuario,
+                            c.tipo
                         
-                    from usuario u inner join credenciales_acceso c
+                    from 
+                        usuario u inner join credenciales_acceso c
                     on
                         u.doc_id = c.doc_id
-                    where u.doc_id = :p_dni
+                    where 
+                        u.doc_id = :p_dni;
 
                 ";
             

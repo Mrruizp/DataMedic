@@ -7,7 +7,7 @@ $direccion  = $_POST['txtDireccion'];
 $telefono   = $_POST['txtTelefono'];
 $sexo       = $_POST['sexo'];
 $edad       = $_POST['txtEdad'];
-$dbconn = pg_connect("host=localhost port=5432 dbname=campusVirtual_bd user=postgres password=123")
+$dbconn = pg_connect("host=localhost port=5432 dbname=datamedic user=postgres password=123")
         or die('NO HAY CONEXION: ' . pg_last_error());
 $query = "update 
             usuario
@@ -15,9 +15,7 @@ $query = "update
             nombres   = '$nombre',
             apellidos = '$apellidos',
             direccion = '$direccion',
-            telefono  = '$telefono',
-            sexo      = '$sexo',
-            edad      = '$edad'
+            telefono  = '$telefono'
           where
             doc_id = '$dni'";
 

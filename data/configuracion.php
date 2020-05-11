@@ -5,4 +5,4 @@ define("BD_SERVIDOR", "localhost");
 define("BD_PUERTO", "5432");
 define("BD_USUARIO", "postgres");
 define("BD_CLAVE", "123");
-define("BD_NOMBRE_BD", "campusVirtual_bd");
+define("BD_NOMBRE_BD", "datamedic");

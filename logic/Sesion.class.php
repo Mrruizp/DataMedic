@@ -28,12 +28,9 @@ class Sesion extends Conexion {
             $sql = "
                     select 
                             u.doc_id,
-                            u.nombres,
-                            u.apellidos,
+                            u.nombreCompleto,
                             u.direccion,
                             u.telefono,
-                            u.sexo,
-                            u.edad,
                             r.clave,                            
                             r.estado,
                             r.codigo_usuario,                           
@@ -45,7 +42,7 @@ class Sesion extends Conexion {
                     on 
                             (c.cargo_id = u.cargo_id) inner join credenciales_acceso r
                     on
-                            (r.doc_id = u.doc_id)
+                            (r.doc_id = u.doc_id) 
                     where
                             u.email = :p_email 
                 ";
@@ -67,7 +64,7 @@ class Sesion extends Conexion {
                         session_start();
 
 //                        $_SESSION["s_usuario"]  = $resultado["nombre"] . ' ' . $resultado["apellidos"];
-                        $_SESSION["s_usuario"] = $resultado["nombres"];
+                        $_SESSION["s_usuario"] = $resultado["nombreCompleto"];
                         $_SESSION["s_email"] = $this->getEmail();
                         $_SESSION["s_doc_id"] = $resultado["doc_id"];
                         $_SESSION["codigo_usuario"] = $resultado["codigo_usuario"];
