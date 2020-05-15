@@ -1,9 +1,9 @@
-function cargarCbCodigoCurso(p_curso_id, p_nombreCombo, p_tipo){
+function cargarCbCodigoDoctor(p_doctor_id, p_nombreCombo_especialidad, p_tipo){
     $.post
     (
-    	"../controller/comboCodigoCurso.php",
+    	"../controller/comboCodigoDoctor.php",
         {
-            p_codigo_curso: p_curso_id
+            p_codigo_especialidad: p_nombreCombo_especialidad
         }
 
     ).done(function(resultado){
@@ -14,15 +14,15 @@ function cargarCbCodigoCurso(p_curso_id, p_nombreCombo, p_tipo){
             if (p_tipo==="seleccione"){
                 html += '<option value="">-</option>';
             }else{
-                html += '<option value="0">Todos los Cursos</option>';
+                html += '<option value="0">Todos los doctores</option>';
             }
 
             
             $.each(datosJSON.datos, function(i,item) {
-                html += '<option value="'+item.curso_id+'">'+item.nombre_curso+'</option>';
+                html += '<option value="'+item.doctor_id+'">'+item.nombres+'</option>';
             });
             
-            $(p_nombreCombo).html(html);
+            $(p_doctor_id).html(html);
 	}else{
             swal("Mensaje del sistema", resultado , "warning");
         }
@@ -32,10 +32,10 @@ function cargarCbCodigoCurso(p_curso_id, p_nombreCombo, p_tipo){
     });
 }
 
-function cargarCbCodigoCursoPregunta(p_nombreCombo, p_tipo){
+function cargarCbCodigoEspecialidad(p_nombreCombo, p_doctor_id, p_tipo){
     $.post
     (
-	"../controller/comboCodigoCursoPregunta.php"
+	"../controller/comboCodigoEspecialidad.php"
     ).done(function(resultado){
 	var datosJSON = resultado;
 	
@@ -44,20 +44,83 @@ function cargarCbCodigoCursoPregunta(p_nombreCombo, p_tipo){
             if (p_tipo==="seleccione"){
                 html += '<option value="">-</option>';
             }else{
-                html += '<option value="0">Todos los puestos</option>';
+                html += '<option value="0">Todas las especialidades</option>';
             }
 
             
             $.each(datosJSON.datos, function(i,item) {
-                html += '<option value="'+item.curso_id+'">'+item.nombre_curso+'</option>';
+                html += '<option value="'+item.especialidad_id+'">'+item.nombre_especialidad+'</option>';
             });
             
             $(p_nombreCombo).html(html);
+           // cargarCbCodigoDoctor(p_doctor_id, p_nombreCombo, p_tipo);
 	}else{
             swal("Mensaje del sistema", resultado , "warning");
         }
     }).fail(function(error){
 	var datosJSON = $.parseJSON( error.responseText );
 	swal("Error", datosJSON.mensaje , "error");
+    });
+}
+
+function cargarCbCodigoFecha(p_nombreCombo, p_tipo){
+    $.post
+    (
+    "../controller/comboCodigoFecha.php"
+    ).done(function(resultado){
+    var datosJSON = resultado;
+    
+        if (datosJSON.estado===200){
+            var html = "";
+            if (p_tipo==="seleccione"){
+                html += '<option value="">-</option>';
+            }else{
+                html += '<option value="0">Fechas disponibles</option>';
+            }
+
+            
+            $.each(datosJSON.datos, function(i,item) {
+                html += '<option value="'+item.fecha_id+'">'+item.fecha+'</option>';
+            });
+            
+            $(p_nombreCombo).html(html);
+           // cargarCbCodigoDoctor(p_doctor_id, p_nombreCombo, p_tipo);
+    }else{
+            swal("Mensaje del sistema", resultado , "warning");
+        }
+    }).fail(function(error){
+    var datosJSON = $.parseJSON( error.responseText );
+    swal("Error", datosJSON.mensaje , "error");
+    });
+}
+
+function cargarCbCodigoHora(p_nombreCombo, p_tipo){
+    $.post
+    (
+    "../controller/comboCodigoHora.php"
+    ).done(function(resultado){
+    var datosJSON = resultado;
+    
+        if (datosJSON.estado===200){
+            var html = "";
+            if (p_tipo==="seleccione"){
+                html += '<option value="">-</option>';
+            }else{
+                html += '<option value="0">Horas disponibles</option>';
+            }
+
+            
+            $.each(datosJSON.datos, function(i,item) {
+                html += '<option value="'+item.fecha_id+'">'+item.hora+'</option>';
+            });
+            
+            $(p_nombreCombo).html(html);
+           // cargarCbCodigoDoctor(p_doctor_id, p_nombreCombo, p_tipo);
+    }else{
+            swal("Mensaje del sistema", resultado , "warning");
+        }
+    }).fail(function(error){
+    var datosJSON = $.parseJSON( error.responseText );
+    swal("Error", datosJSON.mensaje , "error");
     });
 }

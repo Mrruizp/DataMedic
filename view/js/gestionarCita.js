@@ -1,16 +1,19 @@
 
 $(document).ready(function () {
-    cargarCbCodigoCursoPregunta("#textCurso_id", "seleccione");
+    
     listar();
-    listarPrueba();
-    listarPregunta();
+    cargarCbCodigoEspecialidad("#especialidad", "seleccione");
+    cargarCbCodigoFecha("#txtFecha", "seleccione");
+    cargarCbCodigoHora("#txtHora", "seleccione");
+    
 });
 
+//cargarCbCodigoDoctor("#doctor", "seleccione");
 
 function listar() {
     $.post
             (
-                    "../controller/gestionarCurso.listar.controller.php"
+                    "../controller/gestionarCita.listar.controller.php"
 
                     ).done(function (resultado) {
         var datosJSON = resultado;
@@ -19,25 +22,28 @@ function listar() {
             var html = "";
 
             html += '<small>';
-            html += '<table id="tabla-listado" class="table table-bordered table-striped">';
+            html += '<table id="tabla-listado" class="table table-bordered">';
             html += '<thead>';
-            html += '<tr style="background-color: #ededed; height:25px;">';
+            html += '<tr class="bg-default">';
             html += '<th style="text-align:center">CODIGO</th>';
-            html += '<th style="text-align:center">CURSO</th>';
-            html += '<th style="text-align: center">OPCIONES</th>';
+            html += '<th style="text-align:center">FECHA</th>';
+            html += '<th style="text-align: center">HORA</th>';
+            html += '<th style="text-align: center">MENSAJE</th>';
+            html += '<th style="text-align: center">USUARIO</th>';
+            html += '<th style="text-align: center">DOCTOR</th>';
             html += '</tr>';
             html += '</thead>';
             html += '<tbody>';
             $.each(datosJSON.datos, function (i, item) {
                 html += '<tr>';
-                html += '<td align="center" style="font-weight:normal">' + item.curso_id + '</td>';
-                html += '<td align="center" style="font-weight:normal">' + item.nombre_curso + '</td>';
-                html += '<td align="center">';
-                html += '<button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal" onclick="leerDatos(' + item.curso_id + ')"><i class="fa fa-pencil"></i></button>';
-                html += '&nbsp;&nbsp;';
-                html += '<button type="button" class="btn btn-danger btn-xs" onclick="eliminar(' + item.curso_id + ')"><i class="fa fa-close"></i></button>';
-                html += '</td>';
-                html += '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.cita_id + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.fecha + '</td>';
+
+                html += '<td align="center" style="font-weight:normal">' + item.hora + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.descripcion + '</td>';
+
+                html += '<td align="center" style="font-weight:normal">' + item.nombrecompleto + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.nombresdoctor + '</td>';
                 html += '</tr>';
             });
 

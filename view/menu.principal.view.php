@@ -10,7 +10,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <link rel="icon" href="../images/LogoDental.jpg">
+        <link rel="icon" href="../images/datamedic.png">
         <title> Sistema Dental | Inicio</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -33,7 +33,41 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
             <!-- Content Wrapper. Contains page content -->
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
+                <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title">Bienvenidos...</h5>
 
+                <div class="card-tools">
+                  
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-12 text-center">
+                   
+                      <img src="../images/DATAMEDIC3.jpg" width="700px">
+                    
+
+                    <div class="chart">
+                      <!-- Sales Chart Canvas -->
+                      <canvas id="salesChart" height="180" style="height: 180px;"></canvas>
+                    </div>
+                    <!-- /.chart-responsive -->
+                  </div>
+                  
+                </div>
+                <!-- /.row -->
+              </div>
+             
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
                 
             </div>
             <!-- /.content-wrapper -->
