@@ -6,24 +6,70 @@ session_start();
 
 class Cita extends Conexion {
 
-    private $codigo_curso;
-    private $nombre_curso;
+    private $Cita_id;
+    private $Fecha;
+    private $Hora;
+    private $Descripcion;
+    private $Doc_id;
+    private $Doctor_id;
+    private $Estado;
 
-    public function getCodigo_curso() {
-        return $this->codigo_curso;
+    public function getCita_id() {
+        return $this->Cita_id;
     }
 
-    public function getNombre_curso() {
-        return $this->nombre_curso;
+    public function getFecha() {
+        return $this->Fecha;
     }
 
-    public function setCodigo_curso($codigo_curso) {
-        $this->codigo_curso = $codigo_curso;
+    public function getHora() {
+        return $this->Hora;
     }
 
-    public function setNombre_curso($nombre_curso) {
-        $this->nombre_curso = $nombre_curso;
+    public function getDescripcion() {
+        return $this->Descripcion;
     }
+
+    public function getDoc_id() {
+        return $this->Doc_id;
+    }
+
+    public function getDoctor_id() {
+        return $this->Doctor_id;
+    }
+
+    public function getEstado() {
+        return $this->Estado;
+    }
+
+    public function setCita_id($Cita_id) {
+        $this->Cita_id = $Cita_id;
+    }
+
+    public function setFecha($Fecha) {
+        $this->Fecha = $Fecha;
+    }
+
+    public function setHora($Hora) {
+        $this->Hora = $Hora;
+    }
+
+    public function setDescripcion($Descripcion) {
+        $this->Descripcion = $Descripcion;
+    }
+
+    public function setDoc_id($Doc_id) {
+        $this->Doc_id = $Doc_id;
+    }
+
+    public function setDoctor_id($Doctor_id) {
+        $this->Doctor_id = $Doctor_id;
+    }
+
+    public function setEstado($Estado) {
+        $this->Estado = $Estado;
+    }
+
 
     public function listar() {
         try {
@@ -34,7 +80,8 @@ class Cita extends Conexion {
                         c.hora,
                         c.descripcion,
                         u.nombrecompleto,
-                        concat(nombre, ' ',apellido) as nombresdoctor
+                        concat(nombre, ' ',apellido) as nombresdoctor,
+                        c.estado
                     from 
                         cita c inner join doctor d
                     on
@@ -55,57 +102,46 @@ class Cita extends Conexion {
         $this->dblink->beginTransaction();
 
         try {
-            $sql = "select * from f_generar_correlativo('curso') as nc";
+            $sql = "select * from f_generar_correlativo('cita') as nc";
             $sentencia = $this->dblink->prepare($sql);
             $sentencia->execute();
 
             if ($sentencia->rowCount()) {
                 $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
                 $nuevoCodigo = $resultado["nc"];
-                $this->setCodigo_curso($nuevoCodigo);
+                $this->setCita_id($nuevoCodigo);
 
                 /* Insertar en la tabla laboratorio */
                 $sql = "
-                    insert into curso(
-                                            curso_id, 
-                                            nombre_curso
-                                            )
-                    values (
-                            :p_curso_id, 
-                            :p_nombre_curso
-                            );
 
+                    insert into cita
+                    values(
+                                :p_cita_id,
+                                :p_fecha,
+                                :p_hora, 
+                                :p_descripcion,
+                                :p_doc_id,
+                                :p_doctor_id,
+                                'Cita en proceso de confirmación'
+                            );
                     ";
                 $sentencia = $this->dblink->prepare($sql);
-                $sentencia->bindParam(":p_curso_id", $this->getCodigo_curso());
-                $sentencia->bindParam(":p_nombre_curso", $this->getNombre_curso());
+                $sentencia->bindParam(":p_cita_id", $this->getCita_id());
+                $sentencia->bindParam(":p_fecha", $this->getFecha());
+                $sentencia->bindParam(":p_hora", $this->getHora());
+                $sentencia->bindParam(":p_descripcion", $this->getDescripcion());
+                $sentencia->bindParam(":p_doc_id", $this->getDoc_id());
+                $sentencia->bindParam(":p_doctor_id", $this->getDoctor_id());
+                //$sentencia->bindParam(":p_estado", $this->getEstado());
                 $sentencia->execute();
                 /* Insertar en la tabla laboratorio */
 
                 /* Actualizar el correlativo */
                 $sql = "update correlativo set numero = numero + 1 
-                    where tabla='curso'";
+                    where tabla='cita'";
                 $sentencia = $this->dblink->prepare($sql);
                 $sentencia->execute();
 
-                $sql = "select * from fn_insert_log_curso
-                                    (
-                                        '$_SESSION[s_doc_id]',
-                                        '$_SESSION[s_usuario]',
-                                        '$_SESSION[s_apellidos]',
-                                        $_SESSION[cargo_id],
-                                        '$_SESSION[tipo]',
-                                        :p_curso_id,
-                                        :p_nombre_curso,
-                                        'Insertar',
-                                        '$_SERVER[REMOTE_ADDR]'
-                                    );";
-                $sentencia = $this->dblink->prepare($sql);
-                $sentencia->bindParam(":p_curso_id", $this->getCodigo_curso());
-                $sentencia->bindParam(":p_nombre_curso", $this->getNombre_curso());
-                $sentencia->execute();
-                /* Insertar en la tabla la
-                /* Actualizar el correlativo */
                 $this->dblink->commit();
                 return true;
             } else {

@@ -44,7 +44,7 @@ function cargarCbCodigoEspecialidad(p_nombreCombo, p_doctor_id, p_tipo){
             if (p_tipo==="seleccione"){
                 html += '<option value="">-</option>';
             }else{
-                html += '<option value="0">Todas las especialidades</option>';
+                html += '<option value="0">-</option>';
             }
 
             

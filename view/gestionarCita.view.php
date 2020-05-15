@@ -36,12 +36,12 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                   <div class="container-fluid">
                     <div class="row mb-2">
                       <div class="col-sm-6">
-                        <h1>Cita</h1>
+                        <h1>Módulo Cita</h1>
                       </div>
                       <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                           <li class="breadcrumb-item"><a href="menu.principal.view.php">Inicio</a></li>
-                          <li class="breadcrumb-item active">Gestionar Cita</li>
+                          <li class="breadcrumb-item active">Módulo de Cita</li>
                         </ol>
                       </div>
                     </div>
@@ -52,11 +52,11 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                   <div class="container-fluid">
                     <div class="row">
                       <!-- left column -->
-                      <div class="col-md-8">
+                      <div class="col-md-12">
                         <!-- general form elements -->
                         <div class="card card-default">
                           <div class="card-header">
-                            <h3 class="card-title">Gestionar Cita</h3>
+                            <h3 class="card-title">Cita</h3>
                           </div>
                           <!-- /.card-header -->
                           <!-- form start -->
@@ -78,7 +78,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                     </div>
 
               </section>
-              <form id="frmgrabarPregunta" class="form-horizontal">
+              <form id="frmgrabar" class="form-horizontal">
                 <div class="modal fade" id="myModal">
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -102,7 +102,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                             <div class="col-3">
                                 <p>
                                     
-                                    DNI<input type="text" 
+                                    DNI del Usuario<input type="text" 
                                                   name="txtDoc_id" 
                                                   id="txtDoc_id" 
                                                   class="form-control input-sm">
@@ -159,8 +159,8 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                         </div>
                       </div>
                       <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-outline-info">Save changes</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" id="btncerrar">Close</button>
+                        <button type="submit" class="btn btn-outline-info"><ion-icon name="save-outline"></ion-icon>  Registrar</button>
                       </div>
                     </div>
                     <!-- /.modal-content -->
@@ -188,5 +188,6 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
         <script src="js/reporte.resultadoPruebas.js" type="text/javascript"></script>
         <script src="js/reporte.resultadoFinal.js" type="text/javascript"></script>
     -->
+
     </body>
 </html>

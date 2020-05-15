@@ -28,12 +28,16 @@
 <script src="../util/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../util/dist/js/adminlte.js"></script>
+<script src="../util/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="../util/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../util/dist/js/demo.js"></script>
 <!--sweetalert-->
 <script src="../util/plugins/swa/sweetalert-dev.js"></script>
+<script src="../util/plugins/datatables/jquery.dataTables.js"></script>
+<script src="../util/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<script src="../util/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <script src = "https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"> </script>
 

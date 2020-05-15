@@ -106,10 +106,12 @@ CREATE TABLE cita
   descripcion character varying(500) not NULL,
   doc_id character varying(20),
   doctor_id int,
+  estado character varying(50)not null,
   CONSTRAINT pk_cita_cita_id PRIMARY KEY (cita_id),
   CONSTRAINT fk_cita_doc_id foreign key (doc_id) references usuario(doc_id),
   CONSTRAINT fk_cita_doctor_id foreign key (doctor_id) references doctor(doctor_id)
 );
+
 -- select * from paciente
 CREATE TABLE paciente
 (
@@ -355,14 +357,14 @@ values(6,'rehabilitación oral');
 insert into doctor
 values(1,'CMP','123456','Andres','Hurtado','Lima-Surco','998745418','andresHurtado@hotmail.com',1);
 
-select * from fecha
+select * from cita
 
 insert into cita
-values(1,'Lunes, 25 Mayo','9:00 am', '-------','45977448',1);
+values(1,'Lunes, 25 Mayo','9:00 am', '-------','45977448',1, 'Cita confirmada');
 insert into cita
-values(2,'Miércoles, 27 Mayo','9:30 am', '-------','45977448',1);
+values(2,'Miércoles, 27 Mayo','9:30 am', '-------','45977448',1,'Cita en proceso de confirmación');
 insert into cita
-values(3,'Viernes, 29 Mayo','10:00 am', '-------','45977448',1);
+values(3,'Viernes, 29 Mayo','10:00 am', '-------','45977448',1,'Cita en proceso de confirmación');
 
 select 
 	fecha_id,
@@ -413,18 +415,25 @@ values(12,'Mayo','Lunes','25','15:30','disponible');
 insert into fecha
 values(13,'Mayo','Lunes','25','16:00','disponible');
 
-select * from menu;
 
-select 
-                        c.cita_id,
-                        c.fecha,
-                        c.hora,
-                        c.descripcion,
-                        u.nombrecompleto,
-                        concat(nombre, ' ',apellido) as nombresdoctor
-                    from 
-                        cita c inner join doctor d
-                    on
-                        c.doctor_id = d.doctor_id inner join usuario u
-                    on
-                        c.doc_id = u.doc_id 
+select * from correlativo;
+
+-- 
+-- función correlativo
+
+select * from f_generar_correlativo('cita') as nc;
+
+CREATE OR REPLACE FUNCTION f_generar_correlativo(p_tabla character varying)
+  RETURNS SETOF integer AS
+ $$
+	
+	begin
+		return query
+		select 
+			c.numero+1 
+		from 
+			correlativo c 
+		where 
+			c.tabla = p_tabla;
+ end
+ $$ language plpgsql;
