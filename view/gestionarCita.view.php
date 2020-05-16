@@ -146,21 +146,484 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                             
                           </div>
                           <div class="row">
-                            
-                            <div class="col-12">
+                            <div class="modal-header col-12">
+                                <h5 class="modal-title"><b>Paciente</b></h5>
+                            </div>
+                          </div><br/>
+                          <div class="row">
+                            <div class="col-3">
                                 <p>
                                     
-                                    Mensaje <textarea type="text" 
-                                                  name="txtDescripcion" 
-                                                  id="txtDescripcion" 
-                                                  class="form-control input-sm" rows="8"></textarea>
+                                    DNI <input type="text" 
+                                                  name="txtDoc_id_paciente" 
+                                                  id="txtDoc_id_paciente" 
+                                                  class="form-control input-sm">
+                                </p>
+                            </div>
+                            <div class="col-5">
+                                <p>
+                                    
+                                    Lugar de nacimiento<input type="text" 
+                                                  name="txtCiudad_paciente" 
+                                                  id="txtCiudad_paciente" 
+                                                  class="form-control input-sm">
+                                </p>
+                            </div>
+                            <div class="col-4">
+                                <p>
+                                    
+                                    Estado Civil<select id="estadoCivil_paciente" name="estadoCivil_paciente" class="form-control" required> 
+                                                    <option></option>
+                                                    <option value="S">Soltero(a)</option>
+                                                    <option value="C">Casado(a)</option>
+                                                    <option value="V">Viudo(a)</option>
+                                                    <option value="D">Divorciado(a)</option>
+                                                </select>
+                                </p>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-3">
+                                <p>
+                                    Edad
+                                    <select id="edad_paciente" name="edad_paciente" class="form-control" required> 
+                                        <option>-</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                        <option value="13">13</option>
+                                        <option value="14">14</option>
+                                        <option value="15">15</option>
+                                        <option value="16">16</option>
+                                        <option value="17">17</option>
+                                        <option value="18">18</option>
+                                        <option value="19">19</option>
+                                        <option value="20">20</option>
+                                        <option value="21">21</option>
+                                        <option value="22">22</option>
+                                        <option value="23">23</option>
+                                        <option value="24">24</option>
+                                        <option value="25">25</option>
+                                        <option value="26">26</option>
+                                        <option value="27">27</option>
+                                        <option value="28">28</option>
+                                        <option value="29">29</option>
+                                        <option value="30">30</option>
+                                        <option value="31">31</option>
+                                        <option value="32">32</option>
+                                        <option value="33">33</option>
+                                        <option value="34">34</option>
+                                        <option value="35">35</option>
+                                        <option value="36">36</option>
+                                        <option value="37">37</option>
+                                        <option value="38">38</option>
+                                        <option value="39">39</option>
+                                        <option value="40">40</option>
+                                        <option value="41">41</option>
+                                        <option value="42">42</option>
+                                        <option value="43">43</option>
+                                        <option value="44">44</option>
+                                        <option value="45">45</option>
+                                        <option value="46">46</option>
+                                        <option value="47">47</option>
+                                        <option value="48">48</option>
+                                        <option value="49">49</option>
+                                        <option value="50">50</option>
+                                        <option value="51">51</option>
+                                        <option value="52">52</option>
+                                        <option value="53">53</option>
+                                        <option value="54">54</option>
+                                        <option value="55">55</option>
+                                        <option value="56">56</option>
+                                        <option value="57">57</option>
+                                        <option value="58">58</option>
+                                        <option value="59">59</option>
+                                        <option value="60">60</option>
+                                        <option value="61">61</option>
+                                        <option value="62">62</option>
+                                        <option value="63">63</option>
+                                        <option value="64">64</option>
+                                        <option value="65">65</option>
+                                        <option value="66">66</option>
+                                        <option value="67">67</option>
+                                        <option value="68">68</option>
+                                        <option value="69">69</option>
+                                        <option value="70">70</option>
+                                        <option value="71">71</option>
+                                        <option value="72">72</option>
+                                        <option value="73">73</option>
+                                        <option value="74">74</option>
+                                        <option value="75">75</option>
+                                        <option value="76">76</option>
+                                        <option value="77">77</option>
+                                        <option value="78">78</option>
+                                        <option value="79">78</option>
+                                        <option value="80">80</option>
+                                    </select>
+                                </p>
+                            </div>
+                            <div class="col-5">
+                                <p>
+                                    
+                                    Nombres<input type="text" 
+                                                  name="txtNombre_paciente" 
+                                                  id="txtNombre_paciente" 
+                                                  class="form-control input-sm">
+                                </p>
+                            </div>
+                            <div class="col-4">
+                                <p>
+                                    
+                                    Apellidos<input type="text" 
+                                                  name="txtApellidos_paciente" 
+                                                  id="txtApellidos_paciente" 
+                                                  class="form-control input-sm">
+                                </p>
+                            </div>
+
+                          </div>
+                          <div class="row">
+                            
+                            <div class="col-3">
+                                <p>
+                                    Sexo
+                                    <select id="sexo_paciente" name="sexo_paciente" class="form-control" required> 
+                                        <option>-</option>
+                                        <option value="H">Hombre</option>
+                                        <option value="M">Mujer</option>
+                                    </select>
+                                </p>
+                            </div>
+                            <div class="col-5">
+                                <p>
+                                    
+                                    Ocupacion<input type="text" 
+                                                  name="txtOcupacion_paciente" 
+                                                  id="txtOcupacion_paciente" 
+                                                  class="form-control input-sm">
+                                </p>
+                            </div>
+                            <div class="col-4">
+                                <p>
+                                    
+                                    Religion<input type="text" 
+                                                  name="txtReligion_paciente" 
+                                                  id="txtReligion_paciente" 
+                                                  class="form-control input-sm">
                                 </p>
                             </div>
                         </div>
+                        <div class="row">
+                          <div class="col-8">
+                                <p>
+                                    
+                                    Domicilio<input type="text" 
+                                                  name="txtDomicilio_paciente" 
+                                                  id="txtDomicilio_paciente" 
+                                                  class="form-control input-sm">
+                                </p>
+                          </div>
+                          <div class="col-4">
+                                <p>
+                                    
+                                    Teléfono<input type="text" 
+                                                  name="txtTelefono_paciente" 
+                                                  id="txtTelefono_paciente" 
+                                                  class="form-control input-sm">
+                                </p>
+                          </div>
+                        </div>
+                        <div class="row">
+                            <div class="modal-header col-12 text-center">
+                                <h5 class="modal-title"><b>Persona Responsable del Paciente</b></h5>
+                            </div>
+                          </div><br/>
+                        <div class="row">
+                          <div class="col-8">
+                                <p>
+                                    
+                                    Nombre Completo<input type="text" 
+                                                  name="txtPersonaResponsable_paciente" 
+                                                  id="txtPersonaResponsable_paciente" 
+                                                  class="form-control input-sm">
+                                </p>
+                          </div>
+                          <div class="col-4">
+                                <p>
+                                    
+                                    Teléfono<input type="text" 
+                                                  name="txtTelefonoResponsable_paciente" 
+                                                  id="txtTelefonoResponsable_paciente" 
+                                                  class="form-control input-sm">
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12">
+                              <p>
+                                  
+                                  Mensaje <textarea type="text" 
+                                                name="txtDescripcion" 
+                                                id="txtDescripcion" 
+                                                class="form-control input-sm" rows="2"></textarea>
+                              </p>
+                          </div>
+                      </div>
                       </div>
                       <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-danger" data-dismiss="modal" id="btncerrar">Close</button>
                         <button type="submit" class="btn btn-outline-info"><ion-icon name="save-outline"></ion-icon>  Registrar</button>
+                      </div>
+                    </div>
+                    <!-- /.modal-content -->
+                  </div>
+                  <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+              </form>
+              <form id="frmgrabar" class="form-horizontal">
+                <div class="modal fade" id="myModalPaciente">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header bg-info">
+                        <h4 class="modal-title">Paciente Registrado</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span></button>
+                      </div>
+                      <div class="modal-body">
+                          
+                          <div class="row">
+                            <div class="col-3">
+                                <p>
+                                    
+                                    DNI <input type="text" 
+                                                  name="txtDoc_id_paciente" 
+                                                  id="txtDoc_id_paciente" 
+                                                  class="form-control input-sm">
+                                </p>
+                            </div>
+                            <div class="col-5">
+                                <p>
+                                    
+                                    Lugar de nacimiento<input type="text" 
+                                                  name="txtCiudad_paciente" 
+                                                  id="txtCiudad_paciente" 
+                                                  class="form-control input-sm">
+                                </p>
+                            </div>
+                            <div class="col-4">
+                                <p>
+                                    
+                                    Estado Civil<select id="estadoCivil_paciente" name="estadoCivil_paciente" class="form-control" required> 
+                                                    <option></option>
+                                                    <option value="S">Soltero(a)</option>
+                                                    <option value="C">Casado(a)</option>
+                                                    <option value="V">Viudo(a)</option>
+                                                    <option value="D">Divorciado(a)</option>
+                                                </select>
+                                </p>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-3">
+                                <p>
+                                    Edad
+                                    <select id="edad_paciente" name="edad_paciente" class="form-control" required> 
+                                        <option>-</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                        <option value="13">13</option>
+                                        <option value="14">14</option>
+                                        <option value="15">15</option>
+                                        <option value="16">16</option>
+                                        <option value="17">17</option>
+                                        <option value="18">18</option>
+                                        <option value="19">19</option>
+                                        <option value="20">20</option>
+                                        <option value="21">21</option>
+                                        <option value="22">22</option>
+                                        <option value="23">23</option>
+                                        <option value="24">24</option>
+                                        <option value="25">25</option>
+                                        <option value="26">26</option>
+                                        <option value="27">27</option>
+                                        <option value="28">28</option>
+                                        <option value="29">29</option>
+                                        <option value="30">30</option>
+                                        <option value="31">31</option>
+                                        <option value="32">32</option>
+                                        <option value="33">33</option>
+                                        <option value="34">34</option>
+                                        <option value="35">35</option>
+                                        <option value="36">36</option>
+                                        <option value="37">37</option>
+                                        <option value="38">38</option>
+                                        <option value="39">39</option>
+                                        <option value="40">40</option>
+                                        <option value="41">41</option>
+                                        <option value="42">42</option>
+                                        <option value="43">43</option>
+                                        <option value="44">44</option>
+                                        <option value="45">45</option>
+                                        <option value="46">46</option>
+                                        <option value="47">47</option>
+                                        <option value="48">48</option>
+                                        <option value="49">49</option>
+                                        <option value="50">50</option>
+                                        <option value="51">51</option>
+                                        <option value="52">52</option>
+                                        <option value="53">53</option>
+                                        <option value="54">54</option>
+                                        <option value="55">55</option>
+                                        <option value="56">56</option>
+                                        <option value="57">57</option>
+                                        <option value="58">58</option>
+                                        <option value="59">59</option>
+                                        <option value="60">60</option>
+                                        <option value="61">61</option>
+                                        <option value="62">62</option>
+                                        <option value="63">63</option>
+                                        <option value="64">64</option>
+                                        <option value="65">65</option>
+                                        <option value="66">66</option>
+                                        <option value="67">67</option>
+                                        <option value="68">68</option>
+                                        <option value="69">69</option>
+                                        <option value="70">70</option>
+                                        <option value="71">71</option>
+                                        <option value="72">72</option>
+                                        <option value="73">73</option>
+                                        <option value="74">74</option>
+                                        <option value="75">75</option>
+                                        <option value="76">76</option>
+                                        <option value="77">77</option>
+                                        <option value="78">78</option>
+                                        <option value="79">78</option>
+                                        <option value="80">80</option>
+                                    </select>
+                                </p>
+                            </div>
+                            <div class="col-5">
+                                <p>
+                                    
+                                    Nombres<input type="text" 
+                                                  name="txtNombre_paciente" 
+                                                  id="txtNombre_paciente" 
+                                                  class="form-control input-sm">
+                                </p>
+                            </div>
+                            <div class="col-4">
+                                <p>
+                                    
+                                    Apellidos<input type="text" 
+                                                  name="txtApellidos_paciente" 
+                                                  id="txtApellidos_paciente" 
+                                                  class="form-control input-sm">
+                                </p>
+                            </div>
+
+                          </div>
+                          <div class="row">
+                            
+                            <div class="col-3">
+                                <p>
+                                    Sexo
+                                    <select id="sexo_paciente" name="sexo_paciente" class="form-control" required> 
+                                        <option>-</option>
+                                        <option value="H">Hombre</option>
+                                        <option value="M">Mujer</option>
+                                    </select>
+                                </p>
+                            </div>
+                            <div class="col-5">
+                                <p>
+                                    
+                                    Ocupacion<input type="text" 
+                                                  name="txtOcupacion_paciente" 
+                                                  id="txtOcupacion_paciente" 
+                                                  class="form-control input-sm">
+                                </p>
+                            </div>
+                            <div class="col-4">
+                                <p>
+                                    
+                                    Religion<input type="text" 
+                                                  name="txtReligion_paciente" 
+                                                  id="txtReligion_paciente" 
+                                                  class="form-control input-sm">
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-8">
+                                <p>
+                                    
+                                    Domicilio<input type="text" 
+                                                  name="txtDomicilio_paciente" 
+                                                  id="txtDomicilio_paciente" 
+                                                  class="form-control input-sm">
+                                </p>
+                          </div>
+                          <div class="col-4">
+                                <p>
+                                    
+                                    Teléfono<input type="text" 
+                                                  name="txtTelefono_paciente" 
+                                                  id="txtTelefono_paciente" 
+                                                  class="form-control input-sm">
+                                </p>
+                          </div>
+                        </div>
+                        <div class="row">
+                            <div class="modal-header col-12 text-center">
+                                <h5 class="modal-title"><b>Persona Responsable del Paciente</b></h5>
+                            </div>
+                          </div><br/>
+                        <div class="row">
+                          <div class="col-8">
+                                <p>
+                                    
+                                    Nombre Completo<input type="text" 
+                                                  name="txtPersonaResponsable_paciente" 
+                                                  id="txtPersonaResponsable_paciente" 
+                                                  class="form-control input-sm">
+                                </p>
+                          </div>
+                          <div class="col-4">
+                                <p>
+                                    
+                                    Teléfono<input type="text" 
+                                                  name="txtTelefono_paciente" 
+                                                  id="txtTelefono_paciente" 
+                                                  class="form-control input-sm">
+                                </p>
+                            </div>
+                        </div>
+                       <!--<div class="row">
+                          <div class="col-12">
+                              <p>
+                                  
+                                  Mensaje <textarea type="text" 
+                                                name="txtDescripcion" 
+                                                id="txtDescripcion" 
+                                                class="form-control input-sm" rows="2"></textarea>
+                              </p>
+                          </div>
+                      </div>-->
+                      </div>
+                      <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" id="btncerrar">Close</button>
                       </div>
                     </div>
                     <!-- /.modal-content -->

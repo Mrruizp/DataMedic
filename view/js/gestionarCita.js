@@ -31,6 +31,7 @@ function listar() {
             html += '<th style="text-align: center">MENSAJE</th>';
             html += '<th style="text-align: center">USUARIO</th>';
             html += '<th style="text-align: center">DOCTOR</th>';
+            html += '<th style="text-align: center">PACIENTE</th>';
             html += '<th style="text-align: center">ESTADO</th>';
             html += '</tr>';
             html += '</thead>';
@@ -45,6 +46,10 @@ function listar() {
 
                 html += '<td align="center" style="font-weight:normal">' + item.nombrecompleto + '</td>';
                 html += '<td align="center" style="font-weight:normal">' + item.nombresdoctor + '</td>';
+                html += '<td align="center">';
+                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalPaciente" onclick="leerDatos(' + item.doc_id + ')"><ion-icon name="person-outline"></ion-icon></button>';
+                html += '</td>';
+
                 if(item.estado === "Cita confirmada")
                 {
                     html += '<td align="center" style="font-weight:normal" class="text-primary"><b>' + item.estado + '</b></td>';
@@ -123,6 +128,21 @@ $("#frmgrabar").submit(function (event) {
                                 //p_especialidad: $("#especialidad").val(),
                                 p_doctor:       $("#doctor").val(),
                                 p_descripcion:  $("#txtDescripcion").val(),
+                    // Paciente:
+                                p_doc_id_paciente:  $("#txtDoc_id_paciente").val(),
+                                p_ciudad_paciente:  $("#txtCiudad_paciente").val(),
+                                p_estadoCivil_paciente:  $("#estadoCivil_paciente").val(),
+                                p_edad_paciente:         $("#edad_paciente").val(),
+                                p_nombre_paciente:       $("#txtNombre_paciente").val(),
+                                p_apellidos_paciente:    $("#txtApellidos_paciente").val(),
+                                p_sexo_paciente:         $("#sexo_paciente").val(),
+                                p_ocupacion_paciente:    $("#txtOcupacion_paciente").val(),
+                                p_religion_paciente:     $("#txtReligion_paciente").val(),
+                                p_domicilio_paciente:    $("#txtDomicilio_paciente").val(),
+                                p_telefono_paciente:     $("#txtTelefono_paciente").val(),
+                                p_personaResponsable_paciente:   $("#txtPersonaResponsable_paciente").val(),
+                                p_telefonoResponsable_paciente:  $("#txtTelefonoResponsable_paciente").val(),
+
                                 p_tipo_ope:     $("#txtTipoOperacion").val(),
                                 p_codigo_curso: codCita
                             }

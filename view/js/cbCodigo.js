@@ -80,7 +80,7 @@ function cargarCbCodigoFecha(p_nombreCombo, p_tipo){
 
             
             $.each(datosJSON.datos, function(i,item) {
-                html += '<option value="'+item.fecha_id+'">'+item.fecha+'</option>';
+                html += '<option value="'+item.fecha+'">'+item.fecha+'</option>';
             });
             
             $(p_nombreCombo).html(html);
@@ -111,7 +111,7 @@ function cargarCbCodigoHora(p_nombreCombo, p_tipo){
 
             
             $.each(datosJSON.datos, function(i,item) {
-                html += '<option value="'+item.fecha_id+'">'+item.hora+'</option>';
+                html += '<option value="'+item.hora+'">'+item.hora+'</option>';
             });
             
             $(p_nombreCombo).html(html);

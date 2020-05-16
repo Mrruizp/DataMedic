@@ -115,31 +115,35 @@ CREATE TABLE cita
 -- select * from paciente
 CREATE TABLE paciente
 (
-  paciente_id integer not NULL,
-  doc_id character varying(20) null,
-  nombre character varying(100) not NULL,
-  apellido_paterno character varying(100) not NULL,
-  apellido_materno character varying(100) not NULL,
-  edad character varying(3) not NULL,
-  sexo char(1)not null,
-  raza char(1)not null,
-  naturalde character varying(100) not NULL,
-  procedencia character varying(100) not NULL,
-  estado_civil char(1) not null,
-  ocupacion character varying(200) not NULL,
-  instruccion character varying(200) not NULL,
-  religion character varying(100) not NULL,
-  domicilio character varying(200) not NULL,
-  telefono character varying(20) not NULL,
-  personaresponsable character varying(100) not NULL,
-  personaresponsable_telefono character varying(20) not NULL,
-  fecha_ingreso character varying(50) not NULL,
-  hora character varying(20) not NULL,
-  modoingreso character varying(50) not NULL,
-  fecha_historia_clinica character varying(50) not NULL,
-  descripcion_enfermedad_actual character varying(1000) not NULL,
+  paciente_id integer,
+  doc_id character varying(20),
+  nombres character varying(100),
+  apellidos character varying(100),
+  edad character varying(3),
+  sexo char(1),
+  raza char(1),
+  naturalde character varying(100),-- Lugar de nacimiento
+  procedencia character varying(100),
+  estado_civil char(1),
+  ocupacion character varying(200),
+  instruccion character varying(200),
+  religion character varying(100),
+  domicilio character varying(200),
+  telefono character varying(20),
+  personaresponsable character varying(100),
+  personaresponsable_telefono character varying(20),
+  fecha_ingreso character varying(50),
+  hora character varying(20),
+  modoingreso character varying(50),
+  fecha_historia_clinica character varying(50),
+  descripcion_enfermedad_actual character varying(1000),
   CONSTRAINT pk_paciente_paciente_id PRIMARY KEY(paciente_id)
 );
+-- drop table cita;
+-- drop table paciente;
+-- drop table pago;
+-- drop table historial_tratamiento;
+
 CREATE TABLE tratamiento
 (
   tratamiento_id integer not NULL,
@@ -416,7 +420,7 @@ insert into fecha
 values(13,'Mayo','Lunes','25','16:00','disponible');
 
 
-select * from correlativo;
+select * from cita;
 
 -- 
 -- función correlativo
@@ -437,3 +441,152 @@ CREATE OR REPLACE FUNCTION f_generar_correlativo(p_tabla character varying)
 			c.tabla = p_tabla;
  end
  $$ language plpgsql;
+ 
+ CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
+	 											p_cita_id integer,
+												p_fecha character varying(50),
+												p_hora character varying(50),
+												p_descripcion character varying(500),
+												p_doc_id_usuario character varying(20),
+												p_doctor_id int,
+	 											p_doc_id_paciente character varying(20),
+	 											p_nombres character varying(100),
+	 											p_apellidos character varying(100),
+	 											p_edad character varying(3),
+	 											p_sexo char(1),
+	 											p_naturalde character varying(100),
+	 											p_estado_civil char(1),
+	 											p_ocupacion character varying(200),
+	 											p_religion character varying(100),
+	 											p_domicilio character varying(200),
+	 											p_telefono character varying(20),
+	 											p_personaresponsable character varying(100),
+	 											p_personaresponsable_telefono character varying(20)
+											 )  RETURNS void AS   
+ $$
+ declare
+ p_estadoPaciente int := (select count(*) from paciente where doc_id = p_doc_id_paciente);
+ begin
+							insert into cita(
+												cita_id,
+												fecha,
+												hora, 
+												descripcion,
+												doc_id,
+												doctor_id,
+												estado
+											)
+							values(
+										p_cita_id,
+										p_fecha,
+										p_hora, 
+										p_descripcion,
+										p_doc_id_usuario,
+										p_doctor_id,
+										'En proceso de confirmación'
+									);
+							if p_estadoPaciente = 0 then
+								insert into paciente
+													(
+														paciente_id,
+														doc_id,
+														nombres,
+														apellidos,
+														edad,
+														sexo,
+														naturalde,
+														estado_civil,
+														ocupacion,
+														religion,
+														domicilio,
+														telefono,
+														personaresponsable,
+														personaresponsable_telefono
+													)
+								values(
+										    (select * from f_generar_correlativo('paciente') as nc),
+											p_doc_id_paciente,
+											p_nombres,
+											p_apellidos,
+											p_edad,
+											p_sexo,
+											p_naturalde,
+											p_estado_civil,
+											p_ocupacion,
+											p_religion,
+											p_domicilio,
+											p_telefono,
+											p_personaresponsable,
+											p_personaresponsable_telefono
+										);
+										
+										update 
+											correlativo 
+										set 
+											numero = numero + 1 
+										where 
+											tabla='paciente';
+
+										update 
+											correlativo 
+										set numero = p_cita_id
+										where 
+											tabla='cita';
+							else
+								
+								update 
+									paciente
+								set
+									nombres = p_nombres,
+									apellidos = p_apellidos,
+									edad = p_edad,
+									sexo = p_sexo,
+									naturalde = p_naturalde,
+									estado_civil = p_estado_civil,
+									ocupacion = p_ocupacion,
+									religion = p_religion,
+									domicilio = p_domicilio,
+									telefono = p_telefono,
+									personaresponsable = p_personaresponsable,
+									personaresponsable_telefono = p_personaresponsable_telefono
+								where
+									doc_id = p_doc_id_paciente;
+							end if;
+						
+						
+ end
+ $$ language plpgsql;
+ 
+ 
+  select * from correlativo
+ select * from doctor;
+  select * from paciente
+ update correlativo set numero = 0
+                    	where tabla='paciente';
+ 
+ delete from paciente
+ (select * from f_generar_correlativo('cita') as nc)
+ (select * from f_generar_correlativo('paciente') as nc)
+ 
+ select * from fn_registrarCita_paciente(
+	 
+	 										    6,
+												'Lunes 25 de Mayo',
+												'11:00',
+												'Holitas bebesitos2',
+												'45977448',
+												1,
+	 											'48745488',
+	 											'saoisnaosnaos',
+	 											'saoisnaosnaos2',
+	 											'20',
+	 											'M',
+	 											'Chiclayo',
+	 											'S',
+	 											'Programador',
+	 											'Católico',
+	 											'Lima-Chorrillos',
+	 											'996585478',
+	 											'Pepitos Torres',
+	 											'985522447'
+                                             );
