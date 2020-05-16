@@ -391,7 +391,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                       <div class="modal-header bg-info">
-                        <h4 class="modal-title">Paciente Registrado</h4>
+                        <h4 class="modal-title" id="titulomodal">Paciente Registrado</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span></button>
                       </div>
@@ -402,8 +402,8 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                 <p>
                                     
                                     DNI <input type="text" 
-                                                  name="txtDoc_id_paciente" 
-                                                  id="txtDoc_id_paciente" 
+                                                  name="txtDoc_id_paciente1" 
+                                                  id="txtDoc_id_paciente1" 
                                                   class="form-control input-sm">
                                 </p>
                             </div>
@@ -411,15 +411,15 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                 <p>
                                     
                                     Lugar de nacimiento<input type="text" 
-                                                  name="txtCiudad_paciente" 
-                                                  id="txtCiudad_paciente" 
+                                                  name="txtCiudad_paciente1" 
+                                                  id="txtCiudad_paciente1" 
                                                   class="form-control input-sm">
                                 </p>
                             </div>
                             <div class="col-4">
                                 <p>
                                     
-                                    Estado Civil<select id="estadoCivil_paciente" name="estadoCivil_paciente" class="form-control" required> 
+                                    Estado Civil<select id="estadoCivil_paciente1" name="estadoCivil_paciente1" class="form-control" required> 
                                                     <option></option>
                                                     <option value="S">Soltero(a)</option>
                                                     <option value="C">Casado(a)</option>
@@ -433,7 +433,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                             <div class="col-3">
                                 <p>
                                     Edad
-                                    <select id="edad_paciente" name="edad_paciente" class="form-control" required> 
+                                    <select id="edad_paciente1" name="edad_paciente1" class="form-control" required> 
                                         <option>-</option>
                                         <option value="5">5</option>
                                         <option value="6">6</option>
@@ -518,8 +518,8 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                 <p>
                                     
                                     Nombres<input type="text" 
-                                                  name="txtNombre_paciente" 
-                                                  id="txtNombre_paciente" 
+                                                  name="txtNombre_paciente1" 
+                                                  id="txtNombre_paciente1" 
                                                   class="form-control input-sm">
                                 </p>
                             </div>
@@ -527,8 +527,8 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                 <p>
                                     
                                     Apellidos<input type="text" 
-                                                  name="txtApellidos_paciente" 
-                                                  id="txtApellidos_paciente" 
+                                                  name="txtApellidos_paciente1" 
+                                                  id="txtApellidos_paciente1" 
                                                   class="form-control input-sm">
                                 </p>
                             </div>
@@ -539,7 +539,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                             <div class="col-3">
                                 <p>
                                     Sexo
-                                    <select id="sexo_paciente" name="sexo_paciente" class="form-control" required> 
+                                    <select id="sexo_paciente1" name="sexo_paciente1" class="form-control" required> 
                                         <option>-</option>
                                         <option value="H">Hombre</option>
                                         <option value="M">Mujer</option>
@@ -550,8 +550,8 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                 <p>
                                     
                                     Ocupacion<input type="text" 
-                                                  name="txtOcupacion_paciente" 
-                                                  id="txtOcupacion_paciente" 
+                                                  name="txtOcupacion_paciente1" 
+                                                  id="txtOcupacion_paciente1" 
                                                   class="form-control input-sm">
                                 </p>
                             </div>
@@ -559,8 +559,8 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                 <p>
                                     
                                     Religion<input type="text" 
-                                                  name="txtReligion_paciente" 
-                                                  id="txtReligion_paciente" 
+                                                  name="txtReligion_paciente1" 
+                                                  id="txtReligion_paciente1" 
                                                   class="form-control input-sm">
                                 </p>
                             </div>
@@ -570,8 +570,8 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                 <p>
                                     
                                     Domicilio<input type="text" 
-                                                  name="txtDomicilio_paciente" 
-                                                  id="txtDomicilio_paciente" 
+                                                  name="txtDomicilio_paciente1" 
+                                                  id="txtDomicilio_paciente1" 
                                                   class="form-control input-sm">
                                 </p>
                           </div>
@@ -579,8 +579,8 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                 <p>
                                     
                                     Teléfono<input type="text" 
-                                                  name="txtTelefono_paciente" 
-                                                  id="txtTelefono_paciente" 
+                                                  name="txtTelefono_paciente1" 
+                                                  id="txtTelefono_paciente1" 
                                                   class="form-control input-sm">
                                 </p>
                           </div>
@@ -595,8 +595,8 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                 <p>
                                     
                                     Nombre Completo<input type="text" 
-                                                  name="txtPersonaResponsable_paciente" 
-                                                  id="txtPersonaResponsable_paciente" 
+                                                  name="txtPersonaResponsable_paciente1" 
+                                                  id="txtPersonaResponsable_paciente1" 
                                                   class="form-control input-sm">
                                 </p>
                           </div>
@@ -604,8 +604,8 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                 <p>
                                     
                                     Teléfono<input type="text" 
-                                                  name="txtTelefono_paciente" 
-                                                  id="txtTelefono_paciente" 
+                                                  name="txtTelefono_paciente2" 
+                                                  id="txtTelefono_paciente2" 
                                                   class="form-control input-sm">
                                 </p>
                             </div>

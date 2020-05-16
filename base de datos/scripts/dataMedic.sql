@@ -98,6 +98,7 @@ CREATE TABLE doctor
   CONSTRAINT fk_doctor_especialidad_id foreign key (especialidad_id) references especialidad(especialidad_id)	
 );
 
+
 CREATE TABLE cita
 (
   cita_id integer not NULL,
@@ -107,12 +108,14 @@ CREATE TABLE cita
   doc_id character varying(20),
   doctor_id int,
   estado character varying(50)not null,
+  paciente_id int,
   CONSTRAINT pk_cita_cita_id PRIMARY KEY (cita_id),
   CONSTRAINT fk_cita_doc_id foreign key (doc_id) references usuario(doc_id),
-  CONSTRAINT fk_cita_doctor_id foreign key (doctor_id) references doctor(doctor_id)
+  CONSTRAINT fk_cita_doctor_id foreign key (doctor_id) references doctor(doctor_id),
+  CONSTRAINT fk_cita_paciente_id foreign key (paciente_id) references paciente(paciente_id)
 );
 
--- select * from paciente
+-- select * from cita
 CREATE TABLE paciente
 (
   paciente_id integer,
@@ -466,25 +469,9 @@ CREATE OR REPLACE FUNCTION f_generar_correlativo(p_tabla character varying)
  $$
  declare
  p_estadoPaciente int := (select count(*) from paciente where doc_id = p_doc_id_paciente);
+ p_Paciente_id int := (select paciente_id from paciente where doc_id = '47852365');
  begin
-							insert into cita(
-												cita_id,
-												fecha,
-												hora, 
-												descripcion,
-												doc_id,
-												doctor_id,
-												estado
-											)
-							values(
-										p_cita_id,
-										p_fecha,
-										p_hora, 
-										p_descripcion,
-										p_doc_id_usuario,
-										p_doctor_id,
-										'En proceso de confirmación'
-									);
+							
 							if p_estadoPaciente = 0 then
 								insert into paciente
 													(
@@ -525,13 +512,7 @@ CREATE OR REPLACE FUNCTION f_generar_correlativo(p_tabla character varying)
 										set 
 											numero = numero + 1 
 										where 
-											tabla='paciente';
-
-										update 
-											correlativo 
-										set numero = p_cita_id
-										where 
-											tabla='cita';
+											tabla='paciente';	
 							else
 								
 								update 
@@ -552,6 +533,33 @@ CREATE OR REPLACE FUNCTION f_generar_correlativo(p_tabla character varying)
 								where
 									doc_id = p_doc_id_paciente;
 							end if;
+							
+							insert into cita(
+												cita_id,
+												fecha,
+												hora, 
+												descripcion,
+												doc_id,
+												doctor_id,
+												estado,
+												paciente_id
+											)
+										values(
+													p_cita_id,
+													p_fecha,
+													p_hora, 
+													p_descripcion,
+													p_doc_id_usuario,
+													p_doctor_id,
+													'En proceso de confirmación',
+													p_Paciente_id
+												);
+
+										update 
+											correlativo 
+										set numero = p_cita_id
+										where 
+											tabla='cita';
 						
 						
  end

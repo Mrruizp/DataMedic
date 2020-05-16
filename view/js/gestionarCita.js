@@ -47,7 +47,7 @@ function listar() {
                 html += '<td align="center" style="font-weight:normal">' + item.nombrecompleto + '</td>';
                 html += '<td align="center" style="font-weight:normal">' + item.nombresdoctor + '</td>';
                 html += '<td align="center">';
-                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalPaciente" onclick="leerDatos(' + item.doc_id + ')"><ion-icon name="person-outline"></ion-icon></button>';
+                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalPaciente" onclick="leerDatos(' + item.paciente_id + ')"><ion-icon name="person-outline"></ion-icon></button>';
                 html += '</td>';
 
                 if(item.estado === "Cita confirmada")
@@ -181,20 +181,34 @@ $("#myModal").on("shown.bs.modal", function () {
 });
 
 
-function leerDatos(codCurso) {
+function leerDatos(codigo_paciente) {
     $.post
             (
-                    "../controller/gestionarCurso.leer.datos.controller.php",
+                    "../controller/gestionarCita.leer.datos.controller.php",
                     {
-                        p_codigo_curso: codCurso
+                        p_codigo_paciente: codigo_paciente
                     }
             ).done(function (resultado) {
         var jsonResultado = resultado;
         if (jsonResultado.estado === 200) {
             $("#txtTipoOperacion").val("editar");
-            $("#txtCodigo").val(jsonResultado.datos.curso_id);
-            $("#txtCurso").val(jsonResultado.datos.nombre_curso);
-            $("#titulomodal").html("Modificar datos del Curso");
+            // Paciente:
+            $("#txtDoc_id_paciente1").val(jsonResultado.datos.doc_id);
+            $("#txtCiudad_paciente1").val(jsonResultado.datos.naturalde);
+            $("#estadoCivil_paciente1").val(jsonResultado.datos.estado_civil);
+            $("#edad_paciente1").val(jsonResultado.datos.edad);
+            $("#txtNombre_paciente1").val(jsonResultado.datos.nombres);
+            $("#txtApellidos_paciente1").val(jsonResultado.datos.apellidos);
+            $("#sexo_paciente1").val(jsonResultado.datos.sexo);
+            $("#txtOcupacion_paciente1").val(jsonResultado.datos.ocupacion);
+            $("#txtReligion_paciente1").val(jsonResultado.datos.religion);
+            $("#txtDomicilio_paciente1").val(jsonResultado.datos.domicilio);
+            $("#txtTelefono_paciente1").val(jsonResultado.datos.telefono);
+            $("#txtPersonaResponsable_paciente1").val(jsonResultado.datos.personaresponsable);
+            $("#txtTelefono_paciente2").val(jsonResultado.datos.personaresponsable_telefono);
+
+           
+            $("#titulomodal").html("Datos del Paciente");
         }
     }).fail(function (error) {
         var datosJSON = $.parseJSON(error.responseText);

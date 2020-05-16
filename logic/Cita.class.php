@@ -199,13 +199,14 @@ class Cita extends Conexion {
                         u.nombrecompleto,
                         concat(nombre, ' ',apellido) as nombresdoctor,
                         c.doc_id,
-                        c.estado
+                        c.estado,
+                        c.paciente_id
                     from 
                         cita c inner join doctor d
                     on
                         c.doctor_id = d.doctor_id inner join usuario u
                     on
-                        c.doc_id = u.doc_id 
+                        c.doc_id = u.doc_id;
                 ";
             $sentencia = $this->dblink->prepare($sql);
             $sentencia->execute();
@@ -292,14 +293,33 @@ class Cita extends Conexion {
         return false;
     }
 
-    public function leerDatos($p_codigoCurso) {
+    public function leerDatos($p_codigoPaciente) {
         try {
             $sql = "
-                    select * from curso 
-                    where curso_id = :p_codigo_curso
+                    select 
+                        p.paciente_id,
+                        p.doc_id,
+                        p.nombres,
+                        p.apellidos,
+                        p.edad,
+                        p.sexo,
+                        p.naturalde,
+                        p.estado_civil,
+                        p.ocupacion,
+                        p.religion,
+                        p.domicilio,
+                        p.telefono,
+                        p.personaresponsable,
+                        p.personaresponsable_telefono
+                    from 
+                        cita c inner join paciente p
+                    on
+                        c.paciente_id = p.paciente_id
+                    where
+                        c.paciente_id = :p_codigo_paciente;
                 ";
             $sentencia = $this->dblink->prepare($sql);
-            $sentencia->bindParam(":p_codigo_curso", $p_codigoCurso);
+            $sentencia->bindParam(":p_codigo_paciente", $p_codigoPaciente);
             $sentencia->execute();
             $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
             return $resultado;
