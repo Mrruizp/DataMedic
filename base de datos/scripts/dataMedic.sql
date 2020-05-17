@@ -314,31 +314,78 @@ values(5,1,'Gestionar Presupuesto', 'gestionarPresupuesto.view.php');
 
 insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
 values(1,1,1,1); 
-
 insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
 values(2,1,1,1);
-
 insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
 values(2,2,1,1);
-
 insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
 values(3,1,1,1);
-
 insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
 values(4,1,1,1);
-
 insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
 values(5,1,1,1);
+
+-- Doctor
+select * from menu_item_accesos
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(1,1,2,1); 
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(2,1,2,1);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(2,2,2,0);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(3,1,2,0);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(4,1,2,1);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(5,1,2,0);
+
+
+-- Cliente
+
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(1,1,3,1); 
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(2,1,3,0);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(2,2,3,1);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(3,1,3,0);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(4,1,3,0);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(5,1,3,0);
 -- select * from menu_item_accesos
+select * from menu_item_accesos
+
+
 
 insert into usuario(doc_id,nombrecompleto, direccion, telefono,email,cargo_id)
 values('45977448','Juan Benito casas','Av. Guardia Civil, urb. Proceres #4456. Surco','996456547','juanBenito@hotmail.com',1);
 
+insert into usuario(doc_id,nombrecompleto, direccion, telefono,email,cargo_id)
+values('44444444','Andres Hurtado','Av. Guardia Civil, urb. Proceres #44520. Chorrillos','999988888','andres@hotmail.com',2);
+
+insert into usuario(doc_id,nombrecompleto, direccion, telefono,email,cargo_id)
+values('22222222','Jaimito el cartero','Av. Huaylas, urb. Proceres #44500. Chorrillos','951236547','jaimito@hotmail.com',3);
+
+insert into usuario(doc_id,nombrecompleto, direccion, telefono,email,cargo_id)
+values('22224444','Cass Urbina','Av. Larco, Miraflores','998555447','cass@hotmail.com',3);
+
 -- Credenciales de acceso
--- select * from menu_item
+-- select * from cita
 
 insert into credenciales_acceso(codigo_usuario,clave,tipo,estado,fecha_registro, doc_id)
 values(1,(select MD5('123')),'A','A',(select now()),'45977448');
+
+insert into credenciales_acceso(codigo_usuario,clave,tipo,estado,fecha_registro, doc_id)
+values(2,(select MD5('123')),'D','A',(select now()),'44444444');
+
+insert into credenciales_acceso(codigo_usuario,clave,tipo,estado,fecha_registro, doc_id)
+values(3,(select MD5('123')),'C','A',(select now()),'22222222');
+
+insert into credenciales_acceso(codigo_usuario,clave,tipo,estado,fecha_registro, doc_id)
+values(4,(select MD5('123')),'C','A',(select now()),'22224444');
 
 -- select * from correlativo
 insert into correlativo(tabla, numero)
@@ -381,7 +428,7 @@ from
 where
                         estado = 'disponible';
 --
--- insert fecha
+-- insert fecha select * from fecha
 
 insert into fecha
 values(1,'Mayo','Lunes','25','9:00','disponible');
@@ -393,7 +440,7 @@ insert into fecha
 values(3,'Mayo','Lunes','25','10:00','disponible');
 
 insert into fecha
-values(4,'Mayo','Lunes','25','10:30','no disponible');
+values(4,'Mayo','Lunes','25','10:30','disponible');
 
 insert into fecha
 values(5,'Mayo','Lunes','25','11:00','disponible');
@@ -469,7 +516,7 @@ CREATE OR REPLACE FUNCTION f_generar_correlativo(p_tabla character varying)
  $$
  declare
  p_estadoPaciente int := (select count(*) from paciente where doc_id = p_doc_id_paciente);
- p_Paciente_id int := (select paciente_id from paciente where doc_id = '47852365');
+
  begin
 							
 							if p_estadoPaciente = 0 then
@@ -552,7 +599,7 @@ CREATE OR REPLACE FUNCTION f_generar_correlativo(p_tabla character varying)
 													p_doc_id_usuario,
 													p_doctor_id,
 													'En proceso de confirmación',
-													p_Paciente_id
+													(select paciente_id from paciente where doc_id = p_doc_id_paciente)
 												);
 
 										update 
@@ -560,29 +607,48 @@ CREATE OR REPLACE FUNCTION f_generar_correlativo(p_tabla character varying)
 										set numero = p_cita_id
 										where 
 											tabla='cita';
-						
+											
+										update 
+											fecha
+										set
+											estado = 'no disponible'
+										where
+											hora = p_hora;
 						
  end
  $$ language plpgsql;
  
- 
+ update 
+											fecha
+										set
+											estado = 'disponible'
+										where
+											hora = '10:30';
+											
   select * from correlativo
  select * from doctor;
-  select * from paciente
+  select * from fecha
+  
  update correlativo set numero = 0
                     	where tabla='paciente';
+						
+ update correlativo set numero = 0
+                    	where tabla='cita';
  
- delete from paciente
+ select * from cita
+ 
+ delete from cita;
+ delete from paciente;
  (select * from f_generar_correlativo('cita') as nc)
  (select * from f_generar_correlativo('paciente') as nc)
  
  select * from fn_registrarCita_paciente(
 	 
-	 										    6,
+	 										    1,
 												'Lunes 25 de Mayo',
 												'11:00',
 												'Holitas bebesitos2',
-												'45977448',
+												'22224444',
 												1,
 	 											'48745488',
 	 											'saoisnaosnaos',

@@ -2,7 +2,7 @@
 
 require_once '../util/functions/Helper.class.php';
 
-session_name("CampusVirtual");
+session_name("DataMedic");
 session_start();
 
 

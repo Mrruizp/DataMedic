@@ -1,7 +1,7 @@
 <?php
 
 require_once '../data/Conexion.class.php';
-session_name("CampusVirtual");
+session_name("DataMedic");
 session_start();
 
 class Cita extends Conexion {
@@ -190,24 +190,76 @@ class Cita extends Conexion {
 
     public function listar() {
         try {
-            $sql = "
-                    select 
-                        c.cita_id,
-                        c.fecha,
-                        c.hora,
-                        c.descripcion,
-                        u.nombrecompleto,
-                        concat(nombre, ' ',apellido) as nombresdoctor,
-                        c.doc_id,
-                        c.estado,
-                        c.paciente_id
-                    from 
-                        cita c inner join doctor d
-                    on
-                        c.doctor_id = d.doctor_id inner join usuario u
-                    on
-                        c.doc_id = u.doc_id;
-                ";
+
+            switch ($_SESSION["tipo"]) {
+                case 'A':
+                            $sql = "
+                                select 
+                                    c.cita_id,
+                                    c.fecha,
+                                    c.hora,
+                                    c.descripcion,
+                                    u.nombrecompleto,
+                                    concat(nombre, ' ',apellido) as nombresdoctor,
+                                    c.doc_id,
+                                    c.estado,
+                                    c.paciente_id
+                                from 
+                                    cita c inner join doctor d
+                                on
+                                    c.doctor_id = d.doctor_id inner join usuario u
+                                on
+                                    c.doc_id = u.doc_id;
+                            ";
+                    break;
+
+                case 'D':
+                            $sql = "
+                                select 
+                                    c.cita_id,
+                                    c.fecha,
+                                    c.hora,
+                                    c.descripcion,
+                                    u.nombrecompleto,
+                                    concat(nombre, ' ',apellido) as nombresdoctor,
+                                    c.doc_id,
+                                    c.estado,
+                                    c.paciente_id
+                                from 
+                                    cita c inner join doctor d
+                                on
+                                    c.doctor_id = d.doctor_id inner join usuario u
+                                on
+                                    c.doc_id = u.doc_id
+                                where
+                                    d.email = '$_SESSION[s_email]';
+                            ";
+                    break;
+
+                case 'C':
+                            $sql = "
+                                select 
+                                    c.cita_id,
+                                    c.fecha,
+                                    c.hora,
+                                    c.descripcion,
+                                    u.nombrecompleto,
+                                    concat(nombre, ' ',apellido) as nombresdoctor,
+                                    c.doc_id,
+                                    c.estado,
+                                    c.paciente_id
+                                from 
+                                    cita c inner join doctor d
+                                on
+                                    c.doctor_id = d.doctor_id inner join usuario u
+                                on
+                                    c.doc_id = u.doc_id
+                                where
+                                    c.doc_id = '$_SESSION[s_doc_id]';
+                            ";
+                    break;
+            }
+            
             $sentencia = $this->dblink->prepare($sql);
             $sentencia->execute();
             $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);

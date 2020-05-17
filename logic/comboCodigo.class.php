@@ -1,7 +1,7 @@
 <?php
 
 require_once '../data/Conexion.class.php';
-session_name("CampusVirtual");
+session_name("DataMedic");
 session_start();
 class comboCodigo extends Conexion {
 

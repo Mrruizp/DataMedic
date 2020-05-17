@@ -32,6 +32,7 @@ function listar() {
             html += '<th style="text-align: center">USUARIO</th>';
             html += '<th style="text-align: center">DOCTOR</th>';
             html += '<th style="text-align: center">PACIENTE</th>';
+            html += '<th style="text-align: center">TRATAMIENTO</th>';
             html += '<th style="text-align: center">ESTADO</th>';
             html += '</tr>';
             html += '</thead>';
@@ -48,6 +49,9 @@ function listar() {
                 html += '<td align="center" style="font-weight:normal">' + item.nombresdoctor + '</td>';
                 html += '<td align="center">';
                 html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalPaciente" onclick="leerDatos(' + item.paciente_id + ')"><ion-icon name="person-outline"></ion-icon></button>';
+                html += '</td>';
+                html += '<td align="center">';
+                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalTratamiento" onclick="leerDatos(' + item.paciente_id + ')"><ion-icon name="document-text-outline"></ion-icon></button>';
                 html += '</td>';
 
                 if(item.estado === "Cita confirmada")

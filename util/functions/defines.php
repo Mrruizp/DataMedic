@@ -1,3 +1,3 @@
 <?php
 
-define("C_NOMBRE_SOFTWARE", "CampusVirtual");
+define("C_NOMBRE_SOFTWARE", "DataMedic");

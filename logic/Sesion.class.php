@@ -60,7 +60,7 @@ class Sesion extends Conexion {
                     if ($resultado["estado"] === "I") {
                         return "IN"; //Usuario Inactivo
                     } else {
-                        session_name("CampusVirtual");
+                        session_name("DataMedic");
                         session_start();
 
 //                        $_SESSION["s_usuario"]  = $resultado["nombre"] . ' ' . $resultado["apellidos"];
