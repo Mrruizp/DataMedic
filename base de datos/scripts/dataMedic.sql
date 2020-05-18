@@ -278,15 +278,20 @@ values('historial_tratamiento',5);
 insert into menu(codigo_menu,nombre)
 values(1,'Inicio'); 
 insert into menu(codigo_menu,nombre)
-values(2,'Agenda'); 
+values(2,'Cita'); 
 insert into menu(codigo_menu,nombre)
 values(3,'Historia Clínica');
 insert into menu(codigo_menu,nombre)
-values(4,'Presupuesto');
+values(4,'Tratamiento');
+insert into menu(codigo_menu,nombre)
+values(5,'Presupuesto');
 
 -- cargo
 
-select * from cargo
+select * from menu
+update menu
+set nombre = 'Tratamiento'
+where codigo_menu = 4
 --  Menú item
 -- select * from menu_item
 
@@ -307,6 +312,11 @@ values(2,2,'Gestionar Cita', 'gestionarCita.view.php');
 
 insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
 values(3,1,'Gestionar datos Paciente', 'gestionarPaciente.view.php');
+
+update menu_item
+set nombre = 'Paciente'
+where
+	codigo_menu = 3 and codigo_menu_item = 1
 insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
 values(4,1,'Gestionar Tratamiento', 'gestionarTratamiento.view.php');
 insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
