@@ -4,6 +4,8 @@ $_POST["s_usuario"] = $dniSesion;
 
 
 require_once '../controller/perfil.usuario.leer.datos.controller.php';
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -749,8 +751,9 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                   Estado
                                   <select id="hab_desh_proc" name="hab_desh_proc" class="form-control" required> 
                                       <option>-</option>
-                                      <option value="Cita Confirmada">Habilitar</option>
-                                      <option value="Cita Denegada">Deshabilitar</option>
+                                      <option value="Cita Atendida">Atendido</option>
+                                      <option value="Cita Confirmada">Confirmado</option>
+                                      <option value="Cita Denegada">Denegado</option>
                                       <option value="En proceso de confirmación">En proceso</option>
                                   </select>
                               </p>
@@ -767,7 +770,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                   <!-- /.modal-dialog -->
                 </div>
                 <!-- /.modal -->
-                
+
               </form>
 
             <!-- Control Sidebar -->

@@ -260,7 +260,7 @@ class Cita extends Conexion {
                             ";
                     break;
 
-                case 'D':
+                case 'D': // si el email es not null, entonces es un doctor
                             $sql = "
                                 select 
                                     c.cita_id,
@@ -271,13 +271,16 @@ class Cita extends Conexion {
                                     concat(nombre, ' ',apellido) as nombresdoctor,
                                     c.doc_id,
                                     c.estado,
-                                    c.paciente_id
+                                    c.paciente_id,
+                                    d.email
                                 from 
                                     cita c inner join doctor d
                                 on
                                     c.doctor_id = d.doctor_id inner join usuario u
                                 on
-                                    c.doc_id = u.doc_id
+                                    c.doc_id = u.doc_id inner join credenciales_acceso a
+                                on
+                                    u.doc_id = a.doc_id
                                 where
                                     d.email = '$_SESSION[s_email]';
                             ";
@@ -294,13 +297,16 @@ class Cita extends Conexion {
                                     concat(nombre, ' ',apellido) as nombresdoctor,
                                     c.doc_id,
                                     c.estado,
-                                    c.paciente_id
+                                    c.paciente_id,
+                                    a.tipo
                                 from 
                                     cita c inner join doctor d
                                 on
                                     c.doctor_id = d.doctor_id inner join usuario u
                                 on
-                                    c.doc_id = u.doc_id
+                                    c.doc_id = u.doc_id inner join credenciales_acceso a
+                                on
+                                    c.doc_id = a.doc_id
                                 where
                                     c.doc_id = '$_SESSION[s_doc_id]';
                             ";
