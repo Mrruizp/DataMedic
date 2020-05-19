@@ -633,12 +633,51 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                 <!-- /.modal -->
               </form>
 
-
-
-
-
-
-
+              <form id="frmgrabarEstado" class="form-horizontal">
+                <div class="modal fade" id="myModalEstado">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header bg-info">
+                        <h4 class="modal-title" id="titulomodalEstado">Confirmar Cita</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span></button>
+                      </div>
+                      <div class="modal-body">
+                        
+                        <div class="row">
+                          <div class="col-2">
+                                <p>
+                                    <!--Código del paciente -->
+                                    Códgo<input type="text" 
+                                                  name="txtCod_citaEstado" 
+                                                  id="txtCod_citaEstado" 
+                                                  class="form-control input-sm" readonly="true">
+                                </p>
+                            </div>
+                          <div class="col-4">
+                              <p>
+                                  Estado
+                                  <select id="hab_desh_proc" name="hab_desh_proc" class="form-control" required> 
+                                      <option>-</option>
+                                      <option value="Cita Confirmada">Habilitar</option>
+                                      <option value="Cita Denegada">Deshabilitar</option>
+                                      <option value="En proceso de confirmación">En proceso</option>
+                                  </select>
+                              </p>
+                          </div>
+                        
+                      </div>
+                      <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" id="btncerrarEstado">Close</button>
+                        <button type="submit" class="btn btn-outline-info"><ion-icon name="save-outline"></ion-icon>  Registrar</button>
+                      </div>
+                    </div>
+                    <!-- /.modal-content -->
+                  </div>
+                  <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+              </form>
               <form id="frmgrabar" class="form-horizontal">
                 <div class="modal fade" id="myModalTratamiento">
                   <div class="modal-dialog modal-lg">

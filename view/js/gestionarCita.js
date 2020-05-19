@@ -34,6 +34,7 @@ function listar() {
             html += '<th style="text-align: center">PACIENTE</th>';
             html += '<th style="text-align: center">TRATAMIENTO</th>';
             html += '<th style="text-align: center">ESTADO</th>';
+            html += '<th style="text-align: center">HABILITAR</th>';
             html += '</tr>';
             html += '</thead>';
             html += '<tbody>';
@@ -59,7 +60,9 @@ function listar() {
                     html += '<td align="center" style="font-weight:normal" class="text-primary"><b>' + item.estado + '</b></td>';
                 }else
                     html += '<td align="center" style="font-weight:normal"class="text-danger"><b>' + item.estado + '</b></td>';
-                
+                html += '<td align="center">';
+                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalEstado" onclick="leerDatosEstado(' + item.paciente_id + ')"><ion-icon name="checkmark-done-outline"></ion-icon></button>';
+                html += '</td>';
                 html += '</tr>';
             });
 
@@ -255,3 +258,86 @@ function eliminar(codCurso) {
             });
 
 }
+
+function leerDatosEstado(codigo_paciente) {
+    $.post
+            (
+                    "../controller/gestionarCita.leer.datos.controller.php",
+                    {
+                        p_codigo_paciente: codigo_paciente
+                    }
+            ).done(function (resultado) {
+        var jsonResultado = resultado;
+        if (jsonResultado.estado === 200) {
+            //$("#txtTipoOperacionEstado").val("editar");
+            // Paciente:
+            $("#hab_desh_proc").val(jsonResultado.datos.estado);
+            $("#txtCod_citaEstado").val(jsonResultado.datos.cita_id);
+
+           
+            $("#titulomodalEstado").html("Datos del Estado");
+        }
+    }).fail(function (error) {
+        var datosJSON = $.parseJSON(error.responseText);
+        swal("Error", datosJSON.mensaje, "error");
+    });
+}
+
+$("#frmgrabarEstado").submit(function (event) {
+    event.preventDefault();
+
+    swal({
+        title: "Confirme",
+        text: "¿Esta seguro de grabar los datos ingresados?",
+        showCancelButton: true,
+        confirmButtonColor: '#3d9205',
+        confirmButtonText: 'Si',
+        cancelButtonText: "No",
+        closeOnConfirm: false,
+        closeOnCancel: true,
+        imageUrl: "../images/pregunta.png"
+    },
+            function (isConfirm) {
+
+                if (isConfirm) { 
+                    $.post(
+                            "../controller/gestionarEstado.editar.controller.php",
+                            {
+                                p_cod_citaEstado:  $("#txtCod_citaEstado").val(),
+                                p_estado_cita:         $("#hab_desh_proc").val()
+
+                            }
+                    ).done(function (resultado) {
+                        var datosJSON = resultado;
+
+                        if (datosJSON.estado === 200) {
+                            swal("Exito", datosJSON.mensaje, "success");
+                            $("#btncerrar").click(); //Cerrar la ventana 
+                            listar(); //actualizar la lista
+                            $("#btncerrarEstado").click(); //Cerrar la ventana 
+                        } else {
+                            swal("Mensaje del sistema", resultado, "warning");
+                        }
+
+                    }).fail(function (error) {
+                        var datosJSON = $.parseJSON(error.responseText);
+                        swal("Error", datosJSON.mensaje, "error");
+                    });
+
+                }
+            });
+
+});
+
+
+$("#btnagregar").click(function () {
+    $("#txtTipoOperacion").val("agregar");
+    $("#txtCodigo").val("");
+    $("#txtCurso").val("");
+$("#titulomodal").html("Agregar nuevo Curso");
+});
+
+
+$("#myModal").on("shown.bs.modal", function () {
+    $("#txtPuesto").focus();
+});

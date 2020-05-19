@@ -341,7 +341,7 @@ class Cita extends Conexion {
             $this->dblink->rollBack();
             throw $exc;
         }
-
+ 
         return false;
     }
 
@@ -362,7 +362,9 @@ class Cita extends Conexion {
                         p.domicilio,
                         p.telefono,
                         p.personaresponsable,
-                        p.personaresponsable_telefono
+                        p.personaresponsable_telefono,
+                        c.estado,
+                        c.cita_id
                     from 
                         cita c inner join paciente p
                     on
@@ -443,6 +445,25 @@ class Cita extends Conexion {
                 $sentencia->bindParam(":p_curso_id", $this->getCodigo_curso());
                 //$sentencia->bindParam(":p_nombre_curso", $this->getNombre_curso());
                 $sentencia->execute();
+            return true;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+        return false;
+    }
+
+    public function editarEstardo($cod_citaEstado, $estado_cita) {
+        try {
+            $sql = "
+                update 
+                    cita 
+                set  
+                    estado = '$estado_cita'
+                where
+                    cita_id = $cod_citaEstado
+                ";
+            $sentencia = $this->dblink->prepare($sql);
+            $sentencia->execute();
             return true;
         } catch (Exception $exc) {
             throw $exc;

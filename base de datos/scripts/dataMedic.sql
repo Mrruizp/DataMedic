@@ -159,12 +159,14 @@ CREATE TABLE historial_tratamiento
   historial_tratamiento_id integer not NULL,
   fecha character varying(50)not null,
   hora character varying(50) not NULL,
+  descripcion character varying(2000) not NULL,
   paciente_id int,
   tratamiento_id int,
   CONSTRAINT pk_historial_tratamiento_historial_tratamiento_id PRIMARY KEY (historial_tratamiento_id),
   CONSTRAINT fk_historial_tratamiento_paciente_id foreign key(paciente_id) references paciente(paciente_id),
   CONSTRAINT fk_historial_tratamiento_tratamiento_id foreign key(tratamiento_id) references tratamiento(tratamiento_id)
 );
+
 CREATE TABLE pago
 (
   pago_id integer not NULL,
@@ -479,9 +481,23 @@ values(12,'Mayo','Lunes','25','15:30','disponible');
 insert into fecha
 values(13,'Mayo','Lunes','25','16:00','disponible');
 
+-- agregar tratamiento
+select * from correlativo;
 
-select * from cita;
+ update correlativo set numero = 1
+                    	where tabla='tratamiento';
+						
+						
+select * from tratamiento;
 
+insert into tratamiento
+values(1, 'Infección a las amígdalas')
+
+select 
+                            tratamiento_id,
+                            nombre_tratamiento
+                        from 
+                            tratamiento
 -- 
 -- función correlativo
 
