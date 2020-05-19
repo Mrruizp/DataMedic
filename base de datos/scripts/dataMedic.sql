@@ -257,6 +257,8 @@ insert into fecha
 values(1,'01','9:00 am',1,1);
 --
 */
+select * from historial_tratamiento
+
 insert into correlativo
 values('cita',1); 
 insert into correlativo
@@ -265,15 +267,14 @@ insert into correlativo
 values('doctor',0); 
 
 insert into correlativo
-values('paciente',0); 
+values('paciente',1); 
 insert into correlativo
 values('costo',0); 
 insert into correlativo
-values('tratamiento',0); 
+values('tratamiento',2); 
 insert into correlativo
-values('historial_tratamiento',0);
-insert into correlativo
-values('historial_tratamiento',5); 
+values('historial_tratamiento',1);
+
 
  -- Registros   select * from menu
  -- Menú
@@ -660,7 +661,7 @@ CREATE OR REPLACE FUNCTION f_generar_correlativo(p_tabla character varying)
   select * from fecha
   
  update correlativo set numero = 0
-                    	where tabla='paciente';
+                    	where tabla='historial_tratamiento';
 						
  update correlativo set numero = 0
                     	where tabla='cita';
@@ -695,11 +696,12 @@ CREATE OR REPLACE FUNCTION f_generar_correlativo(p_tabla character varying)
 	 											'985522447'
                                              );
 select * from historial_tratamiento;
+delete from historial_tratamiento;
 
 CREATE OR REPLACE FUNCTION fn_registrarCita_historialTratamiento(
 												p_tratamiento_id integer,
 												p_cita_id integer,
-	 											p_historial_tratamiento_id integer,
+	 										    p_historial_tratamiento_id integer,
 												p_cod_pac integer,
 												p_fecha character varying(50),
 												p_hora character varying(50),
@@ -709,9 +711,10 @@ CREATE OR REPLACE FUNCTION fn_registrarCita_historialTratamiento(
  declare
  p_fecha_cita character varying(50) := (select fecha from cita where cita_id = p_cita_id);
  p_fec_hisTra character varying(50) := (select fecha from historial_tratamiento where fecha = p_fecha);
+ p_historial_tratamiento_id_actual integer := (select historial_tratamiento_id from historial_tratamiento where fecha = p_fecha);
 
  begin
-							if p_fecha_cita = p_fec_hisTra then
+							if p_fecha_cita like p_fec_hisTra then
 								update 
 											historial_tratamiento
 										set 
@@ -721,27 +724,38 @@ CREATE OR REPLACE FUNCTION fn_registrarCita_historialTratamiento(
 											paciente_id    = p_cod_pac, 
 											tratamiento_id = p_tratamiento_id
 										where
-											historial_tratamiento_id = p_historial_tratamiento_id;
+											historial_tratamiento_id = p_historial_tratamiento_id_actual;
 							else
 							
 								insert into historial_tratamiento(historial_tratamiento_id, fecha, hora, descripcion, paciente_id, tratamiento_id)
 								values(p_historial_tratamiento_id, p_fecha, p_hora, p_descripcion, p_cod_pac, p_tratamiento_id);
 								
+								update correlativo set numero = numero +1
+                    					 where tabla='historial_tratamiento';
 							end if;
 								
 								
 											
-										 update correlativo set numero = numero +1
-                    					 where tabla='historial_tratamiento';
+										 
 						
  end
  $$ language plpgsql;
 
-select * from historial_tratamiento
+delete from historial_tratamiento;
+
+select * from fn_registrarCita_historialTratamiento(
+												1,
+												1,
+	 											1,
+												1,
+												'Lunes 25 de Mayo',
+												'10:00am',
+												'Mi bebita linda'
+											 ) 
 
 
 
-
+select * from f_generar_correlativo('historial_tratamiento') as nc
 
 
 

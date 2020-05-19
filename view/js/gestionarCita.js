@@ -61,7 +61,7 @@ function listar() {
                 }else
                     html += '<td align="center" style="font-weight:normal"class="text-danger"><b>' + item.estado + '</b></td>';
                 html += '<td align="center">';
-                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalEstado" onclick="leerDatosEstado(' + item.paciente_id + ')"><ion-icon name="checkmark-done-outline"></ion-icon></button>';
+                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalEstadoCita" onclick="leerDatosEstado(' + item.paciente_id + ')"><ion-icon name="checkmark-done-outline"></ion-icon></button>';
                 html += '</td>';
                 html += '</tr>';
             });
@@ -275,7 +275,7 @@ function leerDatosEstado(codigo_paciente) {
             $("#txtCod_citaEstado").val(jsonResultado.datos.cita_id);
 
            
-            $("#titulomodalEstado").html("Datos del Estado");
+            $("#titulomodalEstadoCita").html("Datos del Estado");
         }
     }).fail(function (error) {
         var datosJSON = $.parseJSON(error.responseText);
@@ -387,6 +387,24 @@ $("#frmgrabarTratamientoPaciente").submit(function (event) {
             function (isConfirm) {
 
                 if (isConfirm) { 
+
+                        var p_cod_tratamiento = "";
+                        var p_cod_citaTratamiento = "";
+                        var p_cod_paciente = "";
+                        var p_fechaHistTratamiento = "";
+                        var p_horaHistTratamiento = "";
+                        var p_descripcionHistTratamiento = "";
+                            
+                            p_cod_tratamiento            = $("#comboTratamiento").val();
+                            p_cod_citaTratamiento        = $("#txtCod_citaTratamiento").val();
+                            p_cod_paciente               = $("#txtCod_paciente").val();
+                            p_fechaHistTratamiento       = $("#txtFechaTratamiento").val();
+                            p_horaHistTratamiento        = $("#txtHoraTratamiento").val();
+                            p_descripcionHistTratamiento = $("#txtDescripcionTratamientoPaciente").val();
+
+
+                            //alert(p_cod_citaTratamiento+", "+p_cod_paciente+", "+p_fechaHistTratamiento+", "+p_horaHistTratamiento+", "+p_cod_tratamiento+", "+p_descripcionHistTratamiento);
+                            
                     $.post(
                             "../controller/gestionarHistorialTratamiento.agregar.editar.controller.php",
                             {
@@ -405,7 +423,7 @@ $("#frmgrabarTratamientoPaciente").submit(function (event) {
                             swal("Exito", datosJSON.mensaje, "success");
                             $("#btncerrar").click(); //Cerrar la ventana 
                             listar(); //actualizar la lista
-                            $("#btncerrarEstado").click(); //Cerrar la ventana 
+                            $("#btncerrarTratamientoPaciente").click(); //Cerrar la ventana 
                         } else {
                             swal("Mensaje del sistema", resultado, "warning");
                         }

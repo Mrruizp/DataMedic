@@ -392,7 +392,7 @@ class Cita extends Conexion {
         return false;
     }
 
-    public function agregarHistorialTratamiento() {
+    public function agregarHistorialTratamiento($cod_tratamiento,$cod_citaTratamiento,$cod_paciente,$fechaHistTratamiento,$horaHistTratamiento,$descripcionHistTratamiento) {
         $this->dblink->beginTransaction();
 
         try {
@@ -405,19 +405,21 @@ class Cita extends Conexion {
                 $nuevoCodigo = $resultado["nc"];
                 $this->setHistorial_tratamiento_id($nuevoCodigo);
 
-                /* Insertar en la tabla laboratorio */
+               
                 $sql = "
                     select * from fn_registrarCita_historialTratamiento(
-                                                :p_tratamiento_id,
-                                                :p_cita_id,
+                                                $cod_tratamiento,
+                                                $cod_citaTratamiento,
                                                 :p_historial_tratamiento_id,
-                                                :p_cod_pac,
-                                                :p_fechaHisTra,
-                                                :p_horaHisTra,
-                                                :p_descripcionHisTra
+                                                $cod_paciente,
+                                                '$fechaHistTratamiento',
+                                                '$horaHistTratamiento',
+                                                '$descripcionHistTratamiento'
                                              );
                     ";
                 $sentencia = $this->dblink->prepare($sql);
+                $sentencia->bindParam(":p_historial_tratamiento_id", $this->getHistorial_tratamiento_id());
+                /*
                 $sentencia->bindParam(":p_tratamiento_id", $this->getTratamiento_id());
                 $sentencia->bindParam(":p_cita_id", $this->getCita_id());
                 $sentencia->bindParam(":p_historial_tratamiento_id", $this->getHistorial_tratamiento_id());
@@ -425,6 +427,7 @@ class Cita extends Conexion {
                 $sentencia->bindParam(":p_fechaHisTra", $this->getFecha_historial_tratamiento());
                 $sentencia->bindParam(":p_horaHisTra", $this->getHora_historial_tratamiento());
                 $sentencia->bindParam(":p_descripcionHisTra", $this->getDescripcion_historial_tratamiento());
+                */
                 $sentencia->execute();
                 
                 $this->dblink->commit();
@@ -491,7 +494,7 @@ class Cita extends Conexion {
                     from 
                         cita c inner join paciente p
                     on
-                        c.paciente_id = p.paciente_id inner join historial_tratamiento t
+                        c.paciente_id = p.paciente_id left join historial_tratamiento t
                     on
                         p.paciente_id = t.paciente_id
                     where

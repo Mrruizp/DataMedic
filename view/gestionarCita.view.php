@@ -709,7 +709,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                           </div>
                       </div>
                       <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" id="btncerrarEstado">Close</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" id="btncerrarTratamientoPaciente">Close</button>
                         <button type="submit" class="btn btn-outline-info"><ion-icon name="save-outline"></ion-icon>  Registrar</button>
                       </div>
                     </div>
@@ -720,12 +720,15 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                 <!-- /.modal -->
               </form>
 
-              <form id="frmgrabarEstado" class="form-horizontal">
-                <div class="modal fade" id="myModalEstado">
+              
+             
+            </div> 
+            <form id="frmgrabarEstado" class="">
+                <div class="modal fade" id="myModalEstadoCita">
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                       <div class="modal-header bg-info">
-                        <h4 class="modal-title" id="titulomodalEstado">Confirmar Cita</h4>
+                        <h4 class="modal-title" id="titulomodalEstadoCita">Confirmar Cita</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span></button>
                       </div>
@@ -764,10 +767,8 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                   <!-- /.modal-dialog -->
                 </div>
                 <!-- /.modal -->
+                
               </form>
-              <?php include_once 'pie.view.php'; ?>
-            </div> 
-            
 
             <!-- Control Sidebar -->
             <?php // include_once 'opciones-derecha.view.php'; ?>

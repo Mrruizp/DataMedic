@@ -44,16 +44,18 @@ try {
      //$tipoOperacion = $_POST["p_tipo_ope"];
 
     $objCita = new Cita();
-
+        /*
         $objCita->setTratamiento_id($cod_tratamiento);
         $objCita->setCita_id($cod_citaTratamiento);
         $objCita->setCod_paciente_Historial_tratamiento_id($cod_paciente);
         $objCita->setFecha_historial_tratamiento($fechaHistTratamiento);
         $objCita->setHora_historial_tratamiento($horaHistTratamiento);
         $objCita->setDescripcion_historial_tratamiento($descripcionHistTratamiento);
+        */
+        $resultado = $objCita->agregarHistorialTratamiento($cod_tratamiento,$cod_citaTratamiento,$cod_paciente,$fechaHistTratamiento,$horaHistTratamiento,$descripcionHistTratamiento);
         
-        $resultado = $objCita->agregarHistorialTratamiento();
         
+
         if ($resultado) {
             Helper::imprimeJSON(200, "Agregado correctamente", "");
         }
