@@ -480,15 +480,19 @@ values(12,'Mayo','Lunes','25','15:30','disponible');
 
 insert into fecha
 values(13,'Mayo','Lunes','25','16:00','disponible');
+--
+-- insert histotial tratamiento
+insert into historial_tratamiento
+values(1,'Lunes 25 de Mayo','9:00', 'se receto medicamentos para el dolor e infeccion a las amigdas,etc.', 1, 1 );
 
 -- agregar tratamiento
 select * from correlativo;
 
  update correlativo set numero = 1
-                    	where tabla='tratamiento';
+                    	where tabla='historial_tratamiento';
 						
 						
-select * from tratamiento;
+select * from historial_tratamiento;
 
 insert into tratamiento
 values(1, 'Infección a las amígdalas')
@@ -690,3 +694,56 @@ CREATE OR REPLACE FUNCTION f_generar_correlativo(p_tabla character varying)
 	 											'Pepitos Torres',
 	 											'985522447'
                                              );
+select * from historial_tratamiento;
+
+CREATE OR REPLACE FUNCTION fn_registrarCita_historialTratamiento(
+												p_tratamiento_id integer,
+												p_cita_id integer,
+	 											p_historial_tratamiento_id integer,
+												p_cod_pac integer,
+												p_fecha character varying(50),
+												p_hora character varying(50),
+												p_descripcion character varying(2000)
+											 )  RETURNS void AS   
+ $$
+ declare
+ p_fecha_cita character varying(50) := (select fecha from cita where cita_id = p_cita_id);
+ p_fec_hisTra character varying(50) := (select fecha from historial_tratamiento where fecha = p_fecha);
+
+ begin
+							if p_fecha_cita = p_fec_hisTra then
+								update 
+											historial_tratamiento
+										set 
+											fecha          = p_fecha,
+											hora           = p_hora,
+											descripcion    = p_descripcion, 
+											paciente_id    = p_cod_pac, 
+											tratamiento_id = p_tratamiento_id
+										where
+											historial_tratamiento_id = p_historial_tratamiento_id;
+							else
+							
+								insert into historial_tratamiento(historial_tratamiento_id, fecha, hora, descripcion, paciente_id, tratamiento_id)
+								values(p_historial_tratamiento_id, p_fecha, p_hora, p_descripcion, p_cod_pac, p_tratamiento_id);
+								
+							end if;
+								
+								
+											
+										 update correlativo set numero = numero +1
+                    					 where tabla='historial_tratamiento';
+						
+ end
+ $$ language plpgsql;
+
+select * from historial_tratamiento
+
+
+
+
+
+
+
+								
+								

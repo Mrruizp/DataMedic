@@ -6,6 +6,13 @@ session_start();
 
 class Cita extends Conexion {
 
+    private $Tratamiento_id;
+    private $Historial_tratamiento_id;
+    private $Cod_paciente_Historial_tratamiento_id;
+    private $Fecha_historial_tratamiento;
+    private $Hora_historial_tratamiento;
+    private $Descripcion_historial_tratamiento;
+
     private $Cita_id;
     private $Fecha;
     private $Hora;
@@ -27,6 +34,46 @@ class Cita extends Conexion {
     private $PersonaResponsable_paciente;
     private $TelefonoResponsable_paciente;
 
+
+    public function getTratamiento_id() {
+        return $this->Tratamiento_id;
+    }
+
+    public function getHistorial_tratamiento_id() {
+        return $this->Historial_tratamiento_id;
+    }
+
+    public function getCod_paciente_Historial_tratamiento_id() {
+        return $this->Cod_paciente_Historial_tratamiento_id;
+    }
+    public function getFecha_historial_tratamiento() {
+        return $this->Fecha_historial_tratamiento;
+    }
+    public function getHora_historial_tratamiento() {
+        return $this->Hora_historial_tratamiento;
+    }
+    public function getDescripcion_historial_tratamiento() {
+        return $this->Descripcion_historial_tratamiento;
+    }
+
+    public function setTratamiento_id($Tratamiento_id) {
+        $this->Tratamiento_id = $Tratamiento_id;
+    }
+    public function setHistorial_tratamiento_id($Historial_tratamiento_id) {
+        $this->Historial_tratamiento_id = $Historial_tratamiento_id;
+    }
+    public function setCod_paciente_Historial_tratamiento_id($Cod_paciente_Historial_tratamiento_id) {
+        $this->Cod_paciente_Historial_tratamiento_id = $Cod_paciente_Historial_tratamiento_id;
+    }
+    public function setFecha_historial_tratamiento($Fecha_historial_tratamiento) {
+        $this->Fecha_historial_tratamiento = $Fecha_historial_tratamiento;
+    }
+    public function setHora_historial_tratamiento($Hora_historial_tratamiento) {
+        $this->Hora_historial_tratamiento = $Hora_historial_tratamiento;
+    }
+    public function setDescripcion_historial_tratamiento($Descripcion_historial_tratamiento) {
+        $this->Descripcion_historial_tratamiento = $Descripcion_historial_tratamiento;
+    }
 
     public function getCita_id() {
         return $this->Cita_id;
@@ -345,6 +392,54 @@ class Cita extends Conexion {
         return false;
     }
 
+    public function agregarHistorialTratamiento() {
+        $this->dblink->beginTransaction();
+
+        try {
+            $sql = "select * from f_generar_correlativo('historial_tratamiento') as nc";
+            $sentencia = $this->dblink->prepare($sql);
+            $sentencia->execute();
+
+            if ($sentencia->rowCount()) {
+                $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+                $nuevoCodigo = $resultado["nc"];
+                $this->setHistorial_tratamiento_id($nuevoCodigo);
+
+                /* Insertar en la tabla laboratorio */
+                $sql = "
+                    select * from fn_registrarCita_historialTratamiento(
+                                                :p_tratamiento_id,
+                                                :p_cita_id,
+                                                :p_historial_tratamiento_id,
+                                                :p_cod_pac,
+                                                :p_fechaHisTra,
+                                                :p_horaHisTra,
+                                                :p_descripcionHisTra
+                                             );
+                    ";
+                $sentencia = $this->dblink->prepare($sql);
+                $sentencia->bindParam(":p_tratamiento_id", $this->getTratamiento_id());
+                $sentencia->bindParam(":p_cita_id", $this->getCita_id());
+                $sentencia->bindParam(":p_historial_tratamiento_id", $this->getHistorial_tratamiento_id());
+                $sentencia->bindParam(":p_cod_pac", $this->getCod_paciente_Historial_tratamiento_id());
+                $sentencia->bindParam(":p_fechaHisTra", $this->getFecha_historial_tratamiento());
+                $sentencia->bindParam(":p_horaHisTra", $this->getHora_historial_tratamiento());
+                $sentencia->bindParam(":p_descripcionHisTra", $this->getDescripcion_historial_tratamiento());
+                $sentencia->execute();
+                
+                $this->dblink->commit();
+                return true;
+            } else {
+                throw new Exception("No se ha configurado el correlativo para la tabla cita y paciente");
+            }
+        } catch (Exception $exc) {
+            $this->dblink->rollBack();
+            throw $exc;
+        }
+ 
+        return false;
+    }
+
     public function leerDatos($p_codigoPaciente) {
         try {
             $sql = "
@@ -374,6 +469,36 @@ class Cita extends Conexion {
                 ";
             $sentencia = $this->dblink->prepare($sql);
             $sentencia->bindParam(":p_codigo_paciente", $p_codigoPaciente);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function leerDatosHistorialTratamiento($p_codigoCita, $p_codigoPaciente) {
+        try {
+            $sql = "
+                    select 
+                        c.cita_id,
+                        c.paciente_id,
+                        t.fecha,
+                        t.hora,
+                        t.descripcion,
+                        t.tratamiento_id
+                        
+                    from 
+                        cita c inner join paciente p
+                    on
+                        c.paciente_id = p.paciente_id inner join historial_tratamiento t
+                    on
+                        p.paciente_id = t.paciente_id
+                    where
+                        c.paciente_id = $p_codigoPaciente and c.cita_id = $p_codigoCita;
+                ";
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_codigo_paciente", $p_codigoPaciente);
             $sentencia->execute();
             $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
             return $resultado;

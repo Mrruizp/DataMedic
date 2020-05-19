@@ -5,7 +5,7 @@ $(document).ready(function () {
     cargarCbCodigoEspecialidad("#especialidad", "seleccione");
     cargarCbCodigoFecha("#txtFecha", "seleccione");
     cargarCbCodigoHora("#txtHora", "seleccione");
-    
+    cargarCbTratamiento("#comboTratamiento", "seleccione");
 });
 
 //cargarCbCodigoDoctor("#doctor", "seleccione");
@@ -52,7 +52,7 @@ function listar() {
                 html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalPaciente" onclick="leerDatos(' + item.paciente_id + ')"><ion-icon name="person-outline"></ion-icon></button>';
                 html += '</td>';
                 html += '<td align="center">';
-                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalTratamiento" onclick="leerDatos(' + item.paciente_id + ')"><ion-icon name="document-text-outline"></ion-icon></button>';
+                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalTratamientoPaciente" onclick="leerDatosTratamiento(' + item.cita_id + ','+ item.paciente_id +')"><ion-icon name="document-text-outline"></ion-icon></button>';
                 html += '</td>';
 
                 if(item.estado === "Cita confirmada")
@@ -305,6 +305,97 @@ $("#frmgrabarEstado").submit(function (event) {
                             {
                                 p_cod_citaEstado:  $("#txtCod_citaEstado").val(),
                                 p_estado_cita:         $("#hab_desh_proc").val()
+
+                            }
+                    ).done(function (resultado) {
+                        var datosJSON = resultado;
+
+                        if (datosJSON.estado === 200) {
+                            swal("Exito", datosJSON.mensaje, "success");
+                            $("#btncerrar").click(); //Cerrar la ventana 
+                            listar(); //actualizar la lista
+                            $("#btncerrarEstado").click(); //Cerrar la ventana 
+                        } else {
+                            swal("Mensaje del sistema", resultado, "warning");
+                        }
+
+                    }).fail(function (error) {
+                        var datosJSON = $.parseJSON(error.responseText);
+                        swal("Error", datosJSON.mensaje, "error");
+                    });
+
+                }
+            });
+
+});
+
+
+$("#btnagregar").click(function () {
+    $("#txtTipoOperacion").val("agregar");
+    $("#txtCodigo").val("");
+    $("#txtCurso").val("");
+$("#titulomodal").html("Agregar nuevo Curso");
+});
+
+
+$("#myModal").on("shown.bs.modal", function () {
+    $("#txtPuesto").focus();
+});
+
+function leerDatosTratamiento(codigo_cita, codigo_paciente) {
+    $.post
+            (
+                    "../controller/gestionarHistorialTratamiento.leer.datos.controller.php",
+                    {
+                        p_codigo_cita: codigo_cita,
+                        p_codigo_paciente: codigo_paciente
+                    }
+            ).done(function (resultado) {
+        var jsonResultado = resultado;
+        if (jsonResultado.estado === 200) {
+            $("#txtTipoOperacion").val("editar");
+            
+            $("#comboTratamiento").val(jsonResultado.datos.tratamiento_id);
+            $("#txtCod_citaTratamiento").val(jsonResultado.datos.cita_id);
+            $("#txtCod_paciente").val(jsonResultado.datos.paciente_id);
+            $("#txtFechaTratamiento").val(jsonResultado.datos.fecha);
+            $("#txtHoraTratamiento").val(jsonResultado.datos.hora);
+            $("#txtDescripcionTratamientoPaciente").val(jsonResultado.datos.descripcion);
+           
+            $("#titulomodalTratamientoPaciente").html("Detalle del tratamiento");
+        }
+    }).fail(function (error) {
+        var datosJSON = $.parseJSON(error.responseText);
+        swal("Error", datosJSON.mensaje, "error");
+    });
+}
+
+$("#frmgrabarTratamientoPaciente").submit(function (event) {
+    event.preventDefault();
+
+    swal({
+        title: "Confirme",
+        text: "¿Esta seguro de grabar los datos ingresados?",
+        showCancelButton: true,
+        confirmButtonColor: '#3d9205',
+        confirmButtonText: 'Si',
+        cancelButtonText: "No",
+        closeOnConfirm: false,
+        closeOnCancel: true,
+        imageUrl: "../images/pregunta.png"
+    },
+            function (isConfirm) {
+
+                if (isConfirm) { 
+                    $.post(
+                            "../controller/gestionarHistorialTratamiento.agregar.editar.controller.php",
+                            {
+                                p_cod_tratamiento:            $("#comboTratamiento").val(),
+                                p_cod_citaTratamiento:        $("#txtCod_citaTratamiento").val(),
+                                p_cod_paciente:               $("#txtCod_paciente").val(),
+                                p_fechaHistTratamiento:       $("#txtFechaTratamiento").val(),
+                                p_horaHistTratamiento:        $("#txtHoraTratamiento").val(),
+                                p_descripcionHistTratamiento: $("#txtDescripcionTratamientoPaciente").val()
 
                             }
                     ).done(function (resultado) {
