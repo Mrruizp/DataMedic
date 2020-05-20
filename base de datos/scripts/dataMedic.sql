@@ -317,7 +317,7 @@ insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
 values(3,1,'Paciente', 'gestionarPaciente.view.php');
 
 update menu_item
-set nombre = 'Paciente'
+set archivo = 'gestionarHCPaciente.view.php'
 where
 	codigo_menu = 3 and codigo_menu_item = 1
 insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
