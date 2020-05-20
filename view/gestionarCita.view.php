@@ -65,7 +65,15 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                           
                             <div class="card-body">
                               <div class="form-group">
+                            <?php
+
+                              if($_SESSION["tipo"] !== "D")
+                              {
+                            ?>
                                 <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#myModal" id="btnagregar"><ion-icon name="calendar-outline"></ion-icon> Agregar cita</button>
+                            <?php
+                              }
+                            ?>
                               </div>
                               <div class="form-group">
                                <div id="listado" class="table table-responsive"></div>
