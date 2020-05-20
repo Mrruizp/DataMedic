@@ -47,6 +47,59 @@ class HCPaciente extends Conexion {
         }
     }
 
+    public function agregarDatosAdicionales(
+                                                    $codigo_paciente,
+                                                    $raza,
+                                                    $procedencia,
+                                                    $instruccion,
+                                                    $religion,
+                                                    $domicilio,
+                                                    $telefPacHC,
+                                                    $fechaIngresoPaciente,
+                                                    $horaHistClinica,
+                                                    $modoIngreso,
+                                                    $fechaHistClinica,
+                                                    $enfermedadActual,
+                                                    $personaResponsable_paciente1,
+                                                    $telefono_paciente2
+                                                ) {
+        $this->dblink->beginTransaction();
+
+        try {
+                $sql = "
+                        update 
+                            paciente
+                        set
+                            raza                          = '$raza', 
+                            procedencia                   = '$procedencia',
+                            instruccion                   = '$instruccion',
+                            religion                      = '$religion',
+                            domicilio                     = '$domicilio',
+                            telefono                      = '$telefPacHC',
+                            personaresponsable            = '$personaResponsable_paciente1',
+                            personaresponsable_telefono   = '$telefono_paciente2',
+                            fecha_ingreso                 = '$fechaIngresoPaciente',
+                            hora                          = '$horaHistClinica',
+                            modoingreso                   = '$modoIngreso',
+                            fecha_historia_clinica        = '$fechaHistClinica',
+                            descripcion_enfermedad_actual = '$enfermedadActual'
+                        where
+                            paciente_id = $codigo_paciente;
+                    ";
+                $sentencia = $this->dblink->prepare($sql);
+                $sentencia->execute();
+                
+                $this->dblink->commit();
+                return true;
+             
+        } catch (Exception $exc) {
+            $this->dblink->rollBack();
+            throw $exc;
+        }
+ 
+        return false;
+    }
+
     public function leerDatos($p_codigoPaciente) {
         try {
             $sql = "

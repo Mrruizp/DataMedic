@@ -347,15 +347,15 @@ values(2,1,2,1);
 insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
 values(2,2,2,1);
 insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
-values(3,1,2,0);
+values(3,1,2,1);
 insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
 values(4,1,2,1);
 insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
 values(5,1,2,0);
 
 update menu_item_accesos
-set acceso = '0'
-where codigo_menu = 2 and codigo_menu_item = 1
+set acceso = '1'
+where codigo_menu = 3 and codigo_menu_item = 1
 -- Cliente
 
 insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)

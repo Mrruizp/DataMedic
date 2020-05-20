@@ -103,7 +103,7 @@ function listar() {
 }
 
 
-$("#frmgrabar").submit(function (event) {
+$("#frmgrabarDatosAdicionales").submit(function (event) {
     event.preventDefault();
 
     swal({
@@ -120,44 +120,26 @@ $("#frmgrabar").submit(function (event) {
             function (isConfirm) {
 
                 if (isConfirm) { //el usuario hizo clic en el boton SI     
-                    //procedo a grabar
-                    //Llamar al controlador para grabar los datos
-
-                    //var codLab = ($("#txtTipoOperacion").val()==="agregar")? 
-
-                    var codCita = "";
-                    if ($("#txtTipoOperacion").val() === "agregar") {
-                        codCita = "0";
-                    } else {
-                        codCita = $("#txtCodigo").val();
-                    }
+                    
                     $.post(
-                            "../controller/gestionarCita.agregar.editar.controller.php",
-                            {
-                                p_doc_id:       $("#txtDoc_id").val(),
-                                p_fecha:        $("#txtFecha").val(),
-                                p_hora:         $("#txtHora").val(),
-                                //p_especialidad: $("#especialidad").val(),
-                                p_doctor:       $("#doctor").val(),
-                                p_descripcion:  $("#txtDescripcion").val(),
-                    // Paciente:
-                                p_doc_id_paciente:  $("#txtDoc_id_paciente").val(),
-                                p_ciudad_paciente:  $("#txtCiudad_paciente").val(),
-                                p_estadoCivil_paciente:  $("#estadoCivil_paciente").val(),
-                                p_edad_paciente:         $("#edad_paciente").val(),
-                                p_nombre_paciente:       $("#txtNombre_paciente").val(),
-                                p_apellidos_paciente:    $("#txtApellidos_paciente").val(),
-                                p_sexo_paciente:         $("#sexo_paciente").val(),
-                                p_ocupacion_paciente:    $("#txtOcupacion_paciente").val(),
-                                p_religion_paciente:     $("#txtReligion_paciente").val(),
-                                p_domicilio_paciente:    $("#txtDomicilio_paciente").val(),
-                                p_telefono_paciente:     $("#txtTelefono_paciente").val(),
-                                p_personaResponsable_paciente:   $("#txtPersonaResponsable_paciente").val(),
-                                p_telefonoResponsable_paciente:  $("#txtTelefonoResponsable_paciente").val(),
-
-                                p_tipo_ope:     $("#txtTipoOperacion").val(),
-                                p_codigo_curso: codCita
+                            "../controller/gestionarHCPaciente.agregar.editar.controller.php",
+                            {                 
+                                p_codigo_paciente: $("#txtcod_paciente").val(),         
+                                p_raza: $("#txtRaza").val(),
+                                p_procedencia:$("#txtProcedencia").val(),
+                                p_instruccion:$("#txtInstruccion").val(),
+                                p_religion:$("#txtReligion").val(),
+                                p_domicilio:$("#txtDomicilio").val(),
+                                p_telefPacHC:$("#txtTelefonoPacHistClinica").val(),
+                                p_fechaIngresoPaciente:$("#txtFechaIngresoPaciente").val(),
+                                p_horaHistClinica:$("#txtHoraHistClinica").val(),
+                                p_modoIngreso:$("#txtModoIngreso").val(),
+                                p_fechaHistClinica:$("#txtFechaHistClinica").val(),
+                                p_enfermedadActual:$("#txtEnfermedadActual").val(),
+                                p_personaResponsable_paciente1:$("#txtPersonaResponsable_paciente1").val(),
+                                p_telefono_paciente2:$("#txtTelefono_paciente2").val(),
                             }
+
                     ).done(function (resultado) {
                         var datosJSON = resultado;
 
@@ -203,8 +185,9 @@ function leerDatos(codigo_paciente) {
             ).done(function (resultado) {
         var jsonResultado = resultado;
         if (jsonResultado.estado === 200) {
-            $("#txtTipoOperacion").val("editar");
+           // $("#txtTipoOperacion").val("editar");
             // Paciente:
+            $("#txtcod_paciente").val(jsonResultado.datos.paciente_id);
             $("#txtRaza").val(jsonResultado.datos.raza);
             $("#txtProcedencia").val(jsonResultado.datos.procedencia);
             $("#txtInstruccion").val(jsonResultado.datos.instruccion);
@@ -228,38 +211,3 @@ function leerDatos(codigo_paciente) {
     });
 }
 
-function eliminar(codCurso) {
-    swal({
-        title: "Confirme",
-        text: "¿Esta seguro de eliminar el registro seleccionado?",
-        showCancelButton: true,
-        confirmButtonColor: '#d93f1f',
-        confirmButtonText: 'Si',
-        cancelButtonText: "No",
-        closeOnConfirm: false,
-        closeOnCancel: true,
-        imageUrl: "../images/eliminar2.png"
-    },
-            function (isConfirm) {
-                if (isConfirm) {
-                    $.post(
-                            "../controller/gestionarCurso.eliminar.controller.php",
-                            {
-                                p_codigo_curso: codCurso
-                            }
-                    ).done(function (resultado) {
-                        var datosJSON = resultado;
-                        if (datosJSON.estado === 200) { //ok
-                            listar();
-                            swal("Exito", datosJSON.mensaje, "success");
-                        }
-
-                    }).fail(function (error) {
-                        var datosJSON = $.parseJSON(error.responseText);
-                        swal("Error", datosJSON.mensaje, "error");
-                    });
-
-                }
-            });
-
-}

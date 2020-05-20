@@ -77,7 +77,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
 
               </section>
               
-              <form id="frmgrabar" class="form-horizontal">
+              <form id="frmgrabarDatosAdicionales" class="form-horizontal">
                 <div class="modal fade" id="myModalPaciente">
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -91,7 +91,10 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                           <div class="row">
                             <div class="col-6">
                                 <p>
-                                    
+                                    <input type="hidden" 
+                                                  name="txtcod_paciente" 
+                                                  id="txtcod_paciente" 
+                                                  class="form-control input-sm">
                                     Domicilio<input type="text" 
                                                   name="txtDomicilio" 
                                                   id="txtDomicilio" 
@@ -237,6 +240,15 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                       </div>
                       <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-danger" data-dismiss="modal" id="btncerrar">Close</button>
+                      <?php
+
+                              if($_SESSION["tipo"] === "A")
+                              {
+                            ?>
+                        <button type="submit" class="btn btn-outline-info"><ion-icon name="save-outline"></ion-icon>  Registrar</button>
+                      <?php
+                              }
+                            ?>
                       </div>
                     </div>
                     <!-- /.modal-content -->
