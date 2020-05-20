@@ -13,7 +13,7 @@ $(document).ready(function () {
 function listar() {
     $.post
             (       // gestionarPaciente.listar.controller.php
-                    "../controller/gestionarCita.listar.controller.php"
+                    "../controller/gestionarHCPaciente.listar.controller.php"
 
                     ).done(function (resultado) {
         var datosJSON = resultado;
@@ -41,14 +41,26 @@ function listar() {
             html += '<tbody>';
             $.each(datosJSON.datos, function (i, item) {
                 html += '<tr>';
-                html += '<td align="center" style="font-weight:normal">' + item.cita_id + '</td>';
-                html += '<td align="center" style="font-weight:normal">' + item.fecha + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.paciente_id + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.doc_id + '</td>';
 
-                html += '<td align="center" style="font-weight:normal">' + item.hora + '</td>';
-                html += '<td align="center" style="font-weight:normal">' + item.descripcion + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.nombres + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.apellidos + '</td>';
 
-                html += '<td align="center" style="font-weight:normal">' + item.nombrecompleto + '</td>';
-                html += '<td align="center" style="font-weight:normal">' + item.nombresdoctor + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.edad + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.sexo + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.naturalde + '</td>';
+                
+                if(item.estado_civil === "S")
+                    html += '<td align="center" style="font-weight:normal">Soltero(a)</td>';
+                if(item.estado_civil === "C")
+                    html += '<td align="center" style="font-weight:normal">Casado(a)</td>';
+                if(item.estado_civil === "V")
+                    html += '<td align="center" style="font-weight:normal">Viudo(a)</td>';
+                if(item.estado_civil === "D")
+                    html += '<td align="center" style="font-weight:normal">Divorciado(a)</td>';
+
+                html += '<td align="center" style="font-weight:normal">' + item.ocupacion + '</td>';
                 html += '<td align="center">';
                 html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalPaciente" onclick="leerDatos(' + item.paciente_id + ')"><ion-icon name="person-outline"></ion-icon></button>';
                 html += '</td>';
@@ -56,17 +68,6 @@ function listar() {
                 html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalTratamiento" onclick="leerDatos(' + item.paciente_id + ')"><ion-icon name="document-text-outline"></ion-icon></button>';
                 html += '</td>';
 
-                if(item.estado === "Cita confirmada")
-                {
-                    html += '<td align="center" style="font-weight:normal" class="text-primary"><b>' + item.estado + '</b></td>';
-                }else
-                    html += '<td align="center" style="font-weight:normal"class="text-danger"><b>' + item.estado + '</b></td>';
-                html += '<td align="center">';
-                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalPaciente" onclick="leerDatos(' + item.paciente_id + ')"><ion-icon name="document-text-outline"></ion-icon></button>';
-                html += '</td>';
-                html += '<td align="center">';
-                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalPaciente" onclick="leerDatos(' + item.paciente_id + ')"><ion-icon name="document-text-outline"></ion-icon></button>';
-                html += '</td>';
                 html += '</tr>';
             });
 

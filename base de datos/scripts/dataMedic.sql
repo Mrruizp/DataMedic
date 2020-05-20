@@ -314,7 +314,7 @@ insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
 values(2,2,'Gestionar Cita', 'gestionarCita.view.php');
 
 insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
-values(3,1,'Gestionar datos Paciente', 'gestionarPaciente.view.php');
+values(3,1,'Paciente', 'gestionarPaciente.view.php');
 
 update menu_item
 set nombre = 'Paciente'

@@ -895,7 +895,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
          
         <!-- ./wrapper -->
         <?php include_once 'scripts.view.php'; ?>
-        <script src="js/gestionarPaciente.js" type="text/javascript"></script>
+        <script src="js/gestionarHCPaciente.js" type="text/javascript"></script>
         <script src="js/cbCodigo.js" type="text/javascript"></script>
     <!--
         <script src="js/convocatoriaVigente.js" type="text/javascript"></script>
