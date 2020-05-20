@@ -47,6 +47,35 @@ class HCPaciente extends Conexion {
         }
     }
 
+    public function listarHistorialTratamiento($codPaciente) {
+        try {
+
+                $sql = "
+                        select 
+                            p.doc_id,
+                            h.historial_tratamiento_id,
+                            h.fecha,
+                            h.hora,
+                            h.descripcion,
+                            t.nombre_tratamiento
+                        from
+                            paciente p inner join historial_tratamiento h
+                        on
+                            p.paciente_id = h.paciente_id inner join tratamiento t
+                        on
+                            h.tratamiento_id = t.tratamiento_id
+                        where
+                            h.paciente_id = $codPaciente;                            
+                ";
+            $sentencia = $this->dblink->prepare($sql);
+            $sentencia->execute();
+            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
     public function agregarDatosAdicionales(
                                                     $codigo_paciente,
                                                     $raza,

@@ -2,6 +2,7 @@
 $(document).ready(function () {
     
     listar();
+    //listarHistPaciente();
     cargarCbCodigoEspecialidad("#especialidad", "seleccione");
     cargarCbCodigoFecha("#txtFecha", "seleccione");
     cargarCbCodigoHora("#txtHora", "seleccione");
@@ -65,7 +66,7 @@ function listar() {
                 html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalPaciente" onclick="leerDatos(' + item.paciente_id + ')"><ion-icon name="person-outline"></ion-icon></button>';
                 html += '</td>';
                 html += '<td align="center">';
-                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalTratamiento" onclick="leerDatos(' + item.paciente_id + ')"><ion-icon name="document-text-outline"></ion-icon></button>';
+                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalHTratamiento" onclick="listarHistPaciente(' + item.paciente_id + ')"><ion-icon name="document-text-outline"></ion-icon></button>';
                 html += '</td>';
 
                 html += '</tr>';
@@ -208,6 +209,78 @@ function leerDatos(codigo_paciente) {
     }).fail(function (error) {
         var datosJSON = $.parseJSON(error.responseText);
         swal("Error", datosJSON.mensaje, "error");
+    });
+}
+
+
+function listarHistPaciente(codigo_paciente) {
+    $.post
+            (       // gestionarPaciente.listar.controller.php
+                    "../controller/gestionarHCPacienteHistorialTratamiento.listar.controller.php",
+                        {
+                            p_codigo_paciente: codigo_paciente
+                        }
+                    ).done(function (resultado) {
+        var datosJSON = resultado;
+
+        if (datosJSON.estado === 200) {
+            
+            var html = "";
+
+            html += '<small>';
+            html += '<table id="tabla-listadoHistPaciente" class="table table-bordered table-hover">';
+            html += '<thead>';
+            html += '<tr class="bg-light">';
+            html += '<th style="text-align:center">CODIGO</th>';
+            html += '<th style="text-align:center">FECHA</th>';
+            html += '<th style="text-align: center">HORA</th>';
+            html += '<th style="text-align: center">DESCRIPCION</th>';
+            html += '<th style="text-align: center">TRATAMIENTO</th>';
+            html += '</tr>';
+            html += '</thead>';
+            html += '<tbody>';
+            $.each(datosJSON.datos, function (i, item) {
+                $("#txtDoc_id_paciente1").val(item.doc_id);
+                html += '<tr>';
+                html += '<td align="center" style="font-weight:normal">' + item.historial_tratamiento_id + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.fecha + '</td>';
+
+                html += '<td align="center" style="font-weight:normal">' + item.hora + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.descripcion + '</td>';
+
+                html += '<td align="center" style="font-weight:normal">' + item.nombre_tratamiento + '</td>';
+
+                html += '</tr>';
+            });
+
+            html += '</tbody>';
+            html += '</table>';
+            html += '</small>';
+
+            $("#listadoHistPaciente").html(html);
+
+/*
+            $('#tabla-listado').dataTable({
+                "aaSorting": [[1, "asc"]]
+            });
+
+            */
+            $('#tabla-listadoHistPaciente').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "sScrollX": false,
+          });
+        } else {
+            //swal("Mensaje del sistema", resultado , "warning");
+        }
+
+    }).fail(function (error) {
+        var datosJSON = $.parseJSON(error.responseText);
+        //swal("Error", datosJSON.mensaje , "error"); 
     });
 }
 
