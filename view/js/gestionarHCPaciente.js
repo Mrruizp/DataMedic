@@ -50,7 +50,7 @@ function listar() {
                 html += '<td align="center" style="font-weight:normal">' + item.edad + '</td>';
                 html += '<td align="center" style="font-weight:normal">' + item.sexo + '</td>';
                 html += '<td align="center" style="font-weight:normal">' + item.naturalde + '</td>';
-                
+
                 if(item.estado_civil === "S")
                     html += '<td align="center" style="font-weight:normal">Soltero(a)</td>';
                 if(item.estado_civil === "C")
@@ -196,7 +196,7 @@ $("#myModal").on("shown.bs.modal", function () {
 function leerDatos(codigo_paciente) {
     $.post
             (
-                    "../controller/gestionarCita.leer.datos.controller.php",
+                    "../controller/gestionarHCPaciente.leer.datos.controller.php",
                     {
                         p_codigo_paciente: codigo_paciente
                     }
@@ -205,17 +205,17 @@ function leerDatos(codigo_paciente) {
         if (jsonResultado.estado === 200) {
             $("#txtTipoOperacion").val("editar");
             // Paciente:
-            $("#txtDoc_id_paciente1").val(jsonResultado.datos.doc_id);
-            $("#txtCiudad_paciente1").val(jsonResultado.datos.naturalde);
-            $("#estadoCivil_paciente1").val(jsonResultado.datos.estado_civil);
-            $("#edad_paciente1").val(jsonResultado.datos.edad);
-            $("#txtNombre_paciente1").val(jsonResultado.datos.nombres);
-            $("#txtApellidos_paciente1").val(jsonResultado.datos.apellidos);
-            $("#sexo_paciente1").val(jsonResultado.datos.sexo);
-            $("#txtOcupacion_paciente1").val(jsonResultado.datos.ocupacion);
-            $("#txtReligion_paciente1").val(jsonResultado.datos.religion);
-            $("#txtDomicilio_paciente1").val(jsonResultado.datos.domicilio);
-            $("#txtTelefono_paciente1").val(jsonResultado.datos.telefono);
+            $("#txtRaza").val(jsonResultado.datos.raza);
+            $("#txtProcedencia").val(jsonResultado.datos.procedencia);
+            $("#txtInstruccion").val(jsonResultado.datos.instruccion);
+            $("#txtReligion").val(jsonResultado.datos.religion);
+            $("#txtDomicilio").val(jsonResultado.datos.domicilio);
+            $("#txtTelefonoPacHistClinica").val(jsonResultado.datos.telefono);
+            $("#txtFechaIngresoPaciente").val(jsonResultado.datos.fecha_ingreso);
+            $("#txtHoraHistClinica").val(jsonResultado.datos.hora);
+            $("#txtModoIngreso").val(jsonResultado.datos.modoingreso);
+            $("#txtFechaHistClinica").val(jsonResultado.datos.fecha_historia_clinica);
+            $("#txtEnfermedadActual").val(jsonResultado.datos.descripcion_enfermedad_actual);
             $("#txtPersonaResponsable_paciente1").val(jsonResultado.datos.personaresponsable);
             $("#txtTelefono_paciente2").val(jsonResultado.datos.personaresponsable_telefono);
 
