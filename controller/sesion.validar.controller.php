@@ -14,11 +14,14 @@ try {
 //        if (!isset($_POST["txtClave"]) || $_POST["txtClave"] == "") {
 //        Helper::mensaje("Debe ingresar su clave", "e", "../view/index.php", 5);
 //        }
+    
+
     $objSesion = new Sesion();
     $objSesion->setEmail($email);
     $objSesion->setClave($clave);
 
     $resultado = $objSesion->iniciarSesion();
+    
     Helper::imprimeJSON(200, "", $resultado);
 
 } catch (Exception $exc) {

@@ -122,7 +122,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                 <!-- /.modal -->
               </form>
               
-            <?php include_once 'pie.view.php'; ?>
+            <!--<?php include_once 'pie.view.php'; ?>-->
 
             <!-- Control Sidebar -->
             <?php // include_once 'opciones-derecha.view.php'; ?>

@@ -3,134 +3,61 @@
 require_once '../data/Conexion.class.php';
 
 class Usuario extends Conexion {
-    private $CodigoUsuario;
+
+    private $Cod_credenciales;
     private $Dni;
+    private $NombresCompleto;
     private $P_foto;
-    private $Nombres;
-    private $Apellidos;
-    private $Direccion;
     private $Email;
-    private $Telefono;
-    private $Sexo;
-    private $Edad;
-    private $Cargo;
-    private $Constrasenia;
-    private $Tipo;
-    private $Estado;
+    private $Password;
     //private $Cuenta;
 
-    public function getCodigoUsuario() {
-        return $this->CodigoUsuario;
+    public function getCod_credenciales() {
+        return $this->Cod_credenciales;
     }
 
     public function getDni() {
         return $this->Dni;
     }
 
+    public function getNombresCompleto() {
+        return $this->NombresCompleto;
+    }
+
     public function getP_foto() {
         return $this->P_foto;
     }
 
-    public function getNombres() {
-        return $this->Nombres;
-    }
-
-    public function getApellidos() {
-        return $this->Apellidos;
-    }
-
-    public function getDireccion() {
-        return $this->Direccion;
-    }
-
-    public function getEmail(){
+    public function getEmail() {
         return $this->Email;
     }
 
-    public function getTelefono(){
-        return $this->Telefono;
+    public function getPassword() {
+        return $this->Password;
     }
 
-    public function getSexo(){
-        return $this->Sexo;
-    }
-    
-    public function getEdad(){
-        return $this->Edad;
-    }
-
-    public function getCargo()
-    {
-        return $this->Cargo; // es el código del cargo
-    }
-
-    public function getConstrasenia(){
-        return $this->Constrasenia;
-    }
-
-    public function getTipo()
-    {
-        return $this->Tipo;
-    }
-
-    public function getEstado(){
-        return $this->Estado;
-    }
-
-    public function setCodigoUsuario($CodigoUsuario) {
-        $this->CodigoUsuario = $CodigoUsuario;
+    public function setCod_credenciales($Cod_credenciales) {
+        $this->Cod_credenciales = $Cod_credenciales;
     }
 
     public function setDni($Dni) {
         $this->Dni = $Dni;
     }
 
+    public function setNombresCompleto($NombresCompleto) {
+        $this->NombresCompleto = $NombresCompleto;
+    }
+
     public function setP_foto($P_foto) {
         $this->P_foto = $P_foto;
     }
 
-    public function setNombres($Nombres) {
-        $this->Nombres = $Nombres;
-    }
-
-    public function setApellidos($Apellidos) {
-        $this->Apellidos = $Apellidos;
-    }
-
-    public function setDireccion($Direccion) {
-        $this->Direccion = $Direccion;
-    }
-
-    public function SetEmail($Email){
+    public function setEmail($Email) {
         $this->Email = $Email;
     }
 
-    public function setTelefono($Telefono) {
-        $this->Telefono = $Telefono;
-    }
-
-    public function setSexo($Sexo) {
-        $this->Sexo = $Sexo;
-    }
-
-    public function setEdad($Edad) {
-        $this->Edad = $Edad;
-    }
-
-    public function SetCargo($Cargo){
-        $this->Cargo = $Cargo;
-    }
-
-    public function SetConstrasenia($Constrasenia){
-        $this->Constrasenia = $Constrasenia;
-    }
-
-    public function SetTipo($Tipo){
-        $this->Tipo = $Tipo;
-    }
-
-    public function SetEstado($Estado){
-        $this->Estado = $Estado;
+    public function setPassword($Password) {
+        $this->Password = $Password;
     }
 
     public function listar() {
@@ -225,7 +152,7 @@ class Usuario extends Conexion {
             if ($sentencia->rowCount()){
                 $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
                 $nuevoCodigo = $resultado["nc"];
-                $this->setCodigoUsuario($nuevoCodigo);
+                $this->setCod_credenciales($nuevoCodigo);
                 
                 /*Insertar en la tabla candidato*/
 //                $sql = "
@@ -233,45 +160,23 @@ class Usuario extends Conexion {
 //                    values(:p_cod_lab, :p_nomb, :p_codigo_pais)
 //                    ";
                 
-                $sql = "select * from fn_registrarUsuario(                    
-                                        :p_cod_usuario,
-                                        :p_doc_id, 
-                                        :p_nombres,
-                                        :p_apellidos, 
-                                        :p_direccion, 
-                                        :p_telefono, 
-                                        :p_sexo, 
-                                        :p_edad, 
-                                        :p_email, 
-                                        :p_cargo_id, 
-                                        :p_clave,
-                                        :p_tipo,
-                                        :p_estado
-                                     );";
+                $sql = "select * from fn_registrarUsuario_cliente(   
+                                                :p_cod_credenciales,  
+                                                :p_doc_id, 
+                                                :p_nombreCompleto,
+                                                :p_email, 
+                                                :p_password
+                                             );
+                        ";
                 $sentencia = $this->dblink->prepare($sql);
                 // $sentencia->bindParam(":p_codigoCandidato", $this->getCodigoCandidato());
-                $sentencia->bindParam(":p_cod_usuario", $this->getCodigoUsuario());
+                $sentencia->bindParam(":p_cod_credenciales", $this->getCod_credenciales());
                 $sentencia->bindParam(":p_doc_id", $this->getDni());
-                $sentencia->bindParam(":p_nombres", $this->getNombres());
-                $sentencia->bindParam(":p_apellidos", $this->getApellidos());
-                $sentencia->bindParam(":p_direccion", $this->getDireccion());
-                $sentencia->bindParam(":p_telefono", $this->getTelefono());
-                $sentencia->bindParam(":p_sexo", $this->getSexo());
-                $sentencia->bindParam(":p_edad", $this->getEdad());
+                $sentencia->bindParam(":p_nombreCompleto", $this->getNombresCompleto());
                 $sentencia->bindParam(":p_email", $this->getEmail());
-                $sentencia->bindParam(":p_cargo_id", $this->getCargo());
-                $sentencia->bindParam(":p_clave", $this->getConstrasenia());
-                $sentencia->bindParam(":p_tipo", $this->getTipo());
-                $sentencia->bindParam(":p_estado", $this->getEstado());
+                $sentencia->bindParam(":p_password", $this->getPassword());
                 $sentencia->execute();
-                /*Insertar en la tabla laboratorio*/
                 
-                /*Actualizar el correlativo*/
-                $sql = "update correlativo set numero = numero + 1 
-                        where tabla='credenciales_acceso'";
-                $sentencia = $this->dblink->prepare($sql);
-                $sentencia->execute();
-                /*Actualizar el correlativo*/
                 $this->dblink->commit();
                 return true;
                 

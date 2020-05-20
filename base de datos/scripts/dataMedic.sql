@@ -16,10 +16,10 @@ CREATE TABLE correlativo
 
 CREATE TABLE USUARIO
 (
-	doc_id character varying(20) null,
-    nombreCompleto character varying(100) not null,
-	direccion character varying(200) not null,
-    telefono character varying(25) null,
+	doc_id character varying(20),
+    nombreCompleto character varying(100),
+	direccion character varying(200),
+    telefono character varying(25),
    -- sexo char(1) not null, -- Mujer: 0, Hombre: 1 
    -- edad char(2) not null,
     email character varying(150) not null,
@@ -28,6 +28,9 @@ CREATE TABLE USUARIO
     constraint fk_usuario_cargo_id foreign key(cargo_id) references cargo(cargo_id),
 	CONSTRAINT uni_email UNIQUE (email)
 );
+
+-- ALTER TABLE USUARIO ALTER COLUMN direccion  DROP  NOT NULL;
+-- ALTER TABLE USUARIO ALTER COLUMN telefono  DROP  NOT NULL;
 
 -- select * from usuario
 CREATE TABLE CREDENCIALES_ACCESO
@@ -274,6 +277,8 @@ insert into correlativo
 values('tratamiento',2); 
 insert into correlativo
 values('historial_tratamiento',1);
+insert into correlativo
+values('credenciales_acceso',0);
 
 
  -- Registros   select * from menu
@@ -373,7 +378,9 @@ values(5,1,3,0);
 -- select * from menu_item_accesos
 select * from menu_item_accesos
 
-
+update menu_item_accesos
+set acceso = '0'
+where codigo_menu = 3 and codigo_menu_item = 1 and cargo_id = 3
 
 insert into usuario(doc_id,nombrecompleto, direccion, telefono,email,cargo_id)
 values('45977448','Juan Benito casas','Av. Guardia Civil, urb. Proceres #4456. Surco','996456547','juanBenito@hotmail.com',1);
@@ -756,10 +763,58 @@ select * from fn_registrarCita_historialTratamiento(
 											 ) 
 
 
+-- función para que el usuario cliente pueda crear su cuenta
+CREATE OR REPLACE FUNCTION fn_registrarUsuario_cliente(
+												p_codigo_usuario integer,
+												p_doc_id character varying(20),
+												p_nombreCompleto character varying(100),
+												p_email character varying(150),
+												p_clave character(32)
+											 )  RETURNS void AS   
+ $$
+ declare
+ -- p_estado_usuario character varying(50) := (select count(*) from usuario where doc_id = p_doc_id); -- 0 : usuario no existe, 1: usuario existe
 
-select * from f_generar_correlativo('historial_tratamiento') as nc
+ begin
+							
+								insert into usuario
+								values(
+										p_doc_id,
+										p_nombreCompleto,
+										'-',
+										'-',
+										p_email,
+										3
+									  );
+								
+								insert into credenciales_acceso
+								values(
+										p_codigo_usuario,
+										(select md5(p_clave)),
+										'C',
+										'A',
+										(select now()),
+										p_doc_id
+									  );
+								
+								update correlativo set numero = numero +1
+                    			where tabla='credenciales_acceso';
+								
+ end
+ $$ language plpgsql;
+
+select * from credenciales_acceso;
+select * from usuario;
+
+update correlativo
+set numero = 4
+where tabla = 'credenciales_acceso';
+
+select * from f_generar_correlativo('credenciales_acceso') as nc
 
 
 
+
+select md5('123')
 								
 								

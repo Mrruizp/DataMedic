@@ -502,9 +502,9 @@
                     <div class="card-body register-card-body">
                       <p class="login-box-msg">Registrar nueva cuenta</p>
 
-                      <form action="../../index.html" method="post">
+                      <form id="frmgrabarUsuario">
                         <div class="input-group mb-3">
-                          <input type="text" class="form-control" placeholder="Nombre completo">
+                          <input type="text" name="textDNI" id="textDNI" class="form-control" placeholder="DNI">
                           <div class="input-group-append">
                             <div class="input-group-text">
                               <span class="fas fa-user"></span>
@@ -512,7 +512,15 @@
                           </div>
                         </div>
                         <div class="input-group mb-3">
-                          <input type="email" class="form-control" placeholder="Email">
+                          <input type="text" name="textNombreCompleto" id="textNombreCompleto" class="form-control" placeholder="Nombre completo">
+                          <div class="input-group-append">
+                            <div class="input-group-text">
+                              <span class="fas fa-user"></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="input-group mb-3">
+                          <input type="email" name="textEmail" id="textEmail" class="form-control" placeholder="Email">
                           <div class="input-group-append">
                             <div class="input-group-text">
                               <span class="fas fa-envelope"></span>
@@ -520,7 +528,7 @@
                           </div>
                         </div>
                         <div class="input-group mb-3">
-                          <input type="password" class="form-control" placeholder="Password">
+                          <input type="password" name="textPassword" id="textPassword" class="form-control" placeholder="Password">
                           <div class="input-group-append">
                             <div class="input-group-text">
                               <span class="fas fa-lock"></span>
@@ -568,6 +576,7 @@
 <!-- ./wrapper -->
 <?php include_once './scripts.view.php'; ?>
 <script src="js/sesionValidar.js" type="text/javascript"></script>
+<script src="js/registrate.usuario.js" type="text/javascript"></script>
 
 </body>
 </html>
