@@ -654,7 +654,7 @@ class Cita extends Conexion {
                         select 
                             distinct on(f.fecha_id) 
                             f.fecha_id,
-                            concat(f.dia_semana, ' ',f.numero, ' de ',f.mes) as fehca,
+                            concat(f.dia_semana, ' ',f.numero, ' de ',f.mes) as fecha,
                             f.hora
                         from 
                             fecha f 
