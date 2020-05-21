@@ -238,7 +238,7 @@
                     <div class="card-body box-profile">
                       <div class="text-center">
                         <img class="profile-user-img img-fluid img-circle"
-                             src="../images/doctor1.jpg" alt="User profile picture">
+                             src="../images/userdoctor2.jpg" alt="User profile picture">
                       </div>
                       <h3 class="profile-username text-center">
                         Mario Andretti
@@ -256,7 +256,7 @@
                     <div class="card-body box-profile">
                       <div class="text-center">
                         <img class="profile-user-img img-fluid img-circle"
-                             src="../images/doctora2.png"
+                             src="../images/userdoctora2.jpg"
                              alt="User profile picture">
                       </div>
                       <h3 class="profile-username text-center">
