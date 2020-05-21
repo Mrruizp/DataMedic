@@ -394,8 +394,11 @@ values('22222222','Jaimito el cartero','Av. Huaylas, urb. Proceres #44500. Chorr
 insert into usuario(doc_id,nombrecompleto, direccion, telefono,email,cargo_id)
 values('22224444','Cass Urbina','Av. Larco, Miraflores','998555447','cass@hotmail.com',3);
 
+insert into usuario(doc_id,nombrecompleto, direccion, telefono,email,cargo_id)
+values('88225544','Juan Córdoba','Aviación, urb. Proceres #44880. San Borja','995544754','juancordoba@hotmail.com',2);
+
 -- Credenciales de acceso
--- select * from cita
+-- select * from usuario
 
 insert into credenciales_acceso(codigo_usuario,clave,tipo,estado,fecha_registro, doc_id)
 values(1,(select MD5('123')),'A','A',(select now()),'45977448');
@@ -408,6 +411,9 @@ values(3,(select MD5('123')),'C','A',(select now()),'22222222');
 
 insert into credenciales_acceso(codigo_usuario,clave,tipo,estado,fecha_registro, doc_id)
 values(4,(select MD5('123')),'C','A',(select now()),'22224444');
+
+insert into credenciales_acceso(codigo_usuario,clave,tipo,estado,fecha_registro, doc_id)
+values(9,(select MD5('123')),'D','A',(select now()),'88225544');
 
 -- select * from correlativo
 insert into correlativo(tabla, numero)
@@ -433,7 +439,10 @@ values(6,'rehabilitación oral');
 insert into doctor
 values(1,'CMP','123456','Andres','Hurtado','Lima-Surco','998745418','andresHurtado@hotmail.com',1);
 
-select * from cita
+insert into doctor
+values(2,'CMP','852147','Juan','Córdoba','Lima-San Borja','995544754','juancordoba@hotmail.com',1);
+
+select * from doctor
 
 insert into cita
 values(1,'Lunes, 25 Mayo','9:00 am', '-------','45977448',1, 'Cita confirmada');

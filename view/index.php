@@ -113,16 +113,12 @@
                   <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-3 col-form-label">Especialidad:</label>
                     <div class="row">
-                      <div class="col-sm-12">
+                      <div class="col-lg-12">
                       <!-- select -->
                           <div class="form-group">
-                            <select class="form-control">
-                              <option>Estética Dental & Diseño de Sonrisa</option>
-                              <option>option 2</option>
-                              <option>option 3</option>
-                              <option>option 4</option>
-                              <option>option 5</option>
-                            </select>
+                              <select class="form-control" name="especialidad" id="especialidad" 
+                                      onchange="cargarCbCodigoDoctor('#doctor',this.value,'seleccione')">
+                              </select>
                           </div>
                         </div>
                       </div>
@@ -133,12 +129,8 @@
                       <div class="col-sm-12">
                       <!-- select -->
                           <div class="form-group">
-                            <select class="form-control">
-                              <option>Maritza Alcedo</option>
-                              <option>option 2</option>
-                              <option>option 3</option>
-                              <option>option 4</option>
-                              <option>option 5</option>
+                            <select class="form-control" name="doctor" id="doctor" 
+                                    onchange="ListarHorarioDisponible(this.value)">
                             </select>
                           </div>
                         </div>
@@ -148,136 +140,7 @@
               
               <div class="card-body">
                 <label for="inputEmail3" class="col-sm-3 col-form-label">Fecha y hora:</label>
-                <table class="table table-bordered">
-                  <thead>                  
-                    <tr style="background-color: #ededed; height:25px;">
-                      <th style="width: 10px">#</th>
-                      <th>Fecha</th>
-                      <th>Hora</th>
-                      <th>Estado</th>
-                      <th style="width: 40px">Guardar</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>1.</td>
-                      <td>Lunes 11 de Mayo</td>
-                      <td>
-                        10:00
-                      </td>
-                      <td>disponible</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>2.</td>
-                      <td>Lunes 11 de Mayo</td>
-                      <td>
-                        10:30
-                      </td>
-                      <td>disponible</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>3.</td>
-                      <td>Lunes 11 de Mayo</td>
-                      <td>
-                        11:00
-                      </td>
-                      <td>disponible</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>4.</td>
-                      <td>Lunes 11 de Mayo</td>
-                      <td>
-                        11:30
-                      </td>
-                      <td>disponible</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>5.</td>
-                      <td>Lunes 11 de Mayo</td>
-                      <td>
-                        12:00
-                      </td>
-                      <td>disponible</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>6.</td>
-                      <td>Lunes 11 de Mayo</td>
-                      <td>
-                        12:30
-                      </td>
-                      <td>disponible</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>7.</td>
-                      <td>Lunes 11 de Mayo</td>
-                      <td>
-                        2:00
-                      </td>
-                      <td>disponible</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>8.</td>
-                      <td>Lunes 11 de Mayo</td>
-                      <td>
-                        2:30
-                      </td>
-                      <td>disponible</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>9.</td>
-                      <td>Lunes 11 de Mayo</td>
-                      <td>
-                        3:00
-                      </td>
-                      <td>disponible</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>10.</td>
-                      <td>Lunes 11 de Mayo</td>
-                      <td>
-                        3:30
-                      </td>
-                      <td>disponible</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>11.</td>
-                      <td>Lunes 11 de Mayo</td>
-                      <td>
-                        4:00
-                      </td>
-                      <td>disponible</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>11.</td>
-                      <td>Lunes 11 de Mayo</td>
-                      <td>
-                        4:30
-                      </td>
-                      <td>disponible</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>11.</td>
-                      <td>Lunes 11 de Mayo</td>
-                      <td>
-                        5:00
-                      </td>
-                      <td>disponible</td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div id="listado" class="table table-responsive"></div>
               </div>
 
               </div>
@@ -577,6 +440,7 @@
 <?php include_once './scripts.view.php'; ?>
 <script src="js/sesionValidar.js" type="text/javascript"></script>
 <script src="js/registrate.usuario.js" type="text/javascript"></script>
-
+<script src="js/index.js" type="text/javascript"></script>
+<script src="js/cbCodigo.js" type="text/javascript"></script>
 </body>
 </html>

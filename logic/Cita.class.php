@@ -605,4 +605,70 @@ class Cita extends Conexion {
         return false;
     }
 
+    public function listarCitaIndex($cod_doctor) { // lista para que se muestre en la página index.php
+        try {
+
+            $sql1 = "select
+                        count(*) as estado
+                    from
+                        cita
+                    where
+                        doctor_id = $cod_doctor";
+            $sentencia = $this->dblink->prepare($sql1);
+            $sentencia->execute();
+            $sentencia->rowCount();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            $nuevoCodigo = $resultado["estado"];
+            $this->setDoctor_id($nuevoCodigo);
+            if( $this->getDoctor_id() > 0)
+            {
+                $sql2 = "
+                    select 
+                            distinct on(f.fecha_id) 
+                            f.fecha_id,
+                            concat(f.dia_semana, ' ',f.numero, ' de ',f.mes) as fecha,
+                            f.hora
+                        from 
+                            fecha f 
+                    
+                        where
+                            concat(f.dia_semana, ' ',f.numero, ' de ',f.mes) in (select 
+                                                                                    fecha
+                                                                                 from 
+                                                                                    cita
+                                                                                  where
+                                                                                    doctor_id = $cod_doctor
+                                                                                        )
+                            and f.hora not in (select 
+                                                    hora
+                                                from 
+                                                    cita
+                                               where
+                                                    doctor_id = $cod_doctor
+                                                );
+                        ";
+                $sentencia = $this->dblink->prepare($sql2);
+            }else
+            {
+                $sql3 = "
+                        select 
+                            distinct on(f.fecha_id) 
+                            f.fecha_id,
+                            concat(f.dia_semana, ' ',f.numero, ' de ',f.mes) as fehca,
+                            f.hora
+                        from 
+                            fecha f 
+                        ";
+                $sentencia = $this->dblink->prepare($sql3);
+            }
+            
+            
+            $sentencia->execute();
+            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
 }
