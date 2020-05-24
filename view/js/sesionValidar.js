@@ -89,8 +89,9 @@ $("#frmgrabar").submit(function (event) {
                                     break;
 
                                 default: //SI
-                                location.href = "../view/menu.principal.view.php";
-                                swal("Iniciando Sesión", "", "success");
+                                numSesion();
+                               // location.href = "../view/menu.principal.view.php";
+                               // swal("Iniciando Sesión", "", "success");
                                 
                                 break;
                             }
@@ -117,7 +118,7 @@ function numSesion()
         var datosJSON = resultado;
 
         if (datosJSON.estado === 200) {
-            location.href = "../view/reporteEstadistico.view.php";
+            location.href = "../view/menu.principal.view.php";
                                 swal("Iniciando Sesión", "", "success");
                 
 

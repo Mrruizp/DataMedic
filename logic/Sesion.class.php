@@ -72,6 +72,15 @@ class Sesion extends Conexion {
                         $_SESSION["cargo"] = $resultado["cargo"]; // descripción del cargo
                         $_SESSION["tipo"] = $resultado["tipo"]; // tipo de usuario rol
 
+                        $sql2 = "select * from fn_insert_log_inicioseseion(
+                                                                        :p_email, 
+                                                                        '$_SESSION[cargo]',
+                                                                        '$_SESSION[tipo]', 
+                                                                        '$_SERVER[REMOTE_ADDR]'
+                                                                    );";
+                        $sentencia2 = $this->dblink->prepare($sql2);
+                        $sentencia2->bindParam(":p_email", $this->getEmail());
+                        $sentencia2->execute();
                         return "SI"; //Si ingresa
                     }
                 } else { //la contraseña no es igual
@@ -84,6 +93,37 @@ class Sesion extends Conexion {
             throw $exc;
         }
     }
+
+    public function numInicioSsion()
+    {
+        session_name("DataMedic");
+                        session_start();
+        $this->dblink->beginTransaction();
+        
+        
+        try {
+                /* Insertar en la tabla laboratorio */
+                $sql = "
+                        select * from fn_numSesion
+                                            (
+                                                '$_SESSION[s_doc_id]'
+                                            );
+                    ";
+                $sentencia = $this->dblink->prepare($sql);
+               // $sentencia->bindParam(":p_numiniciosesion", $this->getNuminiciosesion());
+                $sentencia->execute();
+                
+                $this->dblink->commit();
+                return true;
+          
+        } catch (Exception $exc) {
+            $this->dblink->rollBack();
+            throw $exc;
+        }
+
+        return false;
+    }
+    
     public function obtenerOpcionesMenu($codigoCargo) {
         try {
             $sql = "

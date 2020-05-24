@@ -24,6 +24,7 @@ CREATE TABLE USUARIO
    -- edad char(2) not null,
     email character varying(150) not null,
     cargo_id integer,
+	numInicioSesion int;
     constraint pk_usuario_doc_id primary key(doc_id),
     constraint fk_usuario_cargo_id foreign key(cargo_id) references cargo(cargo_id),
 	CONSTRAINT uni_email UNIQUE (email)
@@ -196,6 +197,19 @@ CREATE TABLE fecha
   CONSTRAINT pk_fecha_fecha_id PRIMARY KEY (fecha_id)
 );
 -- LOGS
+
+-- tabla para el historial de log inicio sesión
+  CREATE TABLE log_inicioSeseion
+  (
+  	doc_id character varying(20) not null,
+    nombrecompleto character varying(100) not null,    
+	cargo character varying(50) not null,
+	tipo char(1) not null,
+	fecha character varying(50) not null,
+	tiempo character varying(50) not null,
+	ip character varying(200) not null
+  );
+  
 CREATE TABLE log_especialidad
 (
   usuarioQueRegistra_doc_id character varying(20),
@@ -361,6 +375,12 @@ values(5,1,4,1);
 insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
 values(6,1,4,1); 
 
+-- se agregó nueva columna a la tabla usuario: 
+-- Para saber el número de veces que inicio sesión un usuario.
+ alter table usuario 
+ add column numInicioSesion int;
+ 
+ -- fin
 /*
 CREATE TABLE mes
 (
@@ -970,6 +990,79 @@ CREATE OR REPLACE FUNCTION fn_registrarUsuario_cliente(
 								
  end
  $$ language plpgsql;
+
+-- función para registrar que usuario iniciarón sesión
+
+CREATE OR REPLACE FUNCTION fn_insert_log_inicioseseion
+											(
+											p_email character varying(150),
+											p_cargo character varying(50),
+											p_tipo char(1),
+											p_ip character varying(100)
+											)returns void as
+$$
+declare
+	p_doc_id character varying(20):= (select doc_id from usuario where email = p_email);
+	p_nombres character varying(50):= (select nombrecompleto from usuario where email = p_email);
+	--p_apellidos character varying(50):= (select apellidos from usuario where email = p_email);
+	
+	-- p_cargo_id int:= (select cargo_id from cargo where doc_id = p_doc_id);
+	-- p_tipo char(1):= (select tipo from credenciales_acceso where email = p_email);
+	
+	p_fecha character varying(50)  := current_date;
+	p_tiempo character varying(50) := current_time;
+begin
+							
+							
+							insert into log_inicioseseion
+							values(p_doc_id, p_nombres,p_cargo,p_tipo,p_fecha,p_tiempo,p_ip);
+end
+$$ language plpgsql;
+
+select * from log_inicioseseion
+
+select * from fn_insert_log_inicioseseion(
+                                                                        'cass@hotmail.com', 
+                                                                        '3',
+                                                                        'C', 
+                                                                        '192.168.1.'
+                                                                    );
+
+-- FUNCIÓN REGISTRAR número de sesión por usuario
+select * from fn_numSesion
+											(
+												'44444444'
+											);
+CREATE OR REPLACE FUNCTION fn_numSesion(p_doc_id character varying(20))returns void as
+$$
+declare
+con int;
+begin
+					select numiniciosesion into con from usuario where doc_id = p_doc_id;
+					
+					if con is null then
+						
+						update 
+							usuario
+						set 
+							numiniciosesion = 0
+						where 
+							doc_id = p_doc_id;
+							
+					end if;
+					
+					update 
+						usuario
+					set 
+						numiniciosesion = numiniciosesion + 1
+					where 
+						doc_id = p_doc_id;
+end
+$$ language plpgsql;
+
+
+
+
 
 select * from credenciales_acceso;
 select * from usuario;

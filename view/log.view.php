@@ -56,7 +56,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                         <!-- general form elements -->
                         <div class="card card-default">
                           <div class="card-header">
-                            <h3 class="card-title">Especialidad</h3>
+                            <h3 class="card-title">Inicios de sesión</h3>
                           </div>
                           <!-- /.card-header -->
                           <!-- form start -->
@@ -64,7 +64,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                             <div class="card-body">
                              
                               <div class="form-group">
-                               <div id="listadoEspecialidad" class="table table-responsive"></div>
+                               <div id="listadoLog_inicioseseion" class="table table-responsive"></div>
                                 
                               </div>
                             </div>

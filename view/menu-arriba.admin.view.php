@@ -3,7 +3,7 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+        <a class="nav-link" data-widget="pushmenu" href="#"><ion-icon name="menu"></ion-icon></a>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto">
