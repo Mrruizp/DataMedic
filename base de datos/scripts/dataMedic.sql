@@ -195,8 +195,171 @@ CREATE TABLE fecha
   estado character varying(50)not null,
   CONSTRAINT pk_fecha_fecha_id PRIMARY KEY (fecha_id)
 );
+-- LOGS
+CREATE TABLE log_especialidad
+(
+  usuarioQueRegistra_doc_id character varying(20),
+  usuarioQueRegistra_nombres character varying(50),
+  usuarioQueRegistra_apellidos character varying(50),
+  usuarioQueRegistra_cargo_id int,
+  usuarioQueRegistra_tipo char(1),
+  fecha character varying(50),
+  tiempo character varying(50),
+  tipo_operacion character varying(100),
+  ip character varying(200),
+  especialidad_id int,
+  nombre_especialidad character varying(200)
+);
 
-drop table fecha;
+CREATE TABLE log_doctor
+(
+  usuarioQueRegistra_doc_id character varying(20),
+  usuarioQueRegistra_nombres character varying(50),
+  usuarioQueRegistra_apellidos character varying(50),
+  usuarioQueRegistra_cargo_id int,
+  usuarioQueRegistra_tipo char(1),
+  fecha character varying(50),
+  tiempo character varying(50),
+  tipo_operacion character varying(100),
+  ip character varying(200),	
+  doctor_id integer,
+  colegio character varying(10),
+  codigo_colegio character varying(20),
+  nombre character varying(100),
+  apellido character varying(100),
+  direccion character varying(200),
+  telefono character varying(20),
+  email character varying(150),
+  especialidad_id int
+);
+
+CREATE TABLE log_tratamiento
+(
+  usuarioQueRegistra_doc_id character varying(20),
+  usuarioQueRegistra_nombres character varying(50),
+  usuarioQueRegistra_apellidos character varying(50),
+  usuarioQueRegistra_cargo_id int,
+  usuarioQueRegistra_tipo char(1),
+  fecha character varying(50),
+  tiempo character varying(50),
+  tipo_operacion character varying(100),
+  ip character varying(200),	
+  tratamiento_id integer,
+  nombre_tratamiento character varying(200)
+);
+
+CREATE TABLE log_paciente
+(
+  usuarioQueRegistra_doc_id character varying(20),
+  usuarioQueRegistra_nombres character varying(50),
+  usuarioQueRegistra_apellidos character varying(50),
+  usuarioQueRegistra_cargo_id int,
+  usuarioQueRegistra_tipo char(1),
+  fecha character varying(50),
+  tiempo character varying(50),
+  tipo_operacion character varying(100),
+  ip character varying(200),
+  paciente_id integer,
+  doc_id character varying(20),
+  nombres character varying(100),
+  apellidos character varying(100),
+  edad character varying(3),
+  sexo char(1),
+  raza char(1),
+  naturalde character varying(100),-- Lugar de nacimiento
+  procedencia character varying(100),
+  estado_civil char(1),
+  ocupacion character varying(200),
+  instruccion character varying(200),
+  religion character varying(100),
+  domicilio character varying(200),
+  telefono character varying(20),
+  personaresponsable character varying(100),
+  personaresponsable_telefono character varying(20),
+  fecha_ingreso character varying(50),
+  hora character varying(20),
+  modoingreso character varying(50),
+  fecha_historia_clinica character varying(50),
+  descripcion_enfermedad_actual character varying(1000)
+);
+
+CREATE TABLE log_historial_tratamiento
+(
+  usuarioQueRegistra_doc_id character varying(20),
+  usuarioQueRegistra_nombres character varying(50),
+  usuarioQueRegistra_apellidos character varying(50),
+  usuarioQueRegistra_cargo_id int,
+  usuarioQueRegistra_tipo char(1),
+  fecha character varying(50),
+  tiempo character varying(50),
+  tipo_operacion character varying(100),
+  ip character varying(200),
+  historial_tratamiento_id integer,
+  fecha_historial_tratamiento character varying(50),
+  hora_historial_tratamiento character varying(50),
+  descripcion_historial_tratamiento character varying(2000),
+  paciente_id int,
+  tratamiento_id int
+);
+
+CREATE TABLE log_cita
+(
+  usuarioQueRegistra_doc_id character varying(20),
+  usuarioQueRegistra_nombres character varying(50),
+  usuarioQueRegistra_apellidos character varying(50),
+  usuarioQueRegistra_cargo_id int,
+  usuarioQueRegistra_tipo char(1),
+  fecha character varying(50),
+  tiempo character varying(50),
+  tipo_operacion character varying(100),
+  ip character varying(200),
+  cita_id integer not NULL,
+  fecha_cita character varying(50)not null,
+  hora_cita character varying(50) not NULL,
+  descripcion character varying(500) not NULL,
+  doc_id_usuario character varying(20), -- si es el paciente el que registra, será el mismo ----> usuarioQueRegistra_doc_id
+  doctor_id int,
+  estado character varying(50)not null,-- el que habilita o no la cita es el admin y debe haber un registro de eso
+  paciente_id int
+);
+-- agregar menu log
+insert into menu
+values(6,'Log');
+
+insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
+values(6,1,'Log', 'log.view.php');
+
+
+
+select * from credenciales_acceso
+-- agregamos usuario sorte TI
+
+insert into cargo
+values(4,'soporte TI')
+
+-- Agregamos un super usuario
+
+insert into usuario(doc_id,nombrecompleto, direccion, telefono,email,cargo_id)
+values('44745581','Pedro Ruiz Cervera','Av. Aviación # 14456. San Borja','95147731','pedro@hotmail.com',4);
+
+insert into credenciales_acceso(codigo_usuario,clave,tipo,estado,fecha_registro, doc_id)
+values(10,(select MD5('123')),'S','A',(select now()),'44745581');
+-- agregar accesos al menu para el super usuario
+
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(1,1,4,1); 
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(2,1,4,1);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(2,2,4,1);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(3,1,4,1);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(4,1,4,1);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(5,1,4,1);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(6,1,4,1); 
 
 /*
 CREATE TABLE mes
@@ -263,20 +426,20 @@ values(1,'01','9:00 am',1,1);
 select * from historial_tratamiento
 
 insert into correlativo
-values('cita',1); 
+values('cita',0); 
 insert into correlativo
 values('usuario',0); 
 insert into correlativo
 values('doctor',0); 
 
 insert into correlativo
-values('paciente',1); 
+values('paciente',0); 
 insert into correlativo
 values('costo',0); 
 insert into correlativo
-values('tratamiento',2); 
+values('tratamiento',0); 
 insert into correlativo
-values('historial_tratamiento',1);
+values('historial_tratamiento',0);
 insert into correlativo
 values('credenciales_acceso',0);
 
@@ -319,12 +482,8 @@ insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
 values(2,2,'Gestionar Cita', 'gestionarCita.view.php');
 
 insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
-values(3,1,'Paciente', 'gestionarPaciente.view.php');
+values(3,1,'Paciente', 'gestionarHCPaciente.view.php');
 
-update menu_item
-set archivo = 'gestionarHCPaciente.view.php'
-where
-	codigo_menu = 3 and codigo_menu_item = 1
 insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
 values(4,1,'Gestionar Tratamiento', 'gestionarTratamiento.view.php');
 insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)

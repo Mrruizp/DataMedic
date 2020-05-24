@@ -53,3 +53,9 @@
 
 							    }
 </script>
+ <script>
+                function ValidaSoloNumeros() {/* no permite el ingreso de carÃ¡cteres que no sean numeros*/
+                if ((event.keyCode < 48) || (event.keyCode/* cÃ³digo de la tecla fÃ­sica*/ > 57)) /* del 48 al 56 corresponde solo numeros*/
+                event.returnValue = false;
+            }
+</script>

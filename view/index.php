@@ -367,7 +367,8 @@
 
                       <form id="frmgrabarUsuario">
                         <div class="input-group mb-3">
-                          <input type="text" name="textDNI" id="textDNI" class="form-control" placeholder="DNI">
+                          <input type="text" name="textDNI" id="textDNI" class="form-control" placeholder="DNI" required="" maxlength="8"
+                                 onkeypress="ValidaSoloNumeros();">
                           <div class="input-group-append">
                             <div class="input-group-text">
                               <span class="fas fa-user"></span>
@@ -437,7 +438,7 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
-<?php include_once './scripts.view.php'; ?>
+<?php include_once 'scripts.view.php'; ?>
 <script src="js/sesionValidar.js" type="text/javascript"></script>
 <script src="js/registrate.usuario.js" type="text/javascript"></script>
 <script src="js/index.js" type="text/javascript"></script>
