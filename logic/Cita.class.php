@@ -311,6 +311,26 @@ class Cita extends Conexion {
                                     c.doc_id = '$_SESSION[s_doc_id]';
                             ";
                     break;
+                 default: 
+                          $sql = "
+                                select 
+                                    c.cita_id,
+                                    c.fecha,
+                                    c.hora,
+                                    c.descripcion,
+                                    u.nombrecompleto,
+                                    concat(nombre, ' ',apellido) as nombresdoctor,
+                                    c.doc_id,
+                                    c.estado,
+                                    c.paciente_id
+                                from 
+                                    cita c inner join doctor d
+                                on
+                                    c.doctor_id = d.doctor_id inner join usuario u
+                                on
+                                    c.doc_id = u.doc_id;
+                            ";      
+                    break;
             }
             
             $sentencia = $this->dblink->prepare($sql);

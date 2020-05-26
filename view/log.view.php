@@ -56,7 +56,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                         <!-- general form elements -->
                         <div class="card card-default">
                           <div class="card-header">
-                            <h3 class="card-title">Inicios de sesión</h3>
+                            <h2 class="card-title text-info text-bold"> <ion-icon name="exit-outline"></ion-icon> Inicios de sesión</h2>
                           </div>
                           <!-- /.card-header -->
                           <!-- form start -->
@@ -64,14 +64,140 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                             <div class="card-body">
                              
                               <div class="form-group">
-                               <div id="listadoLog_inicioseseion" class="table table-responsive"></div>
+                               <div id="listadoLog_inicioseseion"></div>
                                 
                               </div>
+                              
                             </div>
-                         
+                            
                         </div>
                         <!-- /.card -->
                             </div>
+                        </div>
+                        <div class="row">
+                          <!-- left column -->
+                          <div class="col-md-12">
+                            <!-- general form elements -->
+                            <div class="card card-default">
+                              <div class="card-header">
+                                <h2 class="card-title text-info text-bold"><ion-icon name="person-outline"></ion-icon> Usuario</h2>
+                              </div>
+                              <!-- /.card-header -->
+                              <!-- form start -->
+                              
+                                <div class="card-body">
+                                 
+                                  <div class="form-group">
+                                   <div id="listadoLog_usuario"></div>
+                                    
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-4">
+                                      <div class="box-footer no-padding">
+                                      <ul class="nav nav-pills nav-stacked">
+                                        <li class="">
+                                            <a><h5>Usuarios que registrarón movimientos
+                                              <span class="pull-right text-default text-bold" style="background-color: #25c3ff;">
+                                                <i class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i> 
+                                                    
+                                                </span></h5>
+                                            </a>
+                                        </li>
+                                        <li class="">
+                                            <a><h5>Usuarios que fueron creados
+                                              <span class="pull-right text-default text-bold" style="background-color: #7df2ae;">
+                                                <i class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i> 
+                                                    
+                                                </span></h5>
+                                            </a>
+                                        </li>
+                                        <li class="">
+                                            <a><h5>Credenciales que fuerón creados
+                                              <span class="pull-right text-default text-bold" style="background-color: #86fff6;">
+                                                <i class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i> 
+                                                    
+                                                </span></h5>
+                                            </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                    </div>
+                                </div><br/><br/>
+                                </div>
+                             
+                            </div>
+                            <!-- /.card -->
+                          </div>
+                        </div>
+                        <div class="row">
+                          <!-- left column -->
+                          <div class="col-md-12">
+                            <!-- general form elements -->
+                            <div class="card card-default">
+                              <div class="card-header">
+                                <h2 class="card-title text-info text-bold"><ion-icon name="medkit-outline"></ion-icon> Especialidad</h2>
+                              </div>
+                              <!-- /.card-header -->
+                              <!-- form start -->
+                              
+                                <div class="card-body">
+                                 
+                                  <div class="form-group">
+                                   <div id="listadoLog_doctor"></div>
+                                    
+                                  </div>
+                                </div>
+                             
+                            </div>
+                            <!-- /.card -->
+                          </div>
+                        </div>
+                        
+                        <div class="row">
+                          <!-- left column -->
+                          <div class="col-md-12">
+                            <!-- general form elements -->
+                            <div class="card card-default">
+                              <div class="card-header">
+                                <h2 class="card-title text-info text-bold"><ion-icon name="reader-outline"></ion-icon> Tratamiento</h2>
+                              </div>
+                              <!-- /.card-header -->
+                              <!-- form start -->
+                              
+                                <div class="card-body">
+                                 
+                                  <div class="form-group">
+                                   <div id="listadoLog_tratamiento"></div>
+                                    
+                                  </div>
+                                </div>
+                             
+                            </div>
+                            <!-- /.card -->
+                          </div>
+                        </div>
+                        <div class="row">
+                          <!-- left column -->
+                          <div class="col-md-12">
+                            <!-- general form elements -->
+                            <div class="card card-default">
+                              <div class="card-header">
+                                <h2 class="card-title text-info text-bold"><ion-icon name="reader-outline"></ion-icon> Tratamiento</h2>
+                              </div>
+                              <!-- /.card-header -->
+                              <!-- form start -->
+                              
+                                <div class="card-body">
+                                 
+                                  <div class="form-group">
+                                   <div id="listadoLog_paciente"></div>
+                                    
+                                  </div>
+                                </div>
+                             
+                            </div>
+                            <!-- /.card -->
+                          </div>
                         </div>
                     </div>
 

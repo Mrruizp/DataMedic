@@ -37,21 +37,22 @@ function listar() {
                 html += '<td align="center" style="font-weight:normal">' + item.clave + '</td>';
 
                 if(item.tipo === "A") html += '<td align="center" style="font-weight:normal">Administrador</td>';
-                if(item.tipo === "D") html += '<td align="center" style="font-weight:normal">Docente</td>';
-                if(item.tipo === "E") html += '<td align="center" style="font-weight:normal">Estudiante</td>';
+                if(item.tipo === "D") html += '<td align="center" style="font-weight:normal">Doctor</td>';
+                if(item.tipo === "C") html += '<td align="center" style="font-weight:normal">Cliente</td>';
+                if(item.tipo === "S") html += '<td align="center" style="font-weight:normal">Super Usuario</td>';
 
-                if(item.estado === "A") 
+                if(item.estado === "A" || item.estado === "S") 
                     html += '<td align="center" style="font-weight:normal">Habilitado</td>';
                 else 
                     html += '<td align="center" style="font-weight:normal">Deshabilitado</td>';
 
                 html += '<td align="center" style="font-weight:normal">' + item.fecha_registro + '</td>';
                 html += '<td align="center">';
-                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalFoto" onclick="leerFoto(' + item.doc_id + ')"><i class="fa fa-camera"></i></button>';
+                //html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalFoto" onclick="leerFoto(' + item.doc_id + ')"><i class="fa fa-camera"></i></button>';
+                //html += '&nbsp;&nbsp;&nbsp;';
+                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal" onclick="leerDatos(' + item.doc_id + ')"><ion-icon name="create-outline"></ion-icon></button>';
                 html += '&nbsp;&nbsp;&nbsp;';
-                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal" onclick="leerDatos(' + item.doc_id + ')"><i class="fa fa-pencil"></i></button>';
-                html += '&nbsp;&nbsp;&nbsp;';
-                html += '<button type="button" class="btn btn-danger btn-xs" onclick="eliminar(' + item.doc_id + ')"><i class="fa fa-close"></i></button>';
+                html += '<button type="button" class="btn btn-danger btn-xs" onclick="eliminar(' + item.doc_id + ')"><ion-icon name="trash-outline"></ion-icon></button>';
                 html += '</td>';
                 html += '</tr>';
             });
@@ -92,14 +93,9 @@ function leerDatos(codIdentidad) {
             $("#txtTipoOperacion").val("editar");
             $("#txtCodigo").val(jsonResultado.datos.codigo_usuario);
             $("#txtDoc_identidad").val(jsonResultado.datos.doc_id);
-            $("#txtNombre").val(jsonResultado.datos.nombres);
-            $("#txtApellidos").val(jsonResultado.datos.apellidos);
+            $("#txtNombre").val(jsonResultado.datos.nombrecompleto);
             $("#txtDireccion").val(jsonResultado.datos.direccion);
-            $("#txtEmail").val(jsonResultado.datos.telefono);
             $("#txtTelefono").val(jsonResultado.datos.telefono);
-
-            $("#sexo").val(jsonResultado.datos.sexo);
-            $("#edad").val(jsonResultado.datos.edad);
             $("#txtEmail").val(jsonResultado.datos.email);
             $("#cargo").val(jsonResultado.datos.cargo_id);
             $("#contrasenia").val(jsonResultado.datos.clave);
@@ -180,12 +176,9 @@ $("#frmgrabar").submit(function (event) {
                             {
                                 p_doc_ident:   $("#txtDoc_identidad").val(),
                                 p_nombres:     $("#txtNombre").val(),
-                                p_apellidos:   $("#txtApellidos").val(),
                                 p_direccion:   $("#txtDireccion").val(),
                                 p_email:       $("#txtEmail").val(),
                                 p_telefono:    $("#txtTelefono").val(),
-                                p_sexo:        $("#sexo").val(),
-                                p_edad:        $("#edad").val(),
                                 p_cargo:       $("#cargo").val(),
                                 p_contrasenia: $("#contrasenia").val(),
                                 p_tipo:        $("#tipo").val(),

@@ -210,19 +210,46 @@ CREATE TABLE fecha
 	ip character varying(200) not null
   );
   
-CREATE TABLE log_especialidad
+CREATE TABLE log_usuario
+  (
+	usuarioQueRegistra_doc_id character varying(20),
+    usuarioQueRegistra_nombres character varying(100),
+    usuarioQueRegistra_cargo_id int,
+    usuarioQueRegistra_tipo char(1),
+    fecha character varying(50),
+    tiempo character varying(50),
+    tipo_operacion character varying(100),
+    ip character varying(200),
+  	doc_id character varying(20),
+    nombreCompleto character varying(100),
+	direccion character varying(200),
+    telefono character varying(25),
+    email character varying(150),
+    cargo_id integer
+  );
+  
+  -- drop table log_credenciales_acceso
+  CREATE TABLE log_credenciales_acceso
+ ( 	
+	clave character(32),
+	tipo char(1), -- Amin: A, Docente: D, Estudiante: E
+	estado char(1),
+    fecha_registro varchar(50),
+    doc_ID varchar(20)
+ );
+ 
+CREATE TABLE log_tratamiento
 (
   usuarioQueRegistra_doc_id character varying(20),
-  usuarioQueRegistra_nombres character varying(50),
-  usuarioQueRegistra_apellidos character varying(50),
+  usuarioQueRegistra_nombres character varying(100),
   usuarioQueRegistra_cargo_id int,
   usuarioQueRegistra_tipo char(1),
   fecha character varying(50),
   tiempo character varying(50),
   tipo_operacion character varying(100),
   ip character varying(200),
-  especialidad_id int,
-  nombre_especialidad character varying(200)
+  tratamiento_id int,
+  nombre_tratamiento character varying(200)
 );
 
 CREATE TABLE log_doctor
@@ -336,6 +363,26 @@ CREATE TABLE log_cita
   estado character varying(50)not null,-- el que habilita o no la cita es el admin y debe haber un registro de eso
   paciente_id int
 );
+-- agregados para el LOG
+-- agregar al menú el módulo usuario
+
+select * from menu_item
+
+update menu
+set nombre = 'Usuario'
+where codigo_menu = 5;
+
+select * from menu_item
+
+update menu_item
+set nombre = 'GestionarUsuario'
+where codigo_menu = 5 and codigo_menu_item = 1;
+
+update menu_item
+set archivo = 'GestionarUsuario.view.php'
+where codigo_menu = 5 and codigo_menu_item = 1;
+
+
 -- agregar menu log
 insert into menu
 values(6,'Log');
@@ -940,24 +987,39 @@ CREATE OR REPLACE FUNCTION fn_registrarCita_historialTratamiento(
 
 delete from historial_tratamiento;
 
-select * from fn_registrarCita_historialTratamiento(
-												1,
-												1,
-	 											1,
-												1,
-												'Lunes 25 de Mayo',
-												'10:00am',
-												'Mi bebita linda'
-											 ) 
+select * from fn_registrarUsuario(                    
+                                        9,
+                                        '22222224', 
+                                        'maria',
+                                        'Lurin', 
+                                        '963215998', 
+                                        'maria@hotmail.com', 
+                                        3, 
+                                        '123',
+                                        'C',
+                                        'A'
+                                     );
 
-
+select * from f_generar_correlativo('credenciales_acceso') as nc
 -- función para que el usuario cliente pueda crear su cuenta
-CREATE OR REPLACE FUNCTION fn_registrarUsuario_cliente(
-												p_codigo_usuario integer,
-												p_doc_id character varying(20),
-												p_nombreCompleto character varying(100),
-												p_email character varying(150),
-												p_clave character(32)
+select * from correlativo;
+update correlativo
+set numero = 8
+where tabla = 'usuario'
+
+select * from usuario
+									 
+CREATE OR REPLACE FUNCTION fn_registrarUsuario(
+												p_codigo_usuario integer, 
+												p_doc_id character varying(20), 
+												p_nombres character varying(50),
+												p_direccion character varying(200), 
+												p_telefono character varying(25), 
+												p_email character varying(150), 
+												p_cargo_id integer,	
+												p_clave character(32),
+												p_tipo char(1),
+												p_estado char(1)
 											 )  RETURNS void AS   
  $$
  declare
@@ -968,19 +1030,19 @@ CREATE OR REPLACE FUNCTION fn_registrarUsuario_cliente(
 								insert into usuario
 								values(
 										p_doc_id,
-										p_nombreCompleto,
+										p_nombres,
 										'-',
 										'-',
 										p_email,
-										3
+										p_cargo_id
 									  );
 								
 								insert into credenciales_acceso
 								values(
 										p_codigo_usuario,
 										(select md5(p_clave)),
-										'C',
-										'A',
+										p_tipo,
+										p_estado,
 										(select now()),
 										p_doc_id
 									  );
@@ -991,6 +1053,59 @@ CREATE OR REPLACE FUNCTION fn_registrarUsuario_cliente(
  end
  $$ language plpgsql;
 
+-- actualizar los datos del usuario registrado
+select * from usuario
+CREATE OR REPLACE FUNCTION fn_editarUsuario
+ 								(
+									p_codigo_usuario integer, 
+									p_doc_id character varying(20), 
+									p_nombres character varying(100),
+									p_direccion character varying(200),
+									p_telefono character varying(25), 
+									p_email character varying(150), 
+									p_cargo_id integer,	
+									p_clave character(32),
+									p_tipo char(1),
+									p_estado char(1)
+ 								)RETURNS void AS
+$$
+declare
+	
+	-- codigo integer;
+	
+ begin
+ 							-- update usuario
+ 								
+								update 
+									usuario
+								set
+									doc_id    = p_doc_id,
+									nombrecompleto   = p_nombres,
+									direccion = p_direccion,
+									telefono  = p_telefono,
+									email     = p_email,
+									cargo_id  = p_cargo_id
+								where 
+									doc_id = p_doc_id;
+								
+								-- update credenciales_acceso
+ 								
+								update 
+									credenciales_acceso
+								set
+									
+									clave  = (select md5(p_clave)),
+									tipo   = p_tipo,
+									estado = p_estado,
+									doc_id = p_doc_id
+								where 
+									doc_id = p_doc_id;
+								
+								
+ 
+ 
+ end
+ $$ language plpgsql;
 -- función para registrar que usuario iniciarón sesión
 
 CREATE OR REPLACE FUNCTION fn_insert_log_inicioseseion
@@ -1027,7 +1142,178 @@ select * from fn_insert_log_inicioseseion(
                                                                         'C', 
                                                                         '192.168.1.'
                                                                     );
+select * from log_usuario				
+-- función para registrar los log de usuario
+CREATE OR REPLACE FUNCTION fn_insert_log_usuario
+											(
+											p_doc_id_log character varying(20), 
+											p_nombres_log character varying(100),
+											p_cargo_id_log int, 
+											p_tipo_log char(1), 
+											p_cod_usuario int,
+											p_doc_id character varying(20), 
+											p_nombres character varying(100),												
+											p_direccion character varying(200), 
+											p_telefono character varying(25), 
+											p_email character varying(150), 
+											p_cargo_id int,
+											p_clave character varying(32),
+											p_tipo char(1),
+											p_estado char(1),
+											p_tipo_operacion character varying(100),
+											p_ip character varying(200)												
+											)returns void as
+$$
+declare
+	p_fecha character varying(50)  := current_date;
+	p_tiempo character varying(50) := current_time;
+begin
+							
+							-- if estado = 0 then
+							
+								insert into log_usuario
+										(
+											usuarioqueregistra_doc_id, 
+											usuarioqueregistra_nombres,
+											usuarioqueregistra_cargo_id, 
+											usuarioqueregistra_tipo,
+											fecha,
+											tiempo,
+											tipo_operacion,
+											ip,
+											doc_id, 
+											nombrecompleto,
+											direccion, 
+											telefono, 
+											email, 
+											cargo_id 
+											
+										)
+									values (
+												p_doc_id_log, 
+												p_nombres_log,
+												p_cargo_id_log, 
+												p_tipo_log,
+												p_fecha,
+												p_tiempo,
+												p_tipo_operacion,
+												p_ip,
+												p_doc_id, 
+												p_nombres, 
+												p_direccion, 
+												p_telefono, 
+												p_email, 
+												p_cargo_id
+												
+											); 
+										INSERT INTO log_credenciales_acceso
+																( 
+																	clave, 
+																	tipo, 
+																	estado, 
+																	fecha_registro, 
+																	doc_id
+																)
+										VALUES (
+													p_clave, 
+													p_tipo, 
+													p_estado, 
+													(select now()), 
+													p_doc_id
+												);
+										
+end
+$$ language plpgsql;
 
+
+select * from fn_insert_log_usuario
+											(
+											'45977448', 
+											'Juan Benito casas',
+											1, 
+											'A', 
+											14,
+											'55555558', 
+											'Betito Pastor',												
+											'Jaén', 
+											'998877445', 
+											'Betito@hotmail.com', 
+											3,
+											'159',
+											'C',
+											'A',
+											'registrar',
+											'192.168.1.1'												
+											);
+-- 
+select * from correlativo;
+select * from credenciales_acceso;
+select * from log_usuario;
+select * from usuario
+-- FUNCIÓN REGISTRAR el log de tratamiento
+CREATE OR REPLACE FUNCTION fn_insert_log_tratamiento
+											(
+											p_doc_id_log character varying(20), 
+											p_nombres_log character varying(100), 
+											p_cargo_id_log int, 
+											p_tipo_log char(1),
+											p_tipo_operacion character varying(100),
+											p_ip character varying(200),
+											p_tratamiento_id int,
+											p_nombre_tratamiento character varying(200)
+											)returns void as
+$$
+declare
+	p_fecha character varying(50)  := current_date;
+	p_tiempo character varying(50) := current_time;
+begin
+							
+							
+							
+								insert into log_tratamiento
+										(
+											usuarioqueregistra_doc_id, 
+											usuarioqueregistra_nombres,
+											usuarioqueregistra_cargo_id, 
+											usuarioqueregistra_tipo,
+											fecha,
+											tiempo,
+											tipo_operacion,
+											ip,
+											tratamiento_id,
+											nombre_tratamiento
+										)
+									values (
+												p_doc_id_log, 
+												p_nombres_log, 
+												p_cargo_id_log, 
+												p_tipo_log,
+												p_fecha,
+												p_tiempo,
+												p_tipo_operacion,
+												p_ip,
+												p_tratamiento_id,
+												p_nombre_tratamiento
+												
+											); 
+										
+end
+$$ language plpgsql;
+
+select * from log_tratamiento
+
+select * from fn_insert_log_tratamiento
+											(
+											'45977448', 
+											'Renzo', 
+											3, 
+											'A',
+											'Registrar',
+											'192.168.1.1',
+											1,
+											'Resfriado'
+											);
+											
 -- FUNCIÓN REGISTRAR número de sesión por usuario
 select * from fn_numSesion
 											(
@@ -1059,8 +1345,43 @@ begin
 						doc_id = p_doc_id;
 end
 $$ language plpgsql;
-
-
+-- Función para eliminar un usuario
+select * from fn_insert_log_usuario
+                                    (
+                                        '45977448', 
+                                        'Juan Benito casas',
+                                        1, 
+                                        'A', 
+                                        null,
+                                        '77774444', 
+                                        null,                                               
+                                        null, 
+                                        null, 
+                                        null, 
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        'delete',
+                                        '192.168.1.1'
+                                        
+                                    );
+									
+CREATE OR REPLACE FUNCTION fn_eliminarUsuario(p_doc_id character varying(20))RETURNS void AS
+ 
+ $$
+ BEGIN
+ 						
+				-- Eliminar credenciales_acceso
+						delete from credenciales_acceso
+						where doc_id = p_doc_id;
+						
+				-- Eliminar usuario
+ 						delete from usuario
+						where doc_id = p_doc_id;
+						
+ end
+ $$ language plpgsql;
 
 
 
@@ -1068,7 +1389,7 @@ select * from credenciales_acceso;
 select * from usuario;
 
 update correlativo
-set numero = 4
+set numero = 11
 where tabla = 'credenciales_acceso';
 
 select * from f_generar_correlativo('credenciales_acceso') as nc

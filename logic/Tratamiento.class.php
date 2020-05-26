@@ -82,6 +82,21 @@ class Tratamiento extends Conexion {
                 $sentencia = $this->dblink->prepare($sql);
                 $sentencia->execute();
                 //*Actualizar el correlativo*/
+               /* $sql2 = "select * from fn_insert_log_tratamiento(
+                                                                    '$_SESSION[s_doc_id]',
+                                                                    '$_SESSION[s_usuario]',
+                                                                     $_SESSION["cargo"],
+                                                                    '$_SESSION[tipo]',
+                                                                    'Registro',
+                                                                    '$_SERVER[REMOTE_ADDR]'
+                                                                    :p_Tratamiento_id,
+                                                                    :p_Tratamiento
+                                                                );";
+                        $sentencia2 = $this->dblink->prepare($sql2);
+                        $sentencia2->bindParam(":p_Tratamiento_id", $this->getTratamiento_id());
+                        $sentencia2->bindParam(":p_Tratamiento", $this->getTratamiento());
+                        $sentencia2->execute();
+                        */
                 $this->dblink->commit();
                 return true;
                 
