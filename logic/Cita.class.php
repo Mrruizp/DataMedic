@@ -355,10 +355,15 @@ class Cita extends Conexion {
                 $nuevoCodigo = $resultado["nc"];
                 $this->setCita_id($nuevoCodigo);
 
-                /* Insertar en la tabla laboratorio */
+                
                 $sql = "
 
                     select * from fn_registrarCita_paciente(
+                                                '$_SESSION[s_doc_id]', 
+                                                '$_SESSION[s_usuario]',
+                                                $_SESSION[cargo_id], 
+                                                '$_SESSION[tipo]', 
+                                                '$_SERVER[REMOTE_ADDR]',
                                                 :p_cita_id,
                                                 :p_fecha,
                                                 :p_hora,

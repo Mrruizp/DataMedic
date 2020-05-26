@@ -274,26 +274,12 @@ CREATE TABLE log_doctor
   especialidad_id int
 );
 
-CREATE TABLE log_tratamiento
-(
-  usuarioQueRegistra_doc_id character varying(20),
-  usuarioQueRegistra_nombres character varying(50),
-  usuarioQueRegistra_apellidos character varying(50),
-  usuarioQueRegistra_cargo_id int,
-  usuarioQueRegistra_tipo char(1),
-  fecha character varying(50),
-  tiempo character varying(50),
-  tipo_operacion character varying(100),
-  ip character varying(200),	
-  tratamiento_id integer,
-  nombre_tratamiento character varying(200)
-);
+
 
 CREATE TABLE log_paciente
 (
   usuarioQueRegistra_doc_id character varying(20),
-  usuarioQueRegistra_nombres character varying(50),
-  usuarioQueRegistra_apellidos character varying(50),
+  usuarioQueRegistra_nombres character varying(100),
   usuarioQueRegistra_cargo_id int,
   usuarioQueRegistra_tipo char(1),
   fecha character varying(50),
@@ -767,7 +753,56 @@ CREATE OR REPLACE FUNCTION f_generar_correlativo(p_tabla character varying)
  end
  $$ language plpgsql;
  
- CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
+ select * from paciente;
+ select * from cita;
+ select * from log_paciente;
+ select * from log_cita;
+ select * from correlativo;
+
+												
+												
+												
+												
+	 											
+												
+select * from fn_registrarCita_paciente(
+												'45977448',
+												'NombreUsuarioQueRegistra',
+												1,
+												'A',
+												'192.168.1.1',
+	 											3,
+												'Lunes bla bla bla',
+												'12:00',
+												'Descripción',
+												'45977448',
+												1,
+	 											'48632147',
+	 											'NombrePaciente',
+	 											'ApellidosPaciente',
+	 											'25',
+	 											'M',
+	 											'Piura',
+	 											'S',
+	 											'Contador',
+	 											'Católico',
+	 											'Lurincito',
+	 											'963258741',
+	 											'Nomredelresposable',
+	 											'963225859'
+									);
+												
+												
+												
+	 											
+	 											
+												
+CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
+												p_usuarioQueRegistra_doc_id character varying(20),
+												p_usuarioQueRegistra_nombres character varying(100),
+												p_usuarioQueRegistra_cargo_id int,
+												p_usuarioQueRegistra_tipo char(1),
+												p_ip character varying(200),
 	 											p_cita_id integer,
 												p_fecha character varying(50),
 												p_hora character varying(50),
@@ -791,7 +826,8 @@ CREATE OR REPLACE FUNCTION f_generar_correlativo(p_tabla character varying)
  $$
  declare
  p_estadoPaciente int := (select count(*) from paciente where doc_id = p_doc_id_paciente);
-
+ p_fecha_registro character varying(50)  := current_date;
+ p_tiempo_registro character varying(50) := current_time;
  begin
 							
 							if p_estadoPaciente = 0 then
@@ -829,12 +865,65 @@ CREATE OR REPLACE FUNCTION f_generar_correlativo(p_tabla character varying)
 											p_personaresponsable_telefono
 										);
 										
+										insert into log_paciente
+																(
+																	usuarioqueregistra_doc_id, 
+																	usuarioqueregistra_nombres,
+																	usuarioqueregistra_cargo_id, 
+																	usuarioqueregistra_tipo,
+																	fecha,
+																	tiempo,
+																	tipo_operacion,
+																	ip,
+																	paciente_id,
+																	doc_id,
+																	nombres,
+																	apellidos,
+																	edad,
+																	sexo,
+																	naturalde,
+																	estado_civil,
+																	ocupacion,
+																	religion,
+																	domicilio,
+																	telefono,
+																	personaresponsable,
+																	personaresponsable_telefono
+																
+																)
+											values(
+													
+													p_usuarioqueregistra_doc_id, 
+													p_usuarioqueregistra_nombres,
+													p_usuarioqueregistra_cargo_id, 
+													p_usuarioqueregistra_tipo,
+													p_fecha_registro,
+													p_tiempo_registro,
+													'Insert',
+													p_ip,
+													(select * from f_generar_correlativo('paciente') as nc),
+													p_doc_id_paciente,
+													p_nombres,
+													p_apellidos,
+													p_edad,
+													p_sexo,
+													p_naturalde,
+													p_estado_civil,
+													p_ocupacion,
+													p_religion,
+													p_domicilio,
+													p_telefono,
+													p_personaresponsable,
+													p_personaresponsable_telefono
+												);
+												
 										update 
 											correlativo 
 										set 
 											numero = numero + 1 
 										where 
 											tabla='paciente';	
+										
 							else
 								
 								update 
@@ -854,6 +943,34 @@ CREATE OR REPLACE FUNCTION f_generar_correlativo(p_tabla character varying)
 									personaresponsable_telefono = p_personaresponsable_telefono
 								where
 									doc_id = p_doc_id_paciente;
+								
+								update 
+									log_paciente
+								set
+								
+									usuarioqueregistra_doc_id = p_usuarioqueregistra_doc_id, 
+									usuarioqueregistra_nombres = p_usuarioqueregistra_nombres,
+									usuarioqueregistra_cargo_id = p_usuarioqueregistra_cargo_id, 
+									usuarioqueregistra_tipo = p_usuarioqueregistra_tipo,
+									fecha = p_fecha_registro,
+									tiempo = p_tiempo_registro,
+									tipo_operacion = 'Update',
+									ip = p_ip,
+									nombres = p_nombres,
+									apellidos = p_apellidos,
+									edad = p_edad,
+									sexo = p_sexo,
+									naturalde = p_naturalde,
+									estado_civil = p_estado_civil,
+									ocupacion = p_ocupacion,
+									religion = p_religion,
+									domicilio = p_domicilio,
+									telefono = p_telefono,
+									personaresponsable = p_personaresponsable,
+									personaresponsable_telefono = p_personaresponsable_telefono
+								where
+									doc_id = p_doc_id_paciente;
+									
 							end if;
 							
 							insert into cita(
@@ -876,7 +993,43 @@ CREATE OR REPLACE FUNCTION f_generar_correlativo(p_tabla character varying)
 													'En proceso de confirmación',
 													(select paciente_id from paciente where doc_id = p_doc_id_paciente)
 												);
-
+							insert into log_cita(
+												usuarioqueregistra_doc_id, 
+												usuarioqueregistra_nombres,
+												usuarioqueregistra_cargo_id, 
+												usuarioqueregistra_tipo,
+												fecha,
+												tiempo,
+												tipo_operacion,
+												ip,
+												cita_id,
+												fecha_cita,
+												hora_cita, 
+												descripcion,
+												doc_id_usuario,
+												doctor_id,
+												estado,
+												paciente_id
+											) 
+										values(
+													p_usuarioqueregistra_doc_id, 
+													p_usuarioqueregistra_nombres,
+													p_usuarioqueregistra_cargo_id, 
+													p_usuarioqueregistra_tipo,
+													p_fecha,
+													p_hora,
+													'Insert',
+													p_ip,
+													p_cita_id,
+													p_fecha_registro,
+													p_tiempo_registro,
+													p_descripcion,
+													p_doc_id_usuario,
+													p_doctor_id,
+													'En proceso de confirmación',
+													(select paciente_id from paciente where doc_id = p_doc_id_paciente)
+												);
+												
 										update 
 											correlativo 
 										set numero = p_cita_id
@@ -1250,6 +1403,8 @@ select * from correlativo;
 select * from credenciales_acceso;
 select * from log_usuario;
 select * from usuario
+
+
 -- FUNCIÓN REGISTRAR el log de tratamiento
 CREATE OR REPLACE FUNCTION fn_insert_log_tratamiento
 											(

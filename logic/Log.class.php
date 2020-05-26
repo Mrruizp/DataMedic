@@ -63,20 +63,50 @@ class Log extends Conexion {
         }
     }
 
+    public function listarLog_paciente() {
+        try {
+            $sql = "
+                   select 
+                            usuarioQueRegistra_doc_id,
+                            usuarioQueRegistra_nombres,
+                            usuarioQueRegistra_cargo_id,
+                            usuarioQueRegistra_tipo,
+                            fecha,
+                            hora,
+                            ip,
+                            nombres,
+                            apellidos,
+                            edad,
+                            sexo,
+                            naturalde,
+                            estado_civil,
+                            ocupacion,
+                            religion,
+                            domicilio,
+                            telefono,
+                            personaresponsable,
+                            personaresponsable_telefono,
+                            fecha_ingreso,
+                            hora,
+                            modoingreso,
+                            fecha_historia_clinica,
+                            descripcion_enfermedad_actual
+                    from 
+                            log_paciente;
+                ";
+            $sentencia = $this->dblink->prepare($sql);
+            $sentencia->execute();
+            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
     public function listarLog_tratamiento() {
         try {
             $sql = "
                    select 
-                            usuarioqueregistra_doc_id, 
-                            usuarioqueregistra_nombres,
-                            usuarioqueregistra_cargo_id, 
-                            usuarioqueregistra_tipo,
-                            fecha,
-                            tiempo,
-                            tipo_operacion,
-                            ip,
-                            tratamiento_id,
-                            nombre_tratamiento
+                            *
                     from 
                             log_tratamiento;
                 ";
@@ -89,5 +119,21 @@ class Log extends Conexion {
         }
     }
 
+    public function listarLog_cita() {
+        try {
+            $sql = "
+                   select 
+                            *
+                    from 
+                            log_cita;
+                ";
+            $sentencia = $this->dblink->prepare($sql);
+            $sentencia->execute();
+            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
 
 }
