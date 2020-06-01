@@ -156,12 +156,12 @@ class Tratamiento extends Conexion {
     public function eliminar() {
         try {
             $sql = "
-                select * from fn_eliminarCursoPruebaPregunta(:p_curso_id);
+                delete from tratamiento where tratamiento_id = :p_tratamiento_id;
                 ";
             $sentencia = $this->dblink->prepare($sql);
-            $sentencia->bindParam(":p_curso_id", $this->getCodigo_curso());
+            $sentencia->bindParam(":p_tratamiento_id", $this->getTratamiento_id());
             $sentencia->execute();
-
+            /*
             $sql = "select * from fn_insert_log_curso
                                     (
                                         '$_SESSION[s_doc_id]',
@@ -178,6 +178,7 @@ class Tratamiento extends Conexion {
                 $sentencia->bindParam(":p_curso_id", $this->getCodigo_curso());
                 //$sentencia->bindParam(":p_nombre_curso", $this->getNombre_curso());
                 $sentencia->execute();
+                */
             return true;
         } catch (Exception $exc) {
             throw $exc;

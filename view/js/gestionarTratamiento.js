@@ -34,6 +34,8 @@ function listar() {
                 html += '<td align="center" style="font-weight:normal">' + item.nombre_tratamiento + '</td>';
                 html += '<td align="center">';
                 html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal" onclick="leerDatos(' + item.tratamiento_id + ')"><ion-icon name="create-outline"></ion-icon></button>';
+                html += '&nbsp;&nbsp;'
+                html += '<button type="button" class="btn btn-danger btn-xs" onclick="eliminar(' + item.tratamiento_id + ')"><ion-icon name="trash-sharp"></ion-icon></button>';
                 html += '</td>';
                 html += '</tr>';
             });
@@ -166,7 +168,7 @@ function leerDatos(codigo_tratamiento) {
     });
 }
 
-function eliminar(codCurso) {
+function eliminar(codTratamiento) {
     swal({
         title: "Confirme",
         text: "¿Esta seguro de eliminar el registro seleccionado?",
@@ -181,9 +183,9 @@ function eliminar(codCurso) {
             function (isConfirm) {
                 if (isConfirm) {
                     $.post(
-                            "../controller/gestionarCurso.eliminar.controller.php",
+                            "../controller/gestionarTratamiento.eliminar.controller.php",
                             {
-                                p_codigo_curso: codCurso
+                                p_codigo_tratamiento: codTratamiento
                             }
                     ).done(function (resultado) {
                         var datosJSON = resultado;
