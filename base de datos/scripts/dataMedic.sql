@@ -1451,7 +1451,7 @@ CREATE OR REPLACE FUNCTION fn_insert_log_especialidad
 											(
 											p_doc_id_log character varying(20), 
 											p_nombres_log character varying(100), 
-											p_cargo_log int, 
+											p_cargo_id_log int, 
 											p_tipo_log char(1),
 											p_tipo_operacion character varying(100),
 											p_ip character varying(200),
@@ -1464,7 +1464,7 @@ declare
 	p_tiempo character varying(50) := current_time;
 begin
 							
-							
+							select * from log_especialidad
 							
 								insert into log_especialidad
 										(
