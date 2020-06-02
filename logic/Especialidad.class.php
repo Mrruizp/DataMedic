@@ -151,6 +151,22 @@ class Especialidad extends Conexion {
             $sentencia = $this->dblink->prepare($sql);
             $sentencia->bindParam(":p_especialidad", $this->getEspecialidad());
             $sentencia->execute();
+
+            $sql = "select * from fn_insert_log_especialidad(
+                                                                    '$_SESSION[s_doc_id]',
+                                                                    '$_SESSION[s_usuario]',
+                                                                     $_SESSION[cargo_id],
+                                                                    '$_SESSION[tipo]',
+                                                                    'Editar',
+                                                                    '$_SERVER[REMOTE_ADDR]',
+                                                                    :p_especialidad_id,
+                                                                    :p_especialidad
+                                                                );";
+                        $sentencia = $this->dblink->prepare($sql);
+                        $sentencia->bindParam(":p_especialidad_id", $this->getEspecialidad_id());
+                        $sentencia->bindParam(":p_especialidad", $this->getEspecialidad());
+                        $sentencia->execute();
+                
             return true;
         } catch (Exception $exc) {
             throw $exc;
@@ -166,24 +182,22 @@ class Especialidad extends Conexion {
             $sentencia = $this->dblink->prepare($sql);
             $sentencia->bindParam(":p_especialidad_id", $this->getEspecialidad_id());
             $sentencia->execute();
-            /*
-            $sql = "select * from fn_insert_log_curso
-                                    (
-                                        '$_SESSION[s_doc_id]',
-                                        '$_SESSION[s_usuario]',
-                                        '$_SESSION[s_apellidos]',
-                                        $_SESSION[cargo_id],
-                                        '$_SESSION[tipo]',
-                                        :p_curso_id,
-                                        null,
-                                        'Eliminar',
-                                        '$_SERVER[REMOTE_ADDR]'
-                                    );";
-                $sentencia = $this->dblink->prepare($sql);
-                $sentencia->bindParam(":p_curso_id", $this->getCodigo_curso());
-                //$sentencia->bindParam(":p_nombre_curso", $this->getNombre_curso());
-                $sentencia->execute();
-                */
+            
+            $sql = "select * from fn_insert_log_especialidad(
+                                                                    '$_SESSION[s_doc_id]',
+                                                                    '$_SESSION[s_usuario]',
+                                                                     $_SESSION[cargo_id],
+                                                                    '$_SESSION[tipo]',
+                                                                    'Eliminar',
+                                                                    '$_SERVER[REMOTE_ADDR]',
+                                                                    :p_especialidad_id,
+                                                                    :p_especialidad
+                                                                );";
+                        $sentencia = $this->dblink->prepare($sql);
+                        $sentencia->bindParam(":p_especialidad_id", $this->getEspecialidad_id());
+                        $sentencia->bindParam(":p_especialidad", $this->getEspecialidad());
+                        $sentencia->execute();
+
             return true;
         } catch (Exception $exc) {
             throw $exc;
