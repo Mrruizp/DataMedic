@@ -36,12 +36,12 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                   <div class="container-fluid">
                     <div class="row mb-2">
                       <div class="col-sm-6">
-                        <h1>Módulo Tratamiento</h1>
+                        <h1>Módulo Especialidad</h1>
                       </div>
                       <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                           <li class="breadcrumb-item"><a href="menu.principal.view.php">Inicio</a></li>
-                          <li class="breadcrumb-item active">Módulo de Tratamiento</li>
+                          <li class="breadcrumb-item active">Módulo de Especialidad</li>
                         </ol>
                       </div>
                     </div>
@@ -56,14 +56,14 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                         <!-- general form elements -->
                         <div class="card card-default">
                           <div class="card-header">
-                            <h3 class="card-title">Tratamiento</h3>
+                            <h3 class="card-title">Especialidad</h3>
                           </div>
                           <!-- /.card-header -->
                           <!-- form start -->
                           
                             <div class="card-body">
                               <div class="form-group">
-                                <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#myModal" id="btnagregar"><ion-icon name="calendar-outline"></ion-icon> Agregar Tratamiento</button>
+                                <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#myModal" id="btnagregar"><ion-icon name="calendar-outline"></ion-icon> Agregar Especialidad</button>
                               </div>
                               <div class="form-group">
                                <div id="listado" class="table table-responsive"></div>
@@ -83,7 +83,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                       <div class="modal-header bg-info">
-                        <h4 class="modal-title" id = "titulomodalTratamiento">Registrar Tratamiento</h4>
+                        <h4 class="modal-title" id = "titulomodalTratamiento">Registrar Especialidad</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span></button>
                       </div>
@@ -103,8 +103,8 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                 <p>
                                     
                                     Nombre del Tratamiento<input type="text" 
-                                                  name="txtTratamiento" 
-                                                  id="txtTratamiento" 
+                                                  name="txtEspecialidad" 
+                                                  id="txtEspecialidad" 
                                                   class="form-control input-sm">
                                 </p>
                             </div>
@@ -131,7 +131,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
          
         <!-- ./wrapper -->
         <?php include_once 'scripts.view.php'; ?>
-        <script src="js/gestionarTratamiento.js" type="text/javascript"></script>
+        <script src="js/gestionarEspecialidad.js" type="text/javascript"></script>
         
     <!--
         <script src="js/convocatoriaVigente.js" type="text/javascript"></script>

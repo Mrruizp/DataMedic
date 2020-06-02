@@ -510,6 +510,23 @@ values(4,'Tratamiento');
 insert into menu(codigo_menu,nombre)
 values(5,'Presupuesto');
 
+select * from especialidad;
+
+-- actualización al 01/06/2020
+select * from menu;
+
+insert into menu(codigo_menu,nombre)
+values(7,'Especialidad');
+
+insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
+values(7,1,'Gestionar Especialidad', 'gestionarEspecialidad.view.php');
+
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(7,1,1,1);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(7,1,4,1);
+
+-- fin de actualización al 01/06/202
 -- cargo
 
 select * from menu
