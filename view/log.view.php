@@ -206,7 +206,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                             </a>
                                         </li>
                                         <li class="">
-                                            <a><h5>Usuarios que fueron creados
+                                            <a><h5>Especialidades que fueron creadas
                                               <span class="pull-right text-default text-bold" style="background-color: #7df2ae;">
                                                 <i class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i> 
                                                     
