@@ -2,6 +2,7 @@ $(document).ready(function () {
 
     listarLog_inicioseseion();
     listarLog_tratamiento();
+    listarLog_especialidad();
     listarLog_usuario();
     listarLog_paciente();
     listarLog_cita();
@@ -137,6 +138,81 @@ function listarLog_tratamiento() {
 
           
             $('#tabla-listadoLog_tratamiento').DataTable({
+                      "paging": true,
+                      "lengthChange": true,
+                      "searching": true,
+                      "ordering": false,
+                      "info": false,
+                      "autoWidth": false,
+                      "sScrollX": false,
+                  });
+  
+           
+
+
+
+        } else {
+            //swal("Mensaje del sistema", resultado , "warning");
+        }
+
+    }).fail(function (error) {
+        var datosJSON = $.parseJSON(error.responseText);
+        swal("Error", datosJSON.mensaje , "error"); 
+    });
+}
+
+function listarLog_especialidad() {
+    $.post
+            (
+                    "../controller/log_especialidad.listar.controller.php"
+
+                    ).done(function (resultado) {
+        var datosJSON = resultado;
+
+        if (datosJSON.estado === 200) {
+            var html = "";
+
+            html += '<small>';
+            html += '<table id="tabla-listadoLog_especialidad" class="table table-bordered table-hover">';
+            html += '<thead>';
+            html += '<tr style="height:25px;">';
+            html += '<th style="text-align:center; background-color: #25c3ff">DNI</th>';
+            html += '<th style="text-align:center; background-color: #25c3ff">NOMBRE COMPLETO</th>';
+            html += '<th style="text-align:center; background-color: #25c3ff">CARGO</th>';
+            html += '<th style="text-align:center; background-color: #25c3ff">TIPO DE USUARIO</th>';
+            html += '<th style="text-align:center; background-color: #25c3ff">FECHA DE OPERACIÓN</th>';
+            html += '<th style="text-align:center; background-color: #25c3ff">HORA DE OPERACION</th>';
+            html += '<th style="text-align:center; background-color: #25c3ff">TIPO DE OPERACION IP</th>';
+            html += '<th style="text-align:center; background-color: #25c3ff">IP</th>';
+            html += '<th style="text-align:center; background-color: #7df2ae">ESPECIALIDAD ID</th>';
+            html += '<th style="text-align:center; background-color: #7df2ae">ESPECIALIDAD</th>';
+            html += '</tr>';
+            html += '</thead>';
+            html += '<tbody>';
+            $.each(datosJSON.datos, function (i, item) {
+                html += '<tr>';
+                html += '<td align="center" style="font-weight:normal">' + item.usuarioqueregistra_doc_id +    '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.usuarioqueregistra_nombres +   '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.usuarioqueregistra_cargo_id +     '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.usuarioqueregistra_tipo +      '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.fecha +     '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.tiempo +    '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.tipo_operacion +  '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.ip +        '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.especialidad_id +     '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.nombre_especialidad + '</td>';
+                html += '</tr>';
+            });
+
+            html += '</tbody>';
+            html += '</table>';
+            html += '</small>';
+
+            $("#listadoLog_especialidad").html(html);
+            //$("#tabla-listado").DataTable();
+
+          
+            $('#tabla-listadoLog_especialidad').DataTable({
                       "paging": true,
                       "lengthChange": true,
                       "searching": true,

@@ -5,6 +5,7 @@ try {
     require_once '../logic/Especialidad.class.php';
     require_once '../util/functions/Helper.class.php';
 
+   
     if
     (
             !isset($_POST["p_nombre_especialidad"]) ||
@@ -28,6 +29,7 @@ try {
         $objEspecialidad->setEspecialidad($nombre_especialidad);
         
         $resultado = $objEspecialidad->agregar();
+        
         if ($resultado) {
             Helper::imprimeJSON(200, "Agregado correctamente", "");
         }

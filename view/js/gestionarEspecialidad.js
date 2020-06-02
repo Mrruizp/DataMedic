@@ -94,7 +94,7 @@ $("#frmgrabar").submit(function (event) {
 
                     //var codLab = ($("#txtTipoOperacion").val()==="agregar")? 
 
-                    var codCita = "";
+                    var codEspecialidad = "";
                     if ($("#txtTipoOperacion").val() === "agregar") {
                         codEspecialidad = "0";
                     } else {
@@ -103,8 +103,7 @@ $("#frmgrabar").submit(function (event) {
                     $.post(
                             "../controller/gestionarEspecialidad.agregar.editar.controller.php",
                             {
-                                p_nombre_especialidad:        $("#txtEspecialidad").val(),
-
+                                p_nombre_especialidad: $("#txtEspecialidad").val(),
                                 p_tipo_ope:     $("#txtTipoOperacion").val(),
                                 p_codigo_especialidad: codEspecialidad
                             }

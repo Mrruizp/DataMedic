@@ -67,7 +67,10 @@ class Especialidad extends Conexion {
                 $sql = "
 
                     insert into especialidad
-                    values(:p_Especialidad_id,:p_Especialidad)
+                    values(
+                            :p_Especialidad_id,
+                            :p_Especialidad
+                            )
                     ";
                 $sentencia = $this->dblink->prepare($sql);
    
@@ -76,27 +79,29 @@ class Especialidad extends Conexion {
                 $sentencia->execute();
                 /*Insertar en la tabla laboratorio*/
                 
-                /*Actualizar el correlativo*/
+                
+                $sql = "select * from fn_insert_log_especialidad(
+                                                                    '$_SESSION[s_doc_id]',
+                                                                    '$_SESSION[s_usuario]',
+                                                                     $_SESSION[cargo_id],
+                                                                    '$_SESSION[tipo]',
+                                                                    'Registro',
+                                                                    '$_SERVER[REMOTE_ADDR]',
+                                                                    :p_especialidad_id,
+                                                                    :p_especialidad
+                                                                );";
+                        $sentencia = $this->dblink->prepare($sql);
+                        $sentencia->bindParam(":p_especialidad_id", $this->getEspecialidad_id());
+                        $sentencia->bindParam(":p_especialidad", $this->getEspecialidad());
+                        $sentencia->execute();
+                        
+                        /*Actualizar el correlativo*/
                 $sql = "update correlativo set numero = numero + 1 
                     where tabla='especialidad'";
                 $sentencia = $this->dblink->prepare($sql);
                 $sentencia->execute();
                 //*Actualizar el correlativo*/
-               /* $sql2 = "select * from fn_insert_log_tratamiento(
-                                                                    '$_SESSION[s_doc_id]',
-                                                                    '$_SESSION[s_usuario]',
-                                                                     $_SESSION["cargo"],
-                                                                    '$_SESSION[tipo]',
-                                                                    'Registro',
-                                                                    '$_SERVER[REMOTE_ADDR]'
-                                                                    :p_Tratamiento_id,
-                                                                    :p_Tratamiento
-                                                                );";
-                        $sentencia2 = $this->dblink->prepare($sql2);
-                        $sentencia2->bindParam(":p_Tratamiento_id", $this->getTratamiento_id());
-                        $sentencia2->bindParam(":p_Tratamiento", $this->getTratamiento());
-                        $sentencia2->execute();
-                        */
+
                 $this->dblink->commit();
                 return true;
                 

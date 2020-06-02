@@ -102,6 +102,7 @@ class Log extends Conexion {
             throw $exc;
         }
     }
+
     public function listarLog_tratamiento() {
         try {
             $sql = "
@@ -109,6 +110,23 @@ class Log extends Conexion {
                             *
                     from 
                             log_tratamiento;
+                ";
+            $sentencia = $this->dblink->prepare($sql);
+            $sentencia->execute();
+            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function listarLog_especialidad() {
+        try {
+            $sql = "
+                   select 
+                            *
+                    from 
+                            log_especialidad;
                 ";
             $sentencia = $this->dblink->prepare($sql);
             $sentencia->execute();

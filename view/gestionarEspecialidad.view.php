@@ -102,7 +102,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                             <div class="col-8">
                                 <p>
                                     
-                                    Nombre del Tratamiento<input type="text" 
+                                    Nombre de la Especialidad<input type="text" 
                                                   name="txtEspecialidad" 
                                                   id="txtEspecialidad" 
                                                   class="form-control input-sm">

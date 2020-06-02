@@ -349,6 +349,21 @@ CREATE TABLE log_cita
   estado character varying(50)not null,-- el que habilita o no la cita es el admin y debe haber un registro de eso
   paciente_id int
 );
+
+CREATE TABLE log_especialidad
+(
+  usuarioQueRegistra_doc_id character varying(20),
+  usuarioQueRegistra_nombres character varying(100),
+  usuarioQueRegistra_cargo_id int,
+  usuarioQueRegistra_tipo char(1),
+  fecha character varying(50),
+  tiempo character varying(50),
+  tipo_operacion character varying(100),
+  ip character varying(200),
+  especialidad_id int,
+  nombre_especialidad character varying(200)
+);
+
 -- agregados para el LOG
 -- agregar al menú el módulo usuario
 
@@ -1428,10 +1443,71 @@ select * from fn_insert_log_usuario
 -- 
 select * from correlativo;
 select * from credenciales_acceso;
-select * from log_usuario;
+select * from cargo;
 select * from usuario
 
+-- FUNCIÓN REGISTRAR el log de especialidad
+CREATE OR REPLACE FUNCTION fn_insert_log_especialidad
+											(
+											p_doc_id_log character varying(20), 
+											p_nombres_log character varying(100), 
+											p_cargo_log int, 
+											p_tipo_log char(1),
+											p_tipo_operacion character varying(100),
+											p_ip character varying(200),
+											p_especialidad_id int,
+											p_nombre_especialidad character varying(200)
+											)returns void as
+$$
+declare
+	p_fecha character varying(50)  := current_date;
+	p_tiempo character varying(50) := current_time;
+begin
+							
+							
+							
+								insert into log_especialidad
+										(
+											usuarioqueregistra_doc_id, 
+											usuarioqueregistra_nombres,
+											usuarioqueregistra_cargo_id, 
+											usuarioqueregistra_tipo,
+											fecha,
+											tiempo,
+											tipo_operacion,
+											ip,
+											especialidad_id,
+											nombre_especialidad
+										)
+									values (
+												p_doc_id_log, 
+												p_nombres_log, 
+												p_cargo_id_log, 
+												p_tipo_log,
+												p_fecha,
+												p_tiempo,
+												p_tipo_operacion,
+												p_ip,
+												p_especialidad_id,
+												p_nombre_especialidad
+												
+											); 
+										
+end
+$$ language plpgsql;
 
+select * from fn_insert_log_especialidad(
+                                                                    '12345678',
+                                                                    'bbbbbbbbbbbbbb',
+                                                                     3,
+                                                                    'A',
+                                                                    'Registro',
+                                                                    '192.168.1.1',
+                                                                    1,
+                                                                    'bbbbbbbbbbbbbbbbbb'
+                                                                );
+																
+select * from log_especialidad
 -- FUNCIÓN REGISTRAR el log de tratamiento
 CREATE OR REPLACE FUNCTION fn_insert_log_tratamiento
 											(

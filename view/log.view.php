@@ -182,6 +182,53 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                             <!-- general form elements -->
                             <div class="card card-default">
                               <div class="card-header">
+                                <h2 class="card-title text-info text-bold"><ion-icon name="reader-outline"></ion-icon> Especialidad</h2>
+                              </div>
+                              <!-- /.card-header -->
+                              <!-- form start -->
+                              
+                                <div class="card-body">
+                                 
+                                  <div class="form-group">
+                                   <div id="listadoLog_especialidad"></div>
+                                    
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-4">
+                                      <div class="box-footer no-padding">
+                                      <ul class="nav nav-pills nav-stacked">
+                                        <li class="">
+                                            <a><h5>Usuarios que registrarón movimientos
+                                              <span class="pull-right text-default text-bold" style="background-color: #25c3ff;">
+                                                <i class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i> 
+                                                    
+                                                </span></h5>
+                                            </a>
+                                        </li>
+                                        <li class="">
+                                            <a><h5>Usuarios que fueron creados
+                                              <span class="pull-right text-default text-bold" style="background-color: #7df2ae;">
+                                                <i class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i> 
+                                                    
+                                                </span></h5>
+                                            </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                    </div>
+                                </div><br/><br/>
+                                </div>
+                             
+                            </div>
+                            <!-- /.card -->
+                          </div>
+                        </div>
+                        <div class="row">
+                          <!-- left column -->
+                          <div class="col-md-12">
+                            <!-- general form elements -->
+                            <div class="card card-default">
+                              <div class="card-header">
                                 <h2 class="card-title text-info text-bold"><ion-icon name="man-outline"></ion-icon> Paciente</h2>
                               </div>
                               <!-- /.card-header -->
