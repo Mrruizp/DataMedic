@@ -96,18 +96,17 @@ $("#frmgrabar").submit(function (event) {
 
                     var codCita = "";
                     if ($("#txtTipoOperacion").val() === "agregar") {
-                        codTratamiento = "0";
+                        codEspecialidad = "0";
                     } else {
-                        codTratamiento = $("#txtCodigo").val();
+                        codEspecialidad = $("#txtCodigo").val();
                     }
                     $.post(
-                            "../controller/gestionarTratamiento.agregar.editar.controller.php",
+                            "../controller/gestionarEspecialidad.agregar.editar.controller.php",
                             {
-                               // p_cod_tratamiento:       $("#txtCodigo").val(),
-                                p_nombre_tratamiento:        $("#txtTratamiento").val(),
+                                p_nombre_especialidad:        $("#txtEspecialidad").val(),
 
                                 p_tipo_ope:     $("#txtTipoOperacion").val(),
-                                p_codigo_tratamiento: codTratamiento
+                                p_codigo_especialidad: codEspecialidad
                             }
                     ).done(function (resultado) {
                         var datosJSON = resultado;

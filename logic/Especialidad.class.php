@@ -24,7 +24,7 @@ class Especialidad extends Conexion {
         $this->Especialidad_id = $Especialidad_id;
     }
 
-    public function setTratamiento($Especialidad) {
+    public function setEspecialidad($Especialidad) {
         $this->Especialidad = $Especialidad;
     }
 
@@ -54,31 +54,31 @@ class Especialidad extends Conexion {
         $this->dblink->beginTransaction();
 
         try {
-            $sql = "select * from f_generar_correlativo('tratamiento') as nc";
+            $sql = "select * from f_generar_correlativo('especialidad') as nc";
             $sentencia = $this->dblink->prepare($sql);
             $sentencia->execute();
 
             if ($sentencia->rowCount()) {
                 $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
                 $nuevoCodigo = $resultado["nc"];
-                $this->setTratamiento_id($nuevoCodigo);
+                $this->setEspecialidad_id($nuevoCodigo);
 
                 /* Insertar en la tabla laboratorio */
                 $sql = "
 
-                    insert into tratamiento
-                    values(:p_Tratamiento_id,:p_Tratamiento)
+                    insert into especialidad
+                    values(:p_Especialidad_id,:p_Especialidad)
                     ";
                 $sentencia = $this->dblink->prepare($sql);
    
-                $sentencia->bindParam(":p_Tratamiento_id", $this->getTratamiento_id());
-                $sentencia->bindParam(":p_Tratamiento", $this->getTratamiento());
+                $sentencia->bindParam(":p_Especialidad_id", $this->getEspecialidad_id());
+                $sentencia->bindParam(":p_Especialidad", $this->getEspecialidad());
                 $sentencia->execute();
                 /*Insertar en la tabla laboratorio*/
                 
                 /*Actualizar el correlativo*/
                 $sql = "update correlativo set numero = numero + 1 
-                    where tabla='tratamiento'";
+                    where tabla='especialidad'";
                 $sentencia = $this->dblink->prepare($sql);
                 $sentencia->execute();
                 //*Actualizar el correlativo*/
@@ -101,7 +101,7 @@ class Especialidad extends Conexion {
                 return true;
                 
             }else{
-                throw new Exception("No se ha configurado el correlativo para la tabla tratamiento");
+                throw new Exception("No se ha configurado el correlativo para la tabla especialidad");
             }
             
         } catch (Exception $exc) {
@@ -144,7 +144,7 @@ class Especialidad extends Conexion {
                     especialidad_id = $p_codigoEspecialidad;
                 ";
             $sentencia = $this->dblink->prepare($sql);
-            $sentencia->bindParam(":p_especialidad", $this->getTratamiento());
+            $sentencia->bindParam(":p_especialidad", $this->getEspecialidad());
             $sentencia->execute();
             return true;
         } catch (Exception $exc) {

@@ -512,8 +512,18 @@ values(5,'Presupuesto');
 
 select * from especialidad;
 
+select * from correlativo;
+
 -- actualización al 01/06/2020
-select * from menu;
+select * from f_generar_correlativo('especialidad') as nc
+select * from correlativo;
+
+update correlativo
+set numero = 5
+where tabla = 'especialidad'
+
+insert into correlativo
+values('especialidad', 5)
 
 insert into menu(codigo_menu,nombre)
 values(7,'Especialidad');
