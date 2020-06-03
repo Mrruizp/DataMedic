@@ -115,7 +115,8 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                     DNI del Usuario<input type="text" 
                                                   name="txtDoc_id" 
                                                   id="txtDoc_id" 
-                                                  class="form-control input-sm">
+                                                  class="form-control input-sm" maxlength="8"
+                                                  onkeypress="ValidaSoloNumeros();">
                                 </p>
                             </div>
                             <div class="col-3">
@@ -167,7 +168,8 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                     DNI <input type="text" 
                                                   name="txtDoc_id_paciente" 
                                                   id="txtDoc_id_paciente" 
-                                                  class="form-control input-sm">
+                                                  class="form-control input-sm" maxlength="8"
+                                                  onkeypress="ValidaSoloNumeros();">
                                 </p>
                             </div>
                             <div class="col-5">
@@ -414,7 +416,8 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                     DNI <input type="text" 
                                                   name="txtDoc_id_paciente1" 
                                                   id="txtDoc_id_paciente1" 
-                                                  class="form-control input-sm">
+                                                  class="form-control input-sm" maxlength="8"
+                                                  onkeypress="ValidaSoloNumeros();">
                                 </p>
                             </div>
                             <div class="col-5">
