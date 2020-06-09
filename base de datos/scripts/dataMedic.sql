@@ -6,21 +6,39 @@ CREATE TABLE correlativo
 	numero integer not null,
 	CONSTRAINT pk_correlativo PRIMARY KEY (tabla)
  );
-
+-- select * from empresa
 CREATE TABLE empresa
 (
   empresa_id int,
-  nombre_empresa character varying(100) NOT NULL,
+  razon_social character varying(100) NOT NULL, -- se presenta ante los bancos o sunat
+  razon_comercial character varying(100) NOT NULL, -- se presenta ante los clientes
+  ruc  character varying(20) NOT NULL,
   CONSTRAINT pk_empresa_id PRIMARY KEY (empresa_id)
 );
+
+-- ALTER TABLE empresa
+-- RENAME column nombre_empresa TO razon_social; 
+select * from sede
 
 CREATE TABLE sede
 (
   sede_id int,
   nombre_sede character varying(100) NOT NULL,
+  departamento_sede character varying(100) NOT NULL,
+  provincia_sede character varying(100) NOT NULL,
+  distrito_sede character varying(100) NOT NULL,
+  direccion_sede character varying(200) NOT NULL,
+  tipo_sede char(1) NOT NULL;, -- P: Principal, S: Secundario
   empresa_id int,
   CONSTRAINT pk_sede_id PRIMARY KEY (sede_id),
   CONSTRAINT fk_sede_empresa_id FOREIGN KEY (empresa_id) references empresa(empresa_id)  
+);
+
+CREATE TABLE area
+(
+  area_id int,
+  nombre_area character varying(100) NOT NULL,
+  CONSTRAINT pk_area_id PRIMARY KEY (area_id)
 );
 
 CREATE TABLE consultorio
@@ -28,10 +46,12 @@ CREATE TABLE consultorio
   consultorio_id int,
   nombre_consultorio character varying(100) NOT NULL,
   sede_id int,
+  area_id int,
   CONSTRAINT pk_consultorio_id PRIMARY KEY (consultorio_id),
-  CONSTRAINT fk_consultorio_sede_id FOREIGN KEY (sede_id) references sede(sede_id)  
+  CONSTRAINT fk_consultorio_sede_id FOREIGN KEY (sede_id) references sede(sede_id),
+  CONSTRAINT fk_consultorio_area_id FOREIGN KEY (area_id) references area(area_id)
 );
- 
+
 CREATE TABLE cargo
 (
   cargo_id serial not NULL,
@@ -642,12 +662,26 @@ values(8,3,'Gestionar Consultorio', 'gestionarConsultorio.view.php');
 insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
 values(8,3,4,1);
 insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
-values(8,3,1,1)
+values(8,3,1,1);
+
+insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
+values(8,4,'Gestionar Área', 'gestionarArea.view.php');
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(8,4,4,1);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(8,4,1,1);
+
+insert into correlativo(tabla, numero)
+values('area',0);
+
+insert into empresa
+values(1,'Clinica Ricardo Palma Sa','Clinica Ricardo Palma','20100121809');
+
 
 -- FIN
 -- cargo
 
-select * from menu
+select * from empresa
 update menu
 set nombre = 'Tratamiento'
 where codigo_menu = 4
