@@ -1,18 +1,43 @@
 CREATE DATABASE dataMedic;
 
-CREATE TABLE cargo
-(
-  cargo_id serial not NULL,
-  descripcion character varying(50) NOT NULL,
-  CONSTRAINT pk_cargo PRIMARY KEY (cargo_id)
-);
-
 CREATE TABLE correlativo
  (
 	tabla character varying(100) not null,
 	numero integer not null,
 	CONSTRAINT pk_correlativo PRIMARY KEY (tabla)
  );
+
+CREATE TABLE empresa
+(
+  empresa_id int,
+  nombre_empresa character varying(100) NOT NULL,
+  CONSTRAINT pk_empresa_id PRIMARY KEY (empresa_id)
+);
+
+CREATE TABLE sede
+(
+  sede_id int,
+  nombre_sede character varying(100) NOT NULL,
+  empresa_id int,
+  CONSTRAINT pk_sede_id PRIMARY KEY (sede_id),
+  CONSTRAINT fk_sede_empresa_id FOREIGN KEY (empresa_id) references empresa(empresa_id)  
+);
+
+CREATE TABLE consultorio
+(
+  consultorio_id int,
+  nombre_consultorio character varying(100) NOT NULL,
+  sede_id int,
+  CONSTRAINT pk_consultorio_id PRIMARY KEY (consultorio_id),
+  CONSTRAINT fk_consultorio_sede_id FOREIGN KEY (sede_id) references sede(sede_id)  
+);
+ 
+CREATE TABLE cargo
+(
+  cargo_id serial not NULL,
+  descripcion character varying(50) NOT NULL,
+  CONSTRAINT pk_cargo PRIMARY KEY (cargo_id)
+);
 
 CREATE TABLE USUARIO
 (
@@ -30,6 +55,76 @@ CREATE TABLE USUARIO
 	CONSTRAINT uni_email UNIQUE (email)
 );
 
+CREATE TABLE cita
+(
+  cita_id integer not NULL,
+  fecha character varying(50)not null,
+  hora character varying(50) not NULL,
+  descripcion character varying(500) not NULL,
+  doc_id character varying(20),
+  estado character varying(50)not null,
+  consultorio_id int,
+  paciente_id int,
+  CONSTRAINT pk_cita_cita_id PRIMARY KEY (cita_id),
+  CONSTRAINT fk_cita_doc_id foreign key (doc_id) references usuario(doc_id),
+  CONSTRAINT fk_cita_consultorio_id foreign key (consultorio_id) references consultorio(consultorio_id),
+  CONSTRAINT fk_cita_paciente_id foreign key (paciente_id) references paciente(paciente_id)
+);
+
+CREATE TABLE especialidad
+(
+  especialidad_id integer,
+  nombre_especialidad character varying(200)not null,
+  CONSTRAINT pk_especialidad_especialidad_id PRIMARY KEY (especialidad_id)
+);
+
+CREATE TABLE otra_Especializacion
+(
+  otra_Especializacion_id integer not NULL,
+  otra_Especializacion_nombre character varying(100)not null,
+  especialidad_id integer,
+  doctor_id integer,
+  CONSTRAINT pk_otra_Especializacion_otra_Especializacion_id PRIMARY KEY (otra_Especializacion_id),
+  CONSTRAINT fk_otra_Especializacion_especialidad_id foreign key (especialidad_id) references especialidad(especialidad_id),	
+  CONSTRAINT fk_otra_Especializacion_doctor_id foreign key (doctor_id) references doctor(doctor_id)	
+);
+
+CREATE TABLE doctor
+(
+  doctor_id integer not NULL,
+  colegio character varying(10)not null,
+  codigo_colegio character varying(20) not NULL,
+  nombre character varying(100) not NULL,
+  apellido character varying(100) not NULL,
+  direccion character varying(200) not NULL,
+  telefono character varying(20) not NULL,
+  email character varying(150) not NULL,
+  especialidad_id int,
+  CONSTRAINT pk_doctor_doctor_id PRIMARY KEY (doctor_id)
+);
+select * from fecha_atencion_doctor
+
+CREATE TABLE fecha_atencion_doctor
+(
+  fecha_atencion_doctor_id integer,
+  fecha_atencion_doctor_fecha character varying(50)not null,
+  fecha_atencion_doctor_hora character varying(50) not NULL,
+  fecha_atencion_doctor_descripcion character varying(500) not NULL,
+  fecha_atencion_doctor_estado character varying(50)not null,
+  consultorio_id int,
+  doctor_id int,
+  CONSTRAINT pk_fecha_atencion_doctor_fecha_atencion_doctor_id PRIMARY KEY (fecha_atencion_doctor_id),
+  CONSTRAINT fk_fecha_atencion_doctor_consultorio_id foreign key (consultorio_id) references consultorio(consultorio_id),
+  CONSTRAINT fk_fecha_atencion_doctor_doctor_id foreign key (doctor_id) references doctor(doctor_id)
+);
+
+select * from cita
+
+/*ALTER TABLE synop
+  ADD CONSTRAINT estacoes_fk
+  FOREIGN KEY (id_estacao)
+  REFERENCES estacoes
+*/
 -- ALTER TABLE USUARIO ALTER COLUMN direccion  DROP  NOT NULL;
 -- ALTER TABLE USUARIO ALTER COLUMN telefono  DROP  NOT NULL;
 
@@ -79,44 +174,6 @@ CREATE TABLE menu_item_accesos
       REFERENCES cargo (cargo_id),
   CONSTRAINT fk_menu_item_accesos_menu_item FOREIGN KEY (codigo_menu, codigo_menu_item)
       REFERENCES menu_item (codigo_menu, codigo_menu_item)
-);
-
-CREATE TABLE especialidad
-(
-  especialidad_id integer not NULL,
-  nombre_especialidad character varying(200)not null,
-  CONSTRAINT pk_especialidad_especialidad_id PRIMARY KEY (especialidad_id)
-);
-CREATE TABLE doctor
-(
-  doctor_id integer not NULL,
-  colegio character varying(10)not null,
-  codigo_colegio character varying(20) not NULL,
-  nombre character varying(100) not NULL,
-  apellido character varying(100) not NULL,
-  direccion character varying(200) not NULL,
-  telefono character varying(20) not NULL,
-  email character varying(150) not NULL,
-  especialidad_id int,
-  CONSTRAINT pk_doctor_doctor_id PRIMARY KEY (doctor_id),
-  CONSTRAINT fk_doctor_especialidad_id foreign key (especialidad_id) references especialidad(especialidad_id)	
-);
-
-
-CREATE TABLE cita
-(
-  cita_id integer not NULL,
-  fecha character varying(50)not null,
-  hora character varying(50) not NULL,
-  descripcion character varying(500) not NULL,
-  doc_id character varying(20),
-  doctor_id int,
-  estado character varying(50)not null,
-  paciente_id int,
-  CONSTRAINT pk_cita_cita_id PRIMARY KEY (cita_id),
-  CONSTRAINT fk_cita_doc_id foreign key (doc_id) references usuario(doc_id),
-  CONSTRAINT fk_cita_doctor_id foreign key (doctor_id) references doctor(doctor_id),
-  CONSTRAINT fk_cita_paciente_id foreign key (paciente_id) references paciente(paciente_id)
 );
 
 -- select * from cita
@@ -363,6 +420,9 @@ CREATE TABLE log_especialidad
   especialidad_id int,
   nombre_especialidad character varying(200)
 );
+-- Nuevas tablas para la ampliación del sistema
+-- Empresa, Sucursal, Consultorio.
+
 
 -- agregados para el LOG
 -- agregar al menú el módulo usuario
@@ -491,19 +551,24 @@ insert into fecha
 values(1,'01','9:00 am',1,1);
 --
 */
-select * from historial_tratamiento
-
+select * from correlativo
+-- actualizado para al ampliación del sistema al 08062020
 insert into correlativo
 values('cita',0); 
 insert into correlativo
 values('usuario',0); 
 insert into correlativo
 values('doctor',0); 
-
+insert into correlativo
+values('cargo',0); 
 insert into correlativo
 values('paciente',0); 
 insert into correlativo
-values('costo',0); 
+values('empresa',0);
+insert into correlativo
+values('sede',0); 
+insert into correlativo
+values('consultorio',0); 
 insert into correlativo
 values('tratamiento',0); 
 insert into correlativo
