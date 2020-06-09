@@ -617,6 +617,34 @@ insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
 values(7,1,4,1);
 
 -- fin de actualización al 01/06/202
+
+-- actualización de ampliación al 09062020
+
+select * from f_generar_correlativo('empresa') as nc
+select * from cargo;
+
+insert into menu(codigo_menu,nombre)
+values(8,'Empresa');
+insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
+values(8,1,'Gestionar Empresa', 'gestionarEmpresa.view.php');
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(8,1,4,1);
+
+insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
+values(8,2,'Gestionar Sede', 'gestionarSede.view.php');
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(8,2,4,1);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(8,2,1,1);
+
+insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
+values(8,3,'Gestionar Consultorio', 'gestionarConsultorio.view.php');
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(8,3,4,1);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(8,3,1,1)
+
+-- FIN
 -- cargo
 
 select * from menu
