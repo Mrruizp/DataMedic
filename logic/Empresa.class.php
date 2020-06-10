@@ -74,32 +74,36 @@ class Empresa extends Conexion {
         $this->dblink->beginTransaction();
 
         try {
-            $sql = "select * from f_generar_correlativo('especialidad') as nc";
+            $sql = "select * from f_generar_correlativo('empresa') as nc";
             $sentencia = $this->dblink->prepare($sql);
             $sentencia->execute();
 
             if ($sentencia->rowCount()) {
                 $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
                 $nuevoCodigo = $resultado["nc"];
-                $this->setEspecialidad_id($nuevoCodigo);
+                $this->setEmpresa_id($nuevoCodigo);
 
                 /* Insertar en la tabla laboratorio */
                 $sql = "
 
-                    insert into especialidad
+                    insert into empresa
                     values(
-                            :p_Especialidad_id,
-                            :p_Especialidad
+                            :p_empresa_id,
+                            :p_razon_social,
+                            :p_razon_comercial,
+                            :p_ruc
                             )
                     ";
                 $sentencia = $this->dblink->prepare($sql);
    
-                $sentencia->bindParam(":p_Especialidad_id", $this->getEspecialidad_id());
-                $sentencia->bindParam(":p_Especialidad", $this->getEspecialidad());
+                $sentencia->bindParam(":p_empresa_id", $this->getEmpresa_id());
+                $sentencia->bindParam(":p_razon_social", $this->getRazon_social());
+                $sentencia->bindParam(":p_razon_comercial", $this->getRazon_comercial());
+                $sentencia->bindParam(":p_ruc", $this->getRuc());
                 $sentencia->execute();
                 /*Insertar en la tabla laboratorio*/
                 
-                
+            /*    
                 $sql = "select * from fn_insert_log_especialidad(
                                                                     '$_SESSION[s_doc_id]',
                                                                     '$_SESSION[s_usuario]',
@@ -114,7 +118,7 @@ class Empresa extends Conexion {
                         $sentencia->bindParam(":p_especialidad_id", $this->getEspecialidad_id());
                         $sentencia->bindParam(":p_especialidad", $this->getEspecialidad());
                         $sentencia->execute();
-                        
+             */        
                         /*Actualizar el correlativo*/
                 $sql = "update correlativo set numero = numero + 1 
                     where tabla='especialidad'";
@@ -160,20 +164,24 @@ class Empresa extends Conexion {
         }
     }
 
-    public function editar($p_codigoEspecialidad) {
+    public function editar($p_codigoEmpresa) {
         try {
             $sql = "
                 update 
-                    especialidad 
-                set  
-                    nombre_especialidad = :p_especialidad
+                    empresa 
+                set 
+                    razon_social = :p_razon_social,
+                    razon_comercial = :p_razon_comercial,
+                    ruc = :p_ruc
                 where
-                    especialidad_id = $p_codigoEspecialidad;
+                    empresa_id = $p_codigoEmpresa;
                 ";
             $sentencia = $this->dblink->prepare($sql);
-            $sentencia->bindParam(":p_especialidad", $this->getEspecialidad());
+            $sentencia->bindParam(":p_razon_social", $this->getRazon_social());
+             $sentencia->bindParam(":p_razon_comercial", $this->getRazon_comercial());
+             $sentencia->bindParam(":p_ruc", $this->getRuc());
             $sentencia->execute();
-
+        /*
             $sql = "select * from fn_insert_log_especialidad(
                                                                     '$_SESSION[s_doc_id]',
                                                                     '$_SESSION[s_usuario]',
@@ -188,7 +196,7 @@ class Empresa extends Conexion {
                         $sentencia->bindParam(":p_especialidad_id", $this->getEspecialidad_id());
                         $sentencia->bindParam(":p_especialidad", $this->getEspecialidad());
                         $sentencia->execute();
-                
+        */
             return true;
         } catch (Exception $exc) {
             throw $exc;

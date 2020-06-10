@@ -680,7 +680,7 @@ values(1,'Clinica Ricardo Palma Sa','Clinica Ricardo Palma','20100121809');
 
 -- FIN
 -- cargo
-
+select * from f_generar_correlativo('empresa') as nc
 select * from empresa
 update menu
 set nombre = 'Tratamiento'

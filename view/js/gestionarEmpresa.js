@@ -98,18 +98,20 @@ $("#frmgrabar").submit(function (event) {
 
                     //var codLab = ($("#txtTipoOperacion").val()==="agregar")? 
 
-                    var codEspecialidad = "";
+                    var codEmpresa = "";
                     if ($("#txtTipoOperacion").val() === "agregar") {
-                        codEspecialidad = "0";
+                        codEmpresa = "0";
                     } else {
-                        codEspecialidad = $("#txtCodigo").val();
+                        codEmpresa = $("#txtCodigo").val();
                     }
                     $.post(
                             "../controller/gestionarEmpresa.agregar.editar.controller.php",
                             {
-                                p_nombre_especialidad: $("#txtEspecialidad").val(),
+                                p_ruc: $("#txtRuc").val(),
+                                p_razonSocial: $("#txtRazonSocial").val(),
+                                p_razonComercia: $("#txtRazonComercial").val(),
                                 p_tipo_ope:     $("#txtTipoOperacion").val(),
-                                p_codigo_especialidad: codEspecialidad
+                                p_codigo_empresa: codEmpresa
                             }
                     ).done(function (resultado) {
                         var datosJSON = resultado;
@@ -158,7 +160,7 @@ function leerDatos(codigo_empresa) {
         if (jsonResultado.estado === 200) {
             $("#txtTipoOperacion").val("editar");
             // Paciente:
-            $("#txtCodigo").val(jsonResultado.datos.especialidad_id);
+            $("#txtCodigo").val(jsonResultado.datos.empresa_id);
             $("#txtRuc").val(jsonResultado.datos.ruc);
             $("#txtRazonSocial").val(jsonResultado.datos.razon_social);
             $("#txtRazonComercial").val(jsonResultado.datos.razon_comercial);
