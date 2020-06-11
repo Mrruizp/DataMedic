@@ -677,11 +677,14 @@ values('area',0);
 insert into empresa
 values(1,'Clinica Ricardo Palma Sa','Clinica Ricardo Palma','20100121809');
 
+insert into sede
+values(1,'Sede 01 - Miraflores',1,'Lima','Lima','Miraflores','Av. Larco 15002','C');
+
 
 -- FIN
 -- cargo
 select * from f_generar_correlativo('empresa') as nc
-select * from empresa
+select * from sede
 update menu
 set nombre = 'Tratamiento'
 where codigo_menu = 4

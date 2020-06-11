@@ -118,5 +118,28 @@ class comboCodigo extends Conexion {
             throw $exc;
         }
     }
+
+    public function cargarDatos_CodigoEmpresa() {
+        
+        try {
+            $sql = "
+                    select 
+                        empresa_id,
+                        razon_social,
+                        razon_comercial,
+                        ruc
+                    from 
+                        empresa;";
+
+            
+            $sentencia = $this->dblink->prepare($sql);
+           // $sentencia->bindParam(":p_curso_id", $codigo_curso);
+            $sentencia->execute();
+            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
     
 }

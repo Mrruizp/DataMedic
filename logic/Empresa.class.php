@@ -235,23 +235,5 @@ class Empresa extends Conexion {
         return false;
     }
 
-    public function editarEstardo($cod_citaEstado, $estado_cita) {
-        try {
-            $sql = "
-                update 
-                    cita 
-                set  
-                    estado = '$estado_cita'
-                where
-                    cita_id = $cod_citaEstado
-                ";
-            $sentencia = $this->dblink->prepare($sql);
-            $sentencia->execute();
-            return true;
-        } catch (Exception $exc) {
-            throw $exc;
-        }
-        return false;
-    }
 
 }
