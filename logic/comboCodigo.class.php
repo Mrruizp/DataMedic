@@ -141,5 +141,47 @@ class comboCodigo extends Conexion {
             throw $exc;
         }
     }
+
+    public function cargarDatos_CodigoSede() {
+        
+        try {
+            $sql = "
+                    select 
+                        sede_id,
+                        nombre_sede
+                    from 
+                        sede;";
+
+            
+            $sentencia = $this->dblink->prepare($sql);
+           // $sentencia->bindParam(":p_curso_id", $codigo_curso);
+            $sentencia->execute();
+            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function cargarDatos_CodigoArea() {
+        
+        try {
+            $sql = "
+                    select 
+                        area_id,
+                        nombre_area
+                    from 
+                        area;";
+
+            
+            $sentencia = $this->dblink->prepare($sql);
+           // $sentencia->bindParam(":p_curso_id", $codigo_curso);
+            $sentencia->execute();
+            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
     
 }

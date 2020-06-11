@@ -2,13 +2,14 @@
 $(document).ready(function () {
     
     listar();
-    cargarCbCodigoEmpresa("#txtEmpresa", "seleccione");
+    cargarCbCodigoSede("#cbSede", "seleccione");
+    cargarCbCodigoArea("#cbArea", "seleccione");
 });
 
 function listar() {
     $.post
             (
-                    "../controller/gestionarSede.listar.controller.php"
+                    "../controller/gestionarConsultorio.listar.controller.php"
 
                     ).done(function (resultado) {
         var datosJSON = resultado;
@@ -21,33 +22,23 @@ function listar() {
             html += '<thead>';
             html += '<tr class="bg-light">';
             html += '<th style="text-align:center">CODIGO</th>';
-            html += '<th style="text-align:center">NOMBRE SEDE</th>';
-            html += '<th style="text-align:center">DEPARTAMENTO</th>';
-            html += '<th style="text-align:center">PROVINCIA</th>';
-            html += '<th style="text-align:center">DISTRITO</th>';
-            html += '<th style="text-align:center">DIRECCIÓN</th>';
-            html += '<th style="text-align:center">TIPO DE SEDE</th>';
+            html += '<th style="text-align:center">NOMBRE CONSULTORIO</th>';
+            html += '<th style="text-align:center">SEDE</th>';
+            html += '<th style="text-align:center">ÁREA</th>';
             html += '<th style="text-align:center">OPCIÓN</th>';
             html += '</tr>';
             html += '</thead>';
             html += '<tbody>';
             $.each(datosJSON.datos, function (i, item) {
                 html += '<tr>';
+                html += '<td align="center" style="font-weight:normal">' + item.consultorio_id + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.nombre_consultorio + '</td>';
                 html += '<td align="center" style="font-weight:normal">' + item.sede_id + '</td>';
-                html += '<td align="center" style="font-weight:normal">' + item.nombre_sede + '</td>';
-                html += '<td align="center" style="font-weight:normal">' + item.departamento_sede + '</td>';
-                html += '<td align="center" style="font-weight:normal">' + item.provincia_sede + '</td>';
-                html += '<td align="center" style="font-weight:normal">' + item.distrito_sede + '</td>';
-                html += '<td align="center" style="font-weight:normal">' + item.direccion_sede + '</td>';
-                if(item.tipo_sede === "C")
-                    html += '<td align="center" style="font-weight:normal">Central</td>';
-                else
-                    html += '<td align="center" style="font-weight:normal">Secundario</td>';
-                
+                html += '<td align="center" style="font-weight:normal">' + item.area_id + '</td>';
                 html += '<td align="center">';
-                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal" onclick="leerDatos(' + item.sede_id + ')"><ion-icon name="create-outline"></ion-icon></button>';
+                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal" onclick="leerDatos(' + item.consultorio_id + ')"><ion-icon name="create-outline"></ion-icon></button>';
                 html += '&nbsp;&nbsp;'
-                html += '<button type="button" class="btn btn-danger btn-xs" onclick="eliminar(' + item.sede_id + ')"><ion-icon name="trash-sharp"></ion-icon></button>';
+                html += '<button type="button" class="btn btn-danger btn-xs" onclick="eliminar(' + item.consultorio_id + ')"><ion-icon name="trash-sharp"></ion-icon></button>';
                 html += '</td>';
                 html += '</tr>';
             });

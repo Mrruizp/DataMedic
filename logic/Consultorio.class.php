@@ -4,88 +4,56 @@ require_once '../data/Conexion.class.php';
 session_name("DataMedic");
 session_start();
 
-class Sede extends Conexion {
+class Consultorio extends Conexion {
 
+    private $Consultorio_id;
+    private $Nombre_consultorio;
     private $Sede_id;
-    private $Empresa_id;
-    private $Nombre_sede;
-    private $Departamento_sede;
-    private $Provincia_sede;
-    private $Distrito_sede;
-    private $Direccion_sede;
-    private $Tipo_sede;
+    private $Area_id;
 
+    public function getConsultorio_id() {
+        return $this->Consultorio_id;
+    }
 
+    public function getNombre_consultorio() {
+        return $this->Nombre_consultorio;
+    }
 
     public function getSede_id() {
         return $this->Sede_id;
     }
 
-    public function getEmpresa_id() {
-        return $this->Empresa_id;
+    public function getArea_id() {
+        return $this->Area_id;
     }
 
-    public function getNombre_sede() {
-        return $this->Nombre_sede;
+    public function setConsultorio_id($Consultorio_id) {
+        $this->Consultorio_id = $Consultorio_id;
     }
 
-    public function getDepartamento_sede() {
-        return $this->Departamento_sede;
-    }
-    public function getProvincia_sede() {
-        return $this->Provincia_sede;
-    }
-    public function getDistrito_sede() {
-        return $this->Distrito_sede;
-    }
-    public function getDireccion_sede() {
-        return $this->Direccion_sede;
-    }
-    public function getTipo_sede() {
-        return $this->Tipo_sede;
+    public function setNombre_consultorio($Nombre_consultorio) {
+        $this->Nombre_consultorio = $Nombre_consultorio;
     }
 
     public function setSede_id($Sede_id) {
         $this->Sede_id = $Sede_id;
     }
-    public function setEmpresa_id($Empresa_id) {
-        $this->Empresa_id = $Empresa_id;
+    public function setArea_id($Area_id) {
+        $this->Area_id = $Area_id;
     }
-    public function setNombre_sede($Nombre_sede) {
-        $this->Nombre_sede = $Nombre_sede;
-    }
-    public function setDepartamento_sede($Departamento_sede) {
-        $this->Departamento_sede = $Departamento_sede;
-    }
-    public function setProvincia_sede($Provincia_sede) {
-        $this->Provincia_sede = $Provincia_sede;
-    }
-    public function setDistrito_sede($Distrito_sede) {
-        $this->Distrito_sede = $Distrito_sede;
-    }
-    public function setDireccion_sede($Direccion_sede) {
-        $this->Direccion_sede = $Direccion_sede;
-    }
-
-    public function setTipo_sede($Tipo_sede) {
-        $this->Tipo_sede = $Tipo_sede;
-    }
+    
 
     public function listar() {
         try {
 
                 $sql = "
                         select 
+                            consultorio_id,
+                            nombre_consultorio,
                             sede_id,
-                            nombre_sede,
-                            empresa_id,
-                            departamento_sede,
-                            provincia_sede,
-                            distrito_sede,
-                            direccion_sede,
-                            tipo_sede
+                            area_id
                         from 
-                            sede;
+                            consultorio;
                 ";
             
             $sentencia = $this->dblink->prepare($sql);

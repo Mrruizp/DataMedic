@@ -186,3 +186,65 @@ function cargarCbCodigoEmpresa(p_nombreCombo, p_tipo){
     swal("Error", datosJSON.mensaje , "error");
     });
 }
+
+function cargarCbCodigoSede(p_nombreCombo, p_tipo){
+    $.post
+    (
+    "../controller/comboCodigoSede.php"
+    ).done(function(resultado){
+    var datosJSON = resultado;
+    
+        if (datosJSON.estado===200){
+            var html = "";
+            if (p_tipo==="seleccione"){
+                html += '<option value="">-</option>';
+            }else{
+                html += '<option value="0">-</option>';
+            }
+
+            
+            $.each(datosJSON.datos, function(i,item) {
+                html += '<option value="'+item.sede_id+'">'+item.nombre_sede+'</option>';
+            });
+            
+            $(p_nombreCombo).html(html);
+           // cargarCbCodigoDoctor(p_doctor_id, p_nombreCombo, p_tipo);
+    }else{
+            swal("Mensaje del sistema", resultado , "warning");
+        }
+    }).fail(function(error){
+    var datosJSON = $.parseJSON( error.responseText );
+    swal("Error", datosJSON.mensaje , "error");
+    });
+}
+
+function cargarCbCodigoArea(p_nombreCombo, p_tipo){
+    $.post
+    (
+    "../controller/comboCodigoArea.php"
+    ).done(function(resultado){
+    var datosJSON = resultado;
+    
+        if (datosJSON.estado===200){
+            var html = "";
+            if (p_tipo==="seleccione"){
+                html += '<option value="">-</option>';
+            }else{
+                html += '<option value="0">-</option>';
+            }
+
+            
+            $.each(datosJSON.datos, function(i,item) {
+                html += '<option value="'+item.area_id+'">'+item.nombre_area+'</option>';
+            });
+            
+            $(p_nombreCombo).html(html);
+           // cargarCbCodigoDoctor(p_doctor_id, p_nombreCombo, p_tipo);
+    }else{
+            swal("Mensaje del sistema", resultado , "warning");
+        }
+    }).fail(function(error){
+    var datosJSON = $.parseJSON( error.responseText );
+    swal("Error", datosJSON.mensaje , "error");
+    });
+}

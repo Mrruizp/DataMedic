@@ -105,76 +105,32 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                             </div>
                           </div>
                           <div class="row">
+                            <div class="col-12">
+                                <p>
+                                    
+                                    Nombre del Cosultorio<input type="text" 
+                                                  name="txtNombre_Consultorio" 
+                                                  id="txtNombre_Consultorio" 
+                                                  class="form-control input-sm">
+                                </p>
+                            </div>
+                          </div>
+                          <div class="row">
                             <div class="col-6">
                                 <p>
                                    
-                                    Empresa <select class="form-control" name="txtEmpresa" id="txtEmpresa">
+                                    Sede <select class="form-control" name="cbSede" id="cbSede">
                                             </select>
                                 </p>
                             </div>
                             <div class="col-6">
                                 <p>
-                                    
-                                    Nombre de la Sede<input type="text" 
-                                                  name="txtNombre_Sede" 
-                                                  id="txtNombre_Sede" 
-                                                  class="form-control input-sm">
-                                </p>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-3">
-                                <p>
-                                    
-                                    Departamento<input type="text" 
-                                                  name="txtDepartamento" 
-                                                  id="txtDepartamento" 
-                                                  class="form-control input-sm">
-                                </p>
-                            </div>
-                            <div class="col-3">
-                                <p>
-                                    
-                                    Provincia<input type="text" 
-                                                  name="txtProvincia" 
-                                                  id="txtProvincia" 
-                                                  class="form-control input-sm">
-                                </p>
-                            </div>
-                            <div class="col-6">
-                                <p>
-                                    
-                                    Distrito<input type="text" 
-                                                  name="txtDistrito" 
-                                                  id="txtDistrito" 
-                                                  class="form-control input-sm">
+                                   
+                                    Área <select class="form-control" name="cbArea" id="cbArea">
+                                            </select>
                                 </p>
                             </div>
                         </div>
-                        <div class="row">
-                          <div class="col-12">
-                                <p>
-                                    
-                                    Dirección<input type="text" 
-                                                  name="txtDireccion" 
-                                                  id="txtDireccion" 
-                                                  class="form-control input-sm">
-                                </p>
-                          </div>
-                          
-                          </div>
-                          <div class="row">
-                            <div class="col-3">
-                                <p>
-                                    
-                                    Tipo de Sede<select id="tipoSede" name="tipoSede" class="form-control" required> 
-                                                    <option></option>
-                                                    <option value="C">Central</option>
-                                                    <option value="S">Secundaria</option>
-                                                </select>
-                                </p>
-                            </div>
-                          </div>
                       </div>
                       <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-danger" data-dismiss="modal" id="btncerrar">Close</button>
