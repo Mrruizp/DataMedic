@@ -2,28 +2,19 @@
 
 try {
 
-    require_once '../logic/Sede.class.php';
+    require_once '../logic/Consultorio.class.php';
     require_once '../util/functions/Helper.class.php';
 
     if
     (
-            !isset($_POST["p_Empresa"]) ||
-            empty($_POST["p_Empresa"]) ||
+            !isset($_POST["p_Nombre_Consultorio"]) ||
+            empty($_POST["p_Nombre_Consultorio"]) ||
 
-            !isset($_POST["p_Nombre_Sede"]) ||
-            empty($_POST["p_Nombre_Sede"]) ||
+            !isset($_POST["p_Sede"]) ||
+            empty($_POST["p_Sede"]) ||
 
-            !isset($_POST["p_Departamento"]) ||
-            empty($_POST["p_Departamento"]) ||
-
-            !isset($_POST["p_Provincia"]) ||
-            empty($_POST["p_Provincia"]) ||
-
-            !isset($_POST["p_Distrito"]) ||
-            empty($_POST["p_Distrito"]) ||
-  
-            !isset($_POST["p_TipoSede"]) ||
-            empty($_POST["p_TipoSede"]) ||
+            !isset($_POST["p_Area"]) ||
+            empty($_POST["p_Area"]) ||
 
             !isset($_POST["p_tipo_ope"]) ||
             empty($_POST["p_tipo_ope"])
@@ -32,53 +23,42 @@ try {
         exit();
     }
 
-     $Empresa       = $_POST["p_Empresa"];
-     $NombreSede    = $_POST["p_Nombre_Sede"];
-     $Departamento  = $_POST["p_Departamento"];
-     $Provincia     = $_POST["p_Provincia"];
-     $Distrito      = $_POST["p_Distrito"];
-     $Direccion     = $_POST["p_Direccion"];
-     $TipoSede      = $_POST["p_TipoSede"];
+     $Nombre_Consultorio = $_POST["p_Nombre_Consultorio"];
+     $Sede               = $_POST["p_Sede"];
+     $Area               = $_POST["p_Area"];
 
 
      $tipoOperacion = $_POST["p_tipo_ope"];
 
-    $objSede = new Sede();
+    $objConsultorio = new Consultorio();
 
     if ($tipoOperacion == "agregar") {
 
-        $objSede->setEmpresa_id($Empresa);
-        $objSede->setNombre_sede($NombreSede);
-        $objSede->setDepartamento_sede($Departamento);
-        $objSede->setProvincia_sede($Provincia);
-        $objSede->setDistrito_sede($Distrito);
-        $objSede->setDireccion_sede($Direccion);
-        $objSede->setTipo_sede($TipoSede);
+        $objConsultorio->setNombre_consultorio($Nombre_Consultorio);
+        $objConsultorio->setSede_id($Sede);
+        $objConsultorio->setArea_id($Area);
         
-        $resultado = $objSede->agregar();
+        $resultado = $objConsultorio->agregar();
         if ($resultado) {
             Helper::imprimeJSON(200, "Agregado correctamente", "");
         }
     } else { //Editar
         if (
-                !isset($_POST["p_codigo_Sede"]) ||
-                empty($_POST["p_codigo_Sede"])
+                !isset($_POST["p_codigo_consultorio"]) ||
+                empty($_POST["p_codigo_consultorio"])
         ) {
             Helper::imprimeJSON(500, "Falta completar datos para editar", "");
             exit();
         }
 
-        $codigo = $_POST["p_codigo_Sede"];
-        $objSede->setSede_id($codigo);
-        $objSede->setEmpresa_id($Empresa);
-        $objSede->setNombre_sede($NombreSede);
-        $objSede->setDepartamento_sede($Departamento);
-        $objSede->setProvincia_sede($Provincia);
-        $objSede->setDistrito_sede($Distrito);
-        $objSede->setDireccion_sede($Direccion);
-        $objSede->setTipo_sede($TipoSede);
+        $codigo = $_POST["p_codigo_consultorio"];
+        
+        $objConsultorio->setConsultorio_id($codigo);
+        $objConsultorio->setNombre_consultorio($Nombre_Consultorio);
+        $objConsultorio->setSede_id($Sede);
+        $objConsultorio->setArea_id($Area);
 
-        $resultado = $objSede->editar();
+        $resultado = $objConsultorio->editar();
         if ($resultado) {
             Helper::imprimeJSON(200, "Agregado correctamente", "");
         }

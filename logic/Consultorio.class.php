@@ -69,49 +69,41 @@ class Consultorio extends Conexion {
         $this->dblink->beginTransaction();
 
         try {
-            $sql = "select * from f_generar_correlativo('sede') as nc";
+            $sql = "select * from f_generar_correlativo('consultorio') as nc";
             $sentencia = $this->dblink->prepare($sql);
             $sentencia->execute();
 
             if ($sentencia->rowCount()) {
                 $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
                 $nuevoCodigo = $resultado["nc"];
-                $this->setSede_id($nuevoCodigo);
+                $this->setConsultorio_id($nuevoCodigo);
 
                 
                 $sql = "
-                        insert into sede
+                        insert into consultorio
                         values(
+                                :p_consultorio_id,
+                                :p_nombre_consultorio,
                                 :p_sede_id,
-                                :p_nombre_sede,
-                                :p_empresa_id,
-                                :p_departamento_sede,
-                                :p_provincia_sede,
-                                :p_distrito_sede,
-                                :p_direccion_sede,
-                                :p_tipo_sede
+                                :p_area
                                );
                     ";
                 $sentencia = $this->dblink->prepare($sql);
+                $sentencia->bindParam(":p_consultorio_id", $this->getConsultorio_id());
+                $sentencia->bindParam(":p_nombre_consultorio", $this->getNombre_consultorio());
                 $sentencia->bindParam(":p_sede_id", $this->getSede_id());
-                $sentencia->bindParam(":p_nombre_sede", $this->getNombre_sede());
-                $sentencia->bindParam(":p_empresa_id", $this->getEmpresa_id());
-                $sentencia->bindParam(":p_departamento_sede", $this->getDepartamento_sede());
-                $sentencia->bindParam(":p_provincia_sede", $this->getProvincia_sede());
-                $sentencia->bindParam(":p_distrito_sede", $this->getDistrito_sede());
-                $sentencia->bindParam(":p_direccion_sede", $this->getDireccion_sede());
-                $sentencia->bindParam(":p_tipo_sede", $this->getTipo_sede());
+                $sentencia->bindParam(":p_area", $this->getArea_id());
                 $sentencia->execute();
                 
                 $sql = "update correlativo set numero = numero + 1 
-                    where tabla='sede'";
+                    where tabla='consultorio'";
                 $sentencia = $this->dblink->prepare($sql);
                 $sentencia->execute();
 
                 $this->dblink->commit();
                 return true;
             } else {
-                throw new Exception("No se ha configurado el correlativo para la tabla Sede");
+                throw new Exception("No se ha configurado el correlativo para la tabla Consultorio");
             }
         } catch (Exception $exc) {
             $this->dblink->rollBack();
@@ -122,25 +114,21 @@ class Consultorio extends Conexion {
     }
 
 
-    public function leerDatos($p_codigoSede) {
+    public function leerDatos($p_codigoConsultorio) {
         try {
             $sql = "
                     select 
+                            consultorio_id,
+                            nombre_consultorio,
                             sede_id,
-                            nombre_sede,
-                            empresa_id,
-                            departamento_sede,
-                            provincia_sede,
-                            distrito_sede,
-                            direccion_sede,
-                            tipo_sede
+                            area_id
                         from 
-                            sede
+                            consultorio
                     where
-                        sede_id = :p_codigo_sede;
+                        consultorio_id = :p_codigo_consultorio;
                 ";
             $sentencia = $this->dblink->prepare($sql);
-            $sentencia->bindParam(":p_codigo_sede", $p_codigoSede);
+            $sentencia->bindParam(":p_codigo_consultorio", $p_codigoConsultorio);
             $sentencia->execute();
             $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
             return $resultado;
@@ -153,26 +141,20 @@ class Consultorio extends Conexion {
         try {
             $sql = "
                 update 
-                    sede 
+                    consultorio 
                 set 
-                    nombre_sede = :p_nombre_sede,
-                    departamento_sede = :p_departamento_sede,
-                    provincia_sede = :p_provincia_sede,
-                    distrito_sede = :p_distrito_sede,
-                    direccion_sede = :p_direccion_sede,
-                    tipo_sede = :p_tipo_sede
+                    consultorio_id = :p_consultorio_id,
+                    nombre_consultorio = :p_nombre_consultorio,
+                    sede_id = :p_sede_id,
+                    area_id = :p_area
                 where
-                    sede_id = :p_sede_id
+                    consultorio_id = :p_consultorio_id
                 ";
             $sentencia = $this->dblink->prepare($sql);
+            $sentencia->bindParam(":p_consultorio_id", $this->getConsultorio_id());
+            $sentencia->bindParam(":p_nombre_consultorio", $this->getNombre_consultorio());
             $sentencia->bindParam(":p_sede_id", $this->getSede_id());
-            $sentencia->bindParam(":p_nombre_sede", $this->getNombre_sede());
-            //$sentencia->bindParam(":p_empresa_id", $this->getEmpresa_id());
-            $sentencia->bindParam(":p_departamento_sede", $this->getDepartamento_sede());
-            $sentencia->bindParam(":p_provincia_sede", $this->getProvincia_sede());
-            $sentencia->bindParam(":p_distrito_sede", $this->getDistrito_sede());
-            $sentencia->bindParam(":p_direccion_sede", $this->getDireccion_sede());
-            $sentencia->bindParam(":p_tipo_sede", $this->getTipo_sede());
+            $sentencia->bindParam(":p_area", $this->getArea_id());
             $sentencia->execute();
 
             return true;
@@ -185,10 +167,10 @@ class Consultorio extends Conexion {
     public function eliminar() {
         try {
             $sql = "
-                delete from sede where sede_id = :p_sede_id;
+                delete from consultorio where consultorio_id = :p_consultorio_id;
                 ";
             $sentencia = $this->dblink->prepare($sql);
-            $sentencia->bindParam(":p_sede_id", $this->getSede_id());
+            $sentencia->bindParam(":p_consultorio_id", $this->getConsultorio_id());
             $sentencia->execute();
         /*
             $sql = "select * from fn_insert_log_curso

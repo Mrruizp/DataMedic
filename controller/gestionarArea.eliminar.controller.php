@@ -1,13 +1,13 @@
 <?php
 
 try {
-    require_once '../logic/Area.class.php';
+    require_once '../logic/Consultorio.class.php';
     require_once '../util/functions/Helper.class.php';
     
     if 
         (
-            !isset($_POST["p_codigo_area"]) ||
-            empty($_POST["p_codigo_area"])
+            !isset($_POST["p_codigo_consultorio"]) ||
+            empty($_POST["p_codigo_consultorio"])
             
         )
     {
@@ -15,11 +15,11 @@ try {
             exit();
     }
     
-    $codArea = $_POST["p_codigo_area"];
+    $codConsultorio = $_POST["p_codigo_consultorio"];
     
-    $objArea = new Area();
-    $objArea->setArea_id($codArea);
-    $resultado = $objArea->eliminar();
+    $objConsultorio = new Consultorio();
+    $objConsultorio->setConsultorio_id($codConsultorio);
+    $resultado = $objConsultorio->eliminar();
     
     if ($resultado){
         Helper::imprimeJSON(200, "Se eliminó correctamente", "");

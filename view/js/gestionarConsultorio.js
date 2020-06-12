@@ -96,25 +96,21 @@ $("#frmgrabar").submit(function (event) {
 
                     //var codLab = ($("#txtTipoOperacion").val()==="agregar")? 
 
-                    var codSede = "";
+                    var codConsultorio = "";
                     if ($("#txtTipoOperacion").val() === "agregar") {
-                        codSede = "0";
+                        codConsultorio = "0";
                     } else {
-                        codSede = $("#txtCodigo").val();
+                        codConsultorio = $("#txtCodigo").val();
                     }
                     $.post(
-                            "../controller/gestionarSede.agregar.editar.controller.php",
+                            "../controller/gestionarConsultorio.agregar.editar.controller.php",
                             {
                                 
-                                p_Empresa:      $("#txtEmpresa").val(),
-                                p_Nombre_Sede:  $("#txtNombre_Sede").val(),
-                                p_Departamento: $("#txtDepartamento").val(),
-                                p_Provincia:    $("#txtProvincia").val(),
-                                p_Distrito:     $("#txtDistrito").val(),
-                                p_Direccion:    $("#txtDireccion").val(),
-                                p_TipoSede:     $("#tipoSede").val(),
-                                p_tipo_ope:     $("#txtTipoOperacion").val(),
-                                p_codigo_Sede: codSede
+                                p_Nombre_Consultorio: $("#txtNombre_Consultorio").val(),
+                                p_Sede:        $("#cbSede").val(),
+                                p_Area:        $("#cbArea").val(),
+                                p_tipo_ope:    $("#txtTipoOperacion").val(),
+                                p_codigo_consultorio: codConsultorio
                             }
                     ).done(function (resultado) {
                         var datosJSON = resultado;
@@ -150,28 +146,23 @@ $("#myModal").on("shown.bs.modal", function () {
     $("#txtPuesto").focus();
 });
 
-function leerDatos(codigo_sede) {
+function leerDatos(codigo_consultorio) {
     $.post
             (
-                    "../controller/gestionarSede.leer.datos.controller.php",
+                    "../controller/gestionarConsultorio.leer.datos.controller.php",
                     {
-                        p_codigo_sede: codigo_sede
+                        p_codigo_consultorio: codigo_consultorio
                     }
             ).done(function (resultado) {
         var jsonResultado = resultado;
         if (jsonResultado.estado === 200) {
             $("#txtTipoOperacion").val("editar");
-            $("#txtCodigo").val(jsonResultado.datos.sede_id);
-            $("#txtEmpresa").val(jsonResultado.datos.sede_id);
-            $("#txtNombre_Sede").val(jsonResultado.datos.nombre_sede);
-            $("#txtDepartamento").val(jsonResultado.datos.departamento_sede);
-            $("#txtProvincia").val(jsonResultado.datos.provincia_sede);
-            $("#txtDistrito").val(jsonResultado.datos.distrito_sede);
-            $("#txtDireccion").val(jsonResultado.datos.direccion_sede);
-            $("#tipoSede").val(jsonResultado.datos.tipo_sede);
+            $("#txtCodigo").val(jsonResultado.datos.consultorio_id);
+            $("#txtNombre_Consultorio").val(jsonResultado.datos.nombre_consultorio);
+            $("#cbSede").val(jsonResultado.datos.sede_id);
+            $("#cbArea").val(jsonResultado.datos.area_id);
 
-           
-            $("#titulomodalTratamiento").html("Datos del Tratamiento");
+            $("#titulomodalConsultorio").html("Datos del Consultorio");
         }
     }).fail(function (error) {
         var datosJSON = $.parseJSON(error.responseText);
@@ -179,7 +170,7 @@ function leerDatos(codigo_sede) {
     });
 }
 
-function eliminar(codSede) {
+function eliminar(codConsultorio) {
     swal({
         title: "Confirme",
         text: "¿Esta seguro de eliminar el registro seleccionado?",
@@ -194,9 +185,9 @@ function eliminar(codSede) {
             function (isConfirm) {
                 if (isConfirm) {
                     $.post(
-                            "../controller/gestionarSede.eliminar.controller.php",
+                            "../controller/gestionarArea.eliminar.controller.php",
                             {
-                                p_codigo_sede: codSede
+                                p_codigo_consultorio: codConsultorio
                             }
                     ).done(function (resultado) {
                         var datosJSON = resultado;

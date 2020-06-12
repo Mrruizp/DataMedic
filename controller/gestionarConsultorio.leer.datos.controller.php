@@ -1,13 +1,13 @@
 <?php
 
 try {
-    require_once '../logic/Sede.class.php';
+    require_once '../logic/Consultorio.class.php';
     require_once '../util/functions/Helper.class.php';
     
     if 
         (
-            !isset($_POST["p_codigo_sede"]) ||
-            empty($_POST["p_codigo_sede"])
+            !isset($_POST["p_codigo_consultorio"]) ||
+            empty($_POST["p_codigo_consultorio"])
             
         )
     {
@@ -15,10 +15,10 @@ try {
             exit();
     }
     
-    $codSede = $_POST["p_codigo_sede"];
+    $codConsultorio = $_POST["p_codigo_consultorio"];
     
-    $objSede = new Sede();
-    $resultado = $objSede->leerDatos($codSede);
+    $objConsultorio = new Consultorio();
+    $resultado = $objConsultorio->leerDatos($codConsultorio);
     
     Helper::imprimeJSON(200, "", $resultado);
     
