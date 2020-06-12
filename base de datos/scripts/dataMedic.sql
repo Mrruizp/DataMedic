@@ -473,7 +473,7 @@ values(6,1,'Log', 'log.view.php');
 
 
 
-select * from credenciales_acceso
+select * from correlativo
 -- agregamos usuario sorte TI
 
 insert into cargo
@@ -485,7 +485,7 @@ insert into usuario(doc_id,nombrecompleto, direccion, telefono,email,cargo_id)
 values('44745581','Pedro Ruiz Cervera','Av. Aviación # 14456. San Borja','95147731','pedro@hotmail.com',4);
 
 insert into credenciales_acceso(codigo_usuario,clave,tipo,estado,fecha_registro, doc_id)
-values(10,(select MD5('123')),'S','A',(select now()),'44745581');
+values(1,(select MD5('123')),'S','A',(select now()),'44745581');
 -- agregar accesos al menu para el super usuario
 
 insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
@@ -681,7 +681,7 @@ insert into sede
 values(1,'Sede 01 - Miraflores',1,'Lima','Lima','Miraflores','Av. Larco 15002','C');
 
 insert into consultorio
-values(1,'Consultorio Dental Mujer',1,'Lima','Lima','Miraflores','Av. Larco 15002','C');
+values(1,'Consultorio Dental Mujer',1,1);
 
 -- FIN
 -- cargo
