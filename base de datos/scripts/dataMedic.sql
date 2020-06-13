@@ -101,11 +101,11 @@ CREATE TABLE especialidad
 CREATE TABLE otra_Especializacion
 (
   otra_Especializacion_id integer not NULL,
-  otra_Especializacion_nombre character varying(100)not null,
+  -- otra_Especializacion_nombre character varying(100)not null,
   especialidad_id integer,
   doctor_id integer,
   CONSTRAINT pk_otra_Especializacion_otra_Especializacion_id PRIMARY KEY (otra_Especializacion_id),
-  CONSTRAINT fk_otra_Especializacion_especialidad_id foreign key (especialidad_id) references especialidad(especialidad_id),	
+  CONSTRAINT fk_otra_Especializacion_especialidad_id foreign key (especialidad_id) references especialidad(especialidad_id),
   CONSTRAINT fk_otra_Especializacion_doctor_id foreign key (doctor_id) references doctor(doctor_id)	
 );
 
@@ -119,26 +119,38 @@ CREATE TABLE doctor
   direccion character varying(200) not NULL,
   telefono character varying(20) not NULL,
   email character varying(150) not NULL,
-  especialidad_id int,
   CONSTRAINT pk_doctor_doctor_id PRIMARY KEY (doctor_id)
 );
-select * from fecha_atencion_doctor
 
-CREATE TABLE fecha_atencion_doctor
+CREATE TABLE dia_semana
 (
-  fecha_atencion_doctor_id integer,
-  fecha_atencion_doctor_fecha character varying(50)not null,
-  fecha_atencion_doctor_hora character varying(50) not NULL,
-  fecha_atencion_doctor_descripcion character varying(500) not NULL,
-  fecha_atencion_doctor_estado character varying(50)not null,
-  consultorio_id int,
-  doctor_id int,
-  CONSTRAINT pk_fecha_atencion_doctor_fecha_atencion_doctor_id PRIMARY KEY (fecha_atencion_doctor_id),
-  CONSTRAINT fk_fecha_atencion_doctor_consultorio_id foreign key (consultorio_id) references consultorio(consultorio_id),
-  CONSTRAINT fk_fecha_atencion_doctor_doctor_id foreign key (doctor_id) references doctor(doctor_id)
+  dia_semana_id integer,
+  dia_semana character varying(50) not null,
+  mes character varying(50) not NULL,
+  ano char(4) not NULL, -- año
+  CONSTRAINT pk_dia_semana_dia_semana_id PRIMARY KEY (dia_semana_id)
 );
 
-select * from cita
+-- horario de trabajo y atención de cada doctor.
+CREATE TABLE horario_atencion 
+(
+  horario_atencion_id serial,
+  doctor_id int not null,
+  consultorio_id int not null,
+  dia_semana character varying(50) not null, -- Lunes, Martes ..., Domingo
+  numero character varying(5) not null, -- 1,2,3,4,..,31
+  mes character varying(20) not null,
+  ano char(4) not null,
+  hora character varying(10) not null,
+  horario char(2) not null, -- AM, PM
+  estado char(1)not null, -- 1 : disponible, 0: no disponible
+  CONSTRAINT pk_horario_atencion_horario_atencion_id PRIMARY KEY (horario_atencion_id),
+  CONSTRAINT fk_horario_atencion_doctor_id foreign key (doctor_id) references doctor(doctor_id),
+  CONSTRAINT fk_horario_atencion_consultorio_id foreign key (consultorio_id) references consultorio(consultorio_id)
+);
+
+
+select * from consultorio
 
 /*ALTER TABLE synop
   ADD CONSTRAINT estacoes_fk
@@ -672,6 +684,21 @@ insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
 values(8,4,1,1);
 
 insert into correlativo(tabla, numero)
+values('Horario de Atención',0);
+
+insert into menu(codigo_menu,nombre)
+values(9,'Horario de Atención');
+insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
+values(9,1,'Gestionar Horario', 'gestionarHorario.view.php');
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(9,1,1,1);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(9,1,4,1);
+
+
+select * from menu
+
+insert into correlativo(tabla, numero)
 values('area',0);
 
 insert into empresa
@@ -683,10 +710,67 @@ values(1,'Sede 01 - Miraflores',1,'Lima','Lima','Miraflores','Av. Larco 15002','
 insert into consultorio
 values(1,'Consultorio Dental Mujer',1,1);
 
--- FIN
+-- Horario de atención: 
+
+insert into horario_atencion
+values(1,1,1,'Miercoles','1','Julio','2020','8:00','AM','1');
+
+insert into horario_atencion
+values(2,1,1,'Miercoles','1','Julio','2020','8:30','AM','1');
+
+insert into horario_atencion
+values(3,1,1,'Miercoles','1','Julio','2020','9:00','AM','1');
+
+insert into horario_atencion
+values(4,1,1,'Miercoles','1','Julio','2020','9:30','AM','1');
+
+insert into horario_atencion
+values(5,1,1,'Miercoles','1','Julio','2020','10:00','AM','1');
+
+insert into horario_atencion
+values(6,1,1,'Miercoles','1','Julio','2020','10:30','AM','1');
+
+insert into horario_atencion
+values(7,1,1,'Miercoles','1','Julio','2020','11:00','AM','1');
+
+insert into horario_atencion
+values(8,1,1,'Miercoles','1','Julio','2020','11:30','AM','1');
+
+insert into horario_atencion
+values(9,1,1,'Miercoles','1','Julio','2020','12:00','PM','1');
+
+insert into horario_atencion
+values(10,1,1,'Miercoles','1','Julio','2020','12:30','PM','1');
+
+insert into horario_atencion
+values(11,1,1,'Miercoles','1','Julio','2020','2:00','PM','1');
+
+insert into horario_atencion
+values(12,1,1,'Miercoles','1','Julio','2020','2:30','PM','1');
+
+insert into horario_atencion
+values(13,1,1,'Miercoles','1','Julio','2020','3:00','PM','1');
+
+insert into horario_atencion
+values(14,1,1,'Miercoles','1','Julio','2020','3:30','PM','1');
+
+insert into horario_atencion
+values(15,1,1,'Miercoles','1','Julio','2020','4:00','PM','1');
+
+insert into horario_atencion
+values(16,1,1,'Miercoles','1','Julio','2020','4:30','PM','1');
+
+delete from horario_atencion
+-- insert MES Y AÑO
+
+insert into mes
+values();
+
+
+-- FIN AMPLIACIÓN
 -- cargo
 select * from f_generar_correlativo('empresa') as nc
-select * from consultorio
+select * from fecha_atencion_doctor
 update menu
 set nombre = 'Tratamiento'
 where codigo_menu = 4
@@ -823,12 +907,12 @@ values(6,'rehabilitación oral');
 -- insert doctor
 
 insert into doctor
-values(1,'CMP','123456','Andres','Hurtado','Lima-Surco','998745418','andresHurtado@hotmail.com',1);
+values(1,'CMP','123456','Andres','Hurtado','Lima-Surco','998745418','andresHurtado@hotmail.com');
 
 insert into doctor
 values(2,'CMP','852147','Juan','Córdoba','Lima-San Borja','995544754','juancordoba@hotmail.com',1);
 
-select * from doctor
+select * from horario_Atencion
 
 insert into cita
 values(1,'Lunes, 25 Mayo','9:00 am', '-------','45977448',1, 'Cita confirmada');

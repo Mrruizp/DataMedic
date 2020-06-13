@@ -69,6 +69,80 @@ class comboCodigo extends Conexion {
         }
     }
 
+    public function cargarDatos_CodigoAreaSede2($codigo_sede) {
+        
+        try {
+            $sql = "
+                    select 
+                        a.area_id,
+                        a.nombre_area
+                    from
+                        consultorio c inner join area a
+                    on
+                        (c.area_id = a.area_id)
+                    where
+                        c.sede_id = $codigo_sede;";
+
+            
+            $sentencia = $this->dblink->prepare($sql);
+           // $sentencia->bindParam(":p_curso_id", $codigo_curso);
+            $sentencia->execute();
+            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function cargarDatos_CodigoAreaSede($codigo_sede) {
+        
+        try {
+            $sql = "
+                    select 
+                        a.area_id,
+                        a.nombre_area
+                    from
+                        consultorio c inner join area a
+                    on
+                        (c.area_id = a.area_id)
+                    where
+                        c.sede_id = $codigo_sede;";
+
+            
+            $sentencia = $this->dblink->prepare($sql);
+           // $sentencia->bindParam(":p_curso_id", $codigo_curso);
+            $sentencia->execute();
+            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function cargarDatos_CodigoConsultorio($codigo_area) {
+        
+        try {
+            $sql = "
+                    select 
+                      consultorio_id,
+                      nombre_consultorio
+                    from
+                        consultorio
+                    where
+                        area_id = $codigo_area;";
+
+            
+            $sentencia = $this->dblink->prepare($sql);
+           // $sentencia->bindParam(":p_curso_id", $codigo_curso);
+            $sentencia->execute();
+            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+
     public function cargarDatos_CodigoFecha() {
         
         try {
@@ -84,6 +158,27 @@ class comboCodigo extends Conexion {
                         estado = 'disponible'
                     order by 
                         dia_semana, numero, mes;";
+
+            
+            $sentencia = $this->dblink->prepare($sql);
+           // $sentencia->bindParam(":p_curso_id", $codigo_curso);
+            $sentencia->execute();
+            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function cargarDatos_CodigoDoctorHorario() {
+        
+        try {
+            $sql = "
+                    select 
+                      doctor_id,
+                      concat(nombre, ' ',apellido) as nombreCompleto
+                    from
+                        doctor;";
 
             
             $sentencia = $this->dblink->prepare($sql);
@@ -172,6 +267,27 @@ class comboCodigo extends Conexion {
                         nombre_area
                     from 
                         area;";
+
+            
+            $sentencia = $this->dblink->prepare($sql);
+           // $sentencia->bindParam(":p_curso_id", $codigo_curso);
+            $sentencia->execute();
+            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function cargarDatos_CodigoConsultorio2() {
+        
+        try {
+            $sql = "
+                    select 
+                        consultorio_id,
+                        nombre_consultorio
+                    from 
+                        consultorio;";
 
             
             $sentencia = $this->dblink->prepare($sql);

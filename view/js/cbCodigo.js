@@ -32,6 +32,8 @@ function cargarCbCodigoDoctor(p_doctor_id, p_nombreCombo_especialidad, p_tipo){
     });
 }
 
+
+
 function cargarCbCodigoEspecialidad(p_nombreCombo, p_doctor_id, p_tipo){
     $.post
     (
@@ -81,6 +83,37 @@ function cargarCbCodigoFecha(p_nombreCombo, p_tipo){
             
             $.each(datosJSON.datos, function(i,item) {
                 html += '<option value="'+item.fecha+'">'+item.fecha+'</option>';
+            });
+            
+            $(p_nombreCombo).html(html);
+           // cargarCbCodigoDoctor(p_doctor_id, p_nombreCombo, p_tipo);
+    }else{
+            swal("Mensaje del sistema", resultado , "warning");
+        }
+    }).fail(function(error){
+    var datosJSON = $.parseJSON( error.responseText );
+    swal("Error", datosJSON.mensaje , "error");
+    });
+}
+
+function cargarCbCodigoDoctorHorario(p_nombreCombo, p_tipo){
+    $.post
+    (
+    "../controller/comboCodigoDoctorHorario.php"
+    ).done(function(resultado){
+    var datosJSON = resultado;
+    
+        if (datosJSON.estado===200){
+            var html = "";
+            if (p_tipo==="seleccione"){
+                html += '<option value="">-</option>';
+            }else{
+                html += '<option value="0">Todos los doctores</option>';
+            }
+
+            
+            $.each(datosJSON.datos, function(i,item) {
+                html += '<option value="'+item.doctor_id+'">'+item.nombrecompleto+'</option>';
             });
             
             $(p_nombreCombo).html(html);
@@ -236,6 +269,105 @@ function cargarCbCodigoArea(p_nombreCombo, p_tipo){
             
             $.each(datosJSON.datos, function(i,item) {
                 html += '<option value="'+item.area_id+'">'+item.nombre_area+'</option>';
+            });
+            
+            $(p_nombreCombo).html(html);
+           // cargarCbCodigoDoctor(p_doctor_id, p_nombreCombo, p_tipo);
+    }else{
+            swal("Mensaje del sistema", resultado , "warning");
+        }
+    }).fail(function(error){
+    var datosJSON = $.parseJSON( error.responseText );
+    swal("Error", datosJSON.mensaje , "error");
+    });
+}
+
+function cargarCbCodigoAreaSede(p_area_id, p_nombreCombo_sede, p_tipo){
+    $.post
+    (
+        "../controller/comboCodigoAreaSede.php",
+        {
+            p_codigo_sede: p_nombreCombo_sede
+        }
+
+    ).done(function(resultado){
+    var datosJSON = resultado;
+    
+        if (datosJSON.estado===200){
+            var html = "";
+            if (p_tipo==="seleccione"){
+                html += '<option value="">-</option>';
+            }else{
+                html += '<option value="0">Todas las áreas</option>';
+            }
+
+            
+            $.each(datosJSON.datos, function(i,item) {
+                html += '<option value="'+item.area_id+'">'+item.nombre_area+'</option>';
+            });
+            
+            $(p_area_id).html(html);
+    }else{
+            swal("Mensaje del sistema", resultado , "warning");
+        }
+    }).fail(function(error){
+    var datosJSON = $.parseJSON( error.responseText );
+    swal("Error", datosJSON.mensaje , "error");
+    });
+}
+
+function cargarCbCodigoConsultorio(p_consultorio_id, p_nombreCombo_area, p_tipo){
+    $.post
+    (
+        "../controller/comboCodigoConsultorio.php",
+        {
+            p_codigo_area: p_nombreCombo_area
+        }
+
+    ).done(function(resultado){
+    var datosJSON = resultado;
+    
+        if (datosJSON.estado===200){
+            var html = "";
+            if (p_tipo==="seleccione"){
+                html += '<option value="">-</option>';
+            }else{
+                html += '<option value="0">Todos los consultorios</option>';
+            }
+
+            
+            $.each(datosJSON.datos, function(i,item) {
+                html += '<option value="'+item.consultorio_id+'">'+item.nombre_consultorio+'</option>';
+            });
+            
+            $(p_consultorio_id).html(html);
+    }else{
+            swal("Mensaje del sistema", resultado , "warning");
+        }
+    }).fail(function(error){
+    var datosJSON = $.parseJSON( error.responseText );
+    swal("Error", datosJSON.mensaje , "error");
+    });
+}
+
+function cargarCbCodigoConsultorio2(p_nombreCombo, p_tipo){
+    $.post
+    (
+    "../controller/comboCodigoConsultorio2.php"
+    ).done(function(resultado){
+    var datosJSON = resultado;
+    
+        if (datosJSON.estado===200){
+            var html = "";
+            if (p_tipo==="seleccione"){
+                html += '<option value="">-</option>';
+            }else{
+                html += '<option value="0">-</option>';
+            }
+
+            
+            $.each(datosJSON.datos, function(i,item) {
+                html += '<option value="'+item.consultorio_id+'">'+item.nombre_consultorio+'</option>';
             });
             
             $(p_nombreCombo).html(html);
