@@ -1,8 +1,6 @@
 <?php
 
 require_once '../data/Conexion.class.php';
-session_name("DataMedic");
-session_start();
 
 class Horario extends Conexion {
 
@@ -77,18 +75,49 @@ class Horario extends Conexion {
         try {
                 $sql = "
                     select
+                        distinct on(
+                                        concat(h.dia_semana, ', ',h.numero,' de ',h.mes,' del ', h.ano), 
+                                        concat(d.nombre, ', ',d.apellido)
+                                    )
+
                         horario_atencion_id,
                         concat(d.nombre, ', ',d.apellido) as nombresDoctor,
                         c.nombre_consultorio,
-                        concat(h.dia_Semana, ', ',h.numero,' de ',h.mes,' del ', h.ano) as fecha,
-                        h.hora,
-                        h.estado
+                        concat(h.dia_semana, ', ',h.numero,' de ',h.mes,' del ', h.ano) as fecha,
+                        h.dia_semana,
+                        h.numero,
+                        h.mes,
+                        h.ano,
+                        d.doctor_id
                     from 
                         horario_atencion h inner join doctor d
                     on
                         h.doctor_id = d.doctor_id inner join consultorio c
                     on
                         h.consultorio_id = c.consultorio_id;
+                ";
+
+            $sentencia = $this->dblink->prepare($sql);
+            $sentencia->execute();
+            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function listarHorarioDetalle($codigo_doctor) {
+        try {
+                $sql = "
+                    select
+                        horario_atencion_id,
+                        hora,
+                        horario,
+                        estado
+                    from 
+                        horario_atencion
+                    where
+                        doctor_id =  $codigo_doctor;
                 ";
 
             $sentencia = $this->dblink->prepare($sql);

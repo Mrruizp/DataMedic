@@ -27,11 +27,10 @@ function listar() {
             html += '<thead>';
             html += '<tr class="bg-light">';
             html += '<th style="text-align:center">CODIGO</th>';
+             html += '<th style="text-align: center">FECHA</th>';
+             html += '<th style="text-align: center">CONSULTORIO</th>';
             html += '<th style="text-align:center">DOCTOR</th>';
-            html += '<th style="text-align: center">CONSULTORIO</th>';
-            html += '<th style="text-align: center">FECHA</th>';
-            html += '<th style="text-align: center">HORA</th>';
-            html += '<th style="text-align: center">ESTADO</th>';
+            html += '<th style="text-align: center">DETALLE</th>';
             html += '<th style="text-align: center">OPCIONES</th>';
             html += '</tr>';
             html += '</thead>';
@@ -39,13 +38,12 @@ function listar() {
             $.each(datosJSON.datos, function (i, item) {
                 html += '<tr>';
                 html += '<td align="center" style="font-weight:normal">' + item.horario_atencion_id + '</td>';
-                html += '<td align="center" style="font-weight:normal">' + item.nombresdoctor + '</td>';
-
-                html += '<td align="center" style="font-weight:normal">' + item.nombre_consultorio + '</td>';
                 html += '<td align="center" style="font-weight:normal">' + item.fecha + '</td>';
-
-                html += '<td align="center" style="font-weight:normal">' + item.hora + '</td>';
-                html += '<td align="center" style="font-weight:normal">' + item.estado + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.nombre_consultorio + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.nombresdoctor + '</td>';
+                html += '<td align="center">';
+                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalHorarioDetalle" onclick="listarHorarioDetalle(' + item.doctor_id +')"><ion-icon name="time-outline"></ion-icon></button>';
+                html += '</td>';
                 html += '<td align="center">';
                 html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal" onclick="leerDatos(' + item.horario_atencion_id + ')"><ion-icon name="create-outline"></ion-icon></button>';
                 html += '&nbsp;&nbsp;'
@@ -85,6 +83,75 @@ function listar() {
     });
 }
 
+function listarHorarioDetalle(codigo_doctor) {
+    $.post
+            (       
+                    "../controller/gestionarHorarioDetalle.listar.controller.php",
+                        {
+                            p_codigo_doctor: codigo_doctor
+                        }
+                    ).done(function (resultado) {
+        var datosJSON = resultado;
+
+        if (datosJSON.estado === 200) {
+            
+            var html = "";
+
+            html += '<small>';
+            html += '<table id="tabla-listadoHorarioDetalle" class="table table-bordered table-hover">';
+            html += '<thead>';
+            html += '<tr class="bg-light">';
+            html += '<th style="text-align:center">CODIGO</th>';
+            html += '<th style="text-align:center">HORA</th>';
+            html += '<th style="text-align: center">HORARIO</th>';
+            html += '<th style="text-align: center">ESTADO</th>';
+            html += '</tr>';
+            html += '</thead>';
+            html += '<tbody>';
+            $.each(datosJSON.datos, function (i, item) {
+                $("#txtDoc_id_paciente1").val(item.doc_id);
+                html += '<tr>';
+                html += '<td align="center" style="font-weight:normal">' + item.horario_atencion_id + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.hora + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.horario + '</td>';
+                if(item.estado  === "1")
+                    html += '<td align="center" style="font-weight:normal">Disponible</td>';
+                else
+                    html += '<td align="center" style="font-weight:normal">No Disponible</td>';
+
+                html += '</tr>';
+            });
+
+            html += '</tbody>';
+            html += '</table>';
+            html += '</small>';
+
+            $("#listadoHorarioDetalle").html(html);
+
+/*
+            $('#tabla-listado').dataTable({
+                "aaSorting": [[1, "asc"]]
+            });
+
+            */
+            $('#tabla-listadoHorarioDetalle').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "sScrollX": false
+          });
+        } else {
+            //swal("Mensaje del sistema", resultado , "warning");
+        }
+
+    }).fail(function (error) {
+        var datosJSON = $.parseJSON(error.responseText);
+        swal("Error", datosJSON.mensaje , "error"); 
+    });
+}
 
 $("#frmgrabar").submit(function (event) {
     event.preventDefault();
