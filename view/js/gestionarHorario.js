@@ -26,9 +26,9 @@ function listar() {
             html += '<table id="tabla-listado" class="table table-bordered table-hover">';
             html += '<thead>';
             html += '<tr class="bg-light">';
-            html += '<th style="text-align:center">CODIGO</th>';
-             html += '<th style="text-align: center">FECHA</th>';
-             html += '<th style="text-align: center">CONSULTORIO</th>';
+            //html += '<th style="text-align:center">CODIGO</th>';
+            html += '<th style="text-align: center">FECHA</th>';
+            html += '<th style="text-align: center">CONSULTORIO</th>';
             html += '<th style="text-align:center">DOCTOR</th>';
             html += '<th style="text-align: center">DETALLE</th>';
             html += '<th style="text-align: center">OPCIONES</th>';
@@ -37,12 +37,12 @@ function listar() {
             html += '<tbody>';
             $.each(datosJSON.datos, function (i, item) {
                 html += '<tr>';
-                html += '<td align="center" style="font-weight:normal">' + item.horario_atencion_id + '</td>';
+                //html += '<td align="center" style="font-weight:normal">' + item.horario_atencion_id + '</td>';
                 html += '<td align="center" style="font-weight:normal">' + item.fecha + '</td>';
                 html += '<td align="center" style="font-weight:normal">' + item.nombre_consultorio + '</td>';
                 html += '<td align="center" style="font-weight:normal">' + item.nombresdoctor + '</td>';
                 html += '<td align="center">';
-                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalHorarioDetalle" onclick="listarHorarioDetalle(' + item.doctor_id +')"><ion-icon name="time-outline"></ion-icon></button>';
+                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalHorarioDetalle" onclick="listarHorarioDetalle(' + item.doctor_id +',' + item.horario_atencion_id +')"><ion-icon name="time-outline"></ion-icon></button>';
                 html += '</td>';
                 html += '<td align="center">';
                 html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal" onclick="leerDatos(' + item.horario_atencion_id + ')"><ion-icon name="create-outline"></ion-icon></button>';

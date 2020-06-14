@@ -760,11 +760,63 @@ values(15,1,1,'Miercoles','1','Julio','2020','4:00','PM','1');
 insert into horario_atencion
 values(16,1,1,'Miercoles','1','Julio','2020','4:30','PM','1');
 
-delete from horario_atencion
+
+
+
+
+
+
+insert into horario_atencion
+values(17,2,2,'Miercoles','1','Julio','2020','8:00','AM','1');
+
+insert into horario_atencion
+values(18,2,2,'Miercoles','1','Julio','2020','8:30','AM','1');
+
+insert into horario_atencion
+values(19,2,2,'Miercoles','1','Julio','2020','9:00','AM','1');
+
+insert into horario_atencion
+values(20,2,2,'Miercoles','1','Julio','2020','9:30','AM','1');
+
+insert into horario_atencion
+values(21,2,2,'Miercoles','1','Julio','2020','10:00','AM','1');
+
+insert into horario_atencion
+values(22,2,2,'Miercoles','1','Julio','2020','10:30','AM','1');
+
+insert into horario_atencion
+values(23,2,2,'Miercoles','1','Julio','2020','11:00','AM','1');
+
+insert into horario_atencion
+values(24,2,2,'Miercoles','1','Julio','2020','11:30','AM','1');
+
+insert into horario_atencion
+values(25,2,2,'Miercoles','1','Julio','2020','12:00','PM','1');
+
+insert into horario_atencion
+values(26,2,2,'Miercoles','1','Julio','2020','12:30','PM','1');
+
+insert into horario_atencion
+values(27,2,2,'Miercoles','1','Julio','2020','2:00','PM','1');
+
+insert into horario_atencion
+values(28,2,2,'Miercoles','1','Julio','2020','2:30','PM','1');
+
+insert into horario_atencion
+values(29,2,2,'Miercoles','1','Julio','2020','3:00','PM','1');
+
+insert into horario_atencion
+values(30,2,2,'Miercoles','1','Julio','2020','3:30','PM','1');
+
+insert into horario_atencion
+values(31,2,2,'Miercoles','1','Julio','2020','4:00','PM','1');
+
+insert into horario_atencion
+values(32,2,2,'Miercoles','1','Julio','2020','4:30','PM','1');
+
 -- insert MES Y AÑO
 
-insert into mes
-values();
+select * from consultorio
 
 
 -- FIN AMPLIACIÓN
@@ -910,7 +962,7 @@ insert into doctor
 values(1,'CMP','123456','Andres','Hurtado','Lima-Surco','998745418','andresHurtado@hotmail.com');
 
 insert into doctor
-values(2,'CMP','852147','Juan','Córdoba','Lima-San Borja','995544754','juancordoba@hotmail.com',1);
+values(2,'CMP','852147','Juan','Córdoba','Lima-San Borja','995544754','juancordoba@hotmail.com');
 
 select * from horario_Atencion
 
