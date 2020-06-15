@@ -316,6 +316,41 @@ function cargarCbCodigoAreaSede(p_area_id, p_nombreCombo_sede, p_tipo){
     });
 }
 
+function cargarCbCodigoConsultorioCita(p_consultorio_id, p_nombreCombo_consultorio, p_tipo){
+    $.post
+    (
+        "../controller/comboCodigoConsultorioCita.php",
+        {
+            p_codigo_consultorio: p_nombreCombo_consultorio
+        }
+
+    ).done(function(resultado){
+    var datosJSON = resultado;
+    
+        if (datosJSON.estado===200){
+            var html = "";
+       /*
+            if (p_tipo==="seleccione"){
+                html += '<option value="">-</option>';
+            }else{
+                html += '<option value="0">Todos los consultorios</option>';
+            }
+        */
+            
+            $.each(datosJSON.datos, function(i,item) {
+                html += '<option value="'+item.consultorio_id+'">'+item.nombre_consultorio+'</option>';
+            });
+            
+            $(p_consultorio_id).html(html);
+    }else{
+            swal("Mensaje del sistema", resultado , "warning");
+        }
+    }).fail(function(error){
+    var datosJSON = $.parseJSON( error.responseText );
+    swal("Error", datosJSON.mensaje , "error");
+    });
+}
+
 function cargarCbCodigoConsultorio(p_consultorio_id, p_nombreCombo_area, p_tipo){
     $.post
     (

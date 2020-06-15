@@ -15,10 +15,10 @@ class Cita extends Conexion {
 
     private $Cita_id;
     private $Fecha;
-    private $Hora;
+    private $Consultorio;
     private $Descripcion;
     private $Doc_id;
-    private $Doctor_id;
+    private $NombreDoctor;
     private $Estado;
     private $Doc_id_paciente;
     private $Ciudad_paciente;
@@ -83,8 +83,8 @@ class Cita extends Conexion {
         return $this->Fecha;
     }
 
-    public function getHora() {
-        return $this->Hora;
+    public function getConsultorio() {
+        return $this->Consultorio;
     }
 
     public function getDescripcion() {
@@ -95,8 +95,8 @@ class Cita extends Conexion {
         return $this->Doc_id;
     }
 
-    public function getDoctor_id() {
-        return $this->Doctor_id;
+    public function getNombreDoctor() {
+        return $this->NombreDoctor;
     }
 
     public function getEstado() {
@@ -163,8 +163,8 @@ class Cita extends Conexion {
         $this->Fecha = $Fecha;
     }
 
-    public function setHora($Hora) {
-        $this->Hora = $Hora;
+    public function setConsultorio($Consultorio) {
+        $this->Consultorio = $Consultorio;
     }
 
     public function setDescripcion($Descripcion) {
@@ -175,8 +175,8 @@ class Cita extends Conexion {
         $this->Doc_id = $Doc_id;
     }
 
-    public function setDoctor_id($Doctor_id) {
-        $this->Doctor_id = $Doctor_id;
+    public function setNombreDoctor($NombreDoctor) {
+        $this->NombreDoctor = $NombreDoctor;
     }
 
     public function setEstado($Estado) {
@@ -355,7 +355,7 @@ class Cita extends Conexion {
                 $nuevoCodigo = $resultado["nc"];
                 $this->setCita_id($nuevoCodigo);
 
-                
+               /* 
                 $sql = "
 
                     select * from fn_registrarCita_paciente(
@@ -366,10 +366,36 @@ class Cita extends Conexion {
                                                 '$_SERVER[REMOTE_ADDR]',
                                                 :p_cita_id,
                                                 :p_fecha,
-                                                :p_hora,
+                                                :p_consultorio,
                                                 :p_descripcion,
                                                 :p_doc_id_usuario,
                                                 :p_doctor_id,
+                                                :p_doc_id_paciente,
+                                                :p_nombre_paciente,
+                                                :p_apellidos_paciente,
+                                                :p_edad_paciente,
+                                                :p_sexo_paciente,
+                                                :p_ciudad_paciente,
+                                                :p_estadoCivil_paciente,
+                                                :p_ocupacion_paciente,
+                                                :p_religion_paciente,
+                                                :p_domicilio_paciente,
+                                                :p_telefono_paciente,
+                                                :p_personaResponsable_paciente,
+                                                :p_telefonoResponsable_paciente
+                                             );
+                    ";
+                    */
+
+                $sql = "
+
+                    select * from fn_registrarCita_paciente(
+                                                :p_cita_id,
+                                                :p_fecha,
+                                                :p_consultorio,
+                                                :p_descripcion,
+                                                :p_doc_id_usuario,
+                                                :p_nombreDoctor,
                                                 :p_doc_id_paciente,
                                                 :p_nombre_paciente,
                                                 :p_apellidos_paciente,
@@ -389,10 +415,10 @@ class Cita extends Conexion {
     // Cita
                 $sentencia->bindParam(":p_cita_id", $this->getCita_id());
                 $sentencia->bindParam(":p_fecha", $this->getFecha());
-                $sentencia->bindParam(":p_hora", $this->getHora());
+                $sentencia->bindParam(":p_consultorio", $this->getConsultorio());
                 $sentencia->bindParam(":p_descripcion", $this->getDescripcion());
                 $sentencia->bindParam(":p_doc_id_usuario", $this->getDoc_id());
-                $sentencia->bindParam(":p_doctor_id", $this->getDoctor_id());
+                $sentencia->bindParam(":p_nombreDoctor", $this->getNombreDoctor());
                 
     // Paciente
                 $sentencia->bindParam(":p_doc_id_paciente", $this->getDoc_id_paciente());
@@ -503,6 +529,41 @@ class Cita extends Conexion {
                 ";
             $sentencia = $this->dblink->prepare($sql);
             $sentencia->bindParam(":p_codigo_paciente", $p_codigoPaciente);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function leerDatosHorario($p_codigoHorario_atencion) {
+        try {
+            $sql = "
+                    select
+                        distinct on(
+                                        concat(h.dia_semana, ', ',h.numero,' de ',h.mes,' del ', h.ano), 
+                                        concat(d.nombre, ', ',d.apellido)
+                                    )
+
+                        horario_atencion_id,
+                        concat(d.nombre, ', ',d.apellido) as nombresDoctor,
+                        c.nombre_consultorio,
+                        concat(h.dia_semana, ', ',h.numero,' de ',h.mes,' del ', h.ano,', ', h.hora, ' ', h.horario) as fecha,
+                        d.doctor_id,
+                        c.nombre_consultorio,
+                        c.consultorio_id
+                    from 
+                        horario_atencion h inner join doctor d
+                    on
+                        h.doctor_id = d.doctor_id inner join consultorio c
+                    on
+                        h.consultorio_id = c.consultorio_id
+                    where
+                        h.horario_atencion_id = $p_codigoHorario_atencion;
+                ";
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_codigo_paciente", $p_codigoPaciente);
             $sentencia->execute();
             $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
             return $resultado;

@@ -1,14 +1,52 @@
 
+function getParameterByName(name) { // extraer el id por get
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+    results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
 $(document).ready(function () {
+    var codigo = "";
+    codigo = getParameterByName('id');
+   // cargarCbCodigoConsultorioCita("#cbConsultorio", getParameterByName(id), "seleccione");
+    cargarDatos(getParameterByName('id'));// horario_atencion_id
+    cargarCbCodigoConsultorioCita("#cbConsultorio", codigo, "seleccione");
+    //listar();
     
-    listar();
-    cargarCbCodigoEspecialidad("#especialidad", "seleccione");
-    cargarCbCodigoFecha("#txtFecha", "seleccione");
-    cargarCbCodigoHora("#txtHora", "seleccione");
-    cargarCbTratamiento("#comboTratamiento", "seleccione");
+    //cargarCbCodigoFecha("#txtFecha", "seleccione");
+   // cargarCbCodigoHora("#txtHora", "seleccione");
+   // cargarCbTratamiento("#comboTratamiento", "seleccione");
+
 });
 
-//cargarCbCodigoDoctor("#doctor", "seleccione");
+function cargarDatos(codHorario_atencion) {
+    $.post
+            (
+                    "../controller/gestionarHorarioCita.leer.datos.controller.php",
+                    {
+                        p_codigo_Horario_atencion : codHorario_atencion
+                    }
+            ).done(function (resultado) {
+        var jsonResultado = resultado;
+        if (jsonResultado.estado === 200) {
+            $("#txtTipoOperacion").val("agregar");
+            // Paciente:
+            $("#txtFecha").val(jsonResultado.datos.fecha);
+            //$("#txtConsultorio").val(jsonResultado.datos.nombre_consultorio);
+            $("#txtCodigoConsultorio").val(jsonResultado.datos.consultorio_id);
+            $("#txtDoctor").val(jsonResultado.datos.nombresdoctor);
+
+           
+            $("#titulomodal").html("Datos del Paciente");
+        }
+    }).fail(function (error) {
+        var datosJSON = $.parseJSON(error.responseText);
+        swal("Error", datosJSON.mensaje, "error");
+    });
+
+                    
+}
 
 function listar() {
     $.post
@@ -156,10 +194,10 @@ $("#frmgrabar").submit(function (event) {
                             {
                                 p_doc_id:       $("#txtDoc_id").val(),
                                 p_fecha:        $("#txtFecha").val(),
-                                p_hora:         $("#txtHora").val(),
+                                p_consultorio:         $("#txtCodigoConsultorio").val(),
                                 //p_especialidad: $("#especialidad").val(),
-                                p_doctor:       $("#doctor").val(),
-                                p_descripcion:  $("#txtDescripcion").val(),
+                                p_doctor:       $("#txtDoctor").val(),
+                               
                     // Paciente:
                                 p_doc_id_paciente:  $("#txtDoc_id_paciente").val(),
                                 p_ciudad_paciente:  $("#txtCiudad_paciente").val(),
@@ -174,6 +212,7 @@ $("#frmgrabar").submit(function (event) {
                                 p_telefono_paciente:     $("#txtTelefono_paciente").val(),
                                 p_personaResponsable_paciente:   $("#txtPersonaResponsable_paciente").val(),
                                 p_telefonoResponsable_paciente:  $("#txtTelefonoResponsable_paciente").val(),
+                                p_descripcion:  $("#txtDescripcion").val(),
 
                                 p_tipo_ope:     $("#txtTipoOperacion").val(),
                                 p_codigo_curso: codCita
@@ -183,8 +222,27 @@ $("#frmgrabar").submit(function (event) {
 
                         if (datosJSON.estado === 200) {
                             swal("Exito", datosJSON.mensaje, "success");
-                            $("#btncerrar").click(); //Cerrar la ventana 
-                            listar(); //actualizar la lista
+
+                            $("#cbConsultorio").val("");
+                            $("#txtDoc_id").val("");
+                            $("#txtFecha").val("");
+                            $("#txtCodigoConsultorio").val("");
+                            $("#txtDoctor").val("");
+                            $("#txtDoc_id_paciente").val("");
+                            $("#txtCiudad_paciente").val("");
+                            $("#estadoCivil_paciente").val("");
+                            $("#edad_paciente").val("");
+                            $("#txtNombre_paciente").val("");
+                            $("#txtApellidos_paciente").val("");
+                            $("#sexo_paciente").val("");
+                            $("#txtOcupacion_paciente").val("");
+                            $("#txtReligion_paciente").val("");
+                            $("#txtDomicilio_paciente").val("");
+                            $("#txtTelefono_paciente").val("");
+                            $("#txtPersonaResponsable_paciente").val("");
+                            $("#txtTelefonoResponsable_paciente").val("");
+                            $("#txtDescripcion").val("");
+
                         } else {
                             swal("Mensaje del sistema", resultado, "warning");
                         }
@@ -225,6 +283,7 @@ function leerDatos(codigo_paciente) {
         if (jsonResultado.estado === 200) {
             $("#txtTipoOperacion").val("editar");
             // Paciente:
+
             $("#txtDoc_id_paciente1").val(jsonResultado.datos.doc_id);
             $("#txtCiudad_paciente1").val(jsonResultado.datos.naturalde);
             $("#estadoCivil_paciente1").val(jsonResultado.datos.estado_civil);
@@ -308,170 +367,4 @@ function leerDatosEstado(codigo_paciente) {
     });
 }
 
-$("#frmgrabarEstado").submit(function (event) {
-    event.preventDefault();
 
-    swal({
-        title: "Confirme",
-        text: "¿Esta seguro de grabar los datos ingresados?",
-        showCancelButton: true,
-        confirmButtonColor: '#3d9205',
-        confirmButtonText: 'Si',
-        cancelButtonText: "No",
-        closeOnConfirm: false,
-        closeOnCancel: true,
-        imageUrl: "../images/pregunta.png"
-    },
-            function (isConfirm) {
-
-                if (isConfirm) { 
-                    $.post(
-                            "../controller/gestionarEstado.editar.controller.php",
-                            {
-                                p_cod_citaEstado:  $("#txtCod_citaEstado").val(),
-                                p_estado_cita:         $("#hab_desh_proc").val()
-
-                            }
-                    ).done(function (resultado) {
-                        var datosJSON = resultado;
-
-                        if (datosJSON.estado === 200) {
-                            swal("Exito", datosJSON.mensaje, "success");
-                            $("#btncerrar").click(); //Cerrar la ventana 
-                            listar(); //actualizar la lista
-                            $("#btncerrarEstado").click(); //Cerrar la ventana 
-                        } else {
-                            swal("Mensaje del sistema", resultado, "warning");
-                        }
-
-                    }).fail(function (error) {
-                        var datosJSON = $.parseJSON(error.responseText);
-                        swal("Error", datosJSON.mensaje, "error");
-                    });
-
-                }
-            });
-
-});
-
-
-$("#btnagregar").click(function () {
-    $("#txtTipoOperacion").val("agregar");
-    $("#txtCodigo").val("");
-    $("#txtCurso").val("");
-$("#titulomodal").html("Agregar nuevo Curso");
-});
-
-
-$("#myModal").on("shown.bs.modal", function () {
-    $("#txtPuesto").focus();
-});
-
-function leerDatosTratamiento(codigo_cita, codigo_paciente) {
-    $.post
-            (
-                    "../controller/gestionarHistorialTratamiento.leer.datos.controller.php",
-                    {
-                        p_codigo_cita: codigo_cita,
-                        p_codigo_paciente: codigo_paciente
-                    }
-            ).done(function (resultado) {
-        var jsonResultado = resultado;
-        if (jsonResultado.estado === 200) {
-            $("#txtTipoOperacion").val("editar");
-            
-            $("#comboTratamiento").val(jsonResultado.datos.tratamiento_id);
-            $("#txtCod_citaTratamiento").val(jsonResultado.datos.cita_id);
-            $("#txtCod_paciente").val(jsonResultado.datos.paciente_id);
-            $("#txtFechaTratamiento").val(jsonResultado.datos.fecha);
-            $("#txtHoraTratamiento").val(jsonResultado.datos.hora);
-            $("#txtDescripcionTratamientoPaciente").val(jsonResultado.datos.descripcion);
-           
-            $("#titulomodalTratamientoPaciente").html("Detalle del tratamiento");
-        }
-    }).fail(function (error) {
-        var datosJSON = $.parseJSON(error.responseText);
-        swal("Error", datosJSON.mensaje, "error");
-    });
-}
-
-$("#frmgrabarTratamientoPaciente").submit(function (event) {
-    event.preventDefault();
-
-    swal({
-        title: "Confirme",
-        text: "¿Esta seguro de grabar los datos ingresados?",
-        showCancelButton: true,
-        confirmButtonColor: '#3d9205',
-        confirmButtonText: 'Si',
-        cancelButtonText: "No",
-        closeOnConfirm: false,
-        closeOnCancel: true,
-        imageUrl: "../images/pregunta.png"
-    },
-            function (isConfirm) {
-
-                if (isConfirm) { 
-
-                        var p_cod_tratamiento = "";
-                        var p_cod_citaTratamiento = "";
-                        var p_cod_paciente = "";
-                        var p_fechaHistTratamiento = "";
-                        var p_horaHistTratamiento = "";
-                        var p_descripcionHistTratamiento = "";
-                            
-                            p_cod_tratamiento            = $("#comboTratamiento").val();
-                            p_cod_citaTratamiento        = $("#txtCod_citaTratamiento").val();
-                            p_cod_paciente               = $("#txtCod_paciente").val();
-                            p_fechaHistTratamiento       = $("#txtFechaTratamiento").val();
-                            p_horaHistTratamiento        = $("#txtHoraTratamiento").val();
-                            p_descripcionHistTratamiento = $("#txtDescripcionTratamientoPaciente").val();
-
-
-                            //alert(p_cod_citaTratamiento+", "+p_cod_paciente+", "+p_fechaHistTratamiento+", "+p_horaHistTratamiento+", "+p_cod_tratamiento+", "+p_descripcionHistTratamiento);
-                            
-                    $.post(
-                            "../controller/gestionarHistorialTratamiento.agregar.editar.controller.php",
-                            {
-                                p_cod_tratamiento:            $("#comboTratamiento").val(),
-                                p_cod_citaTratamiento:        $("#txtCod_citaTratamiento").val(),
-                                p_cod_paciente:               $("#txtCod_paciente").val(),
-                                p_fechaHistTratamiento:       $("#txtFechaTratamiento").val(),
-                                p_horaHistTratamiento:        $("#txtHoraTratamiento").val(),
-                                p_descripcionHistTratamiento: $("#txtDescripcionTratamientoPaciente").val()
-
-                            }
-                    ).done(function (resultado) {
-                        var datosJSON = resultado;
-
-                        if (datosJSON.estado === 200) {
-                            swal("Exito", datosJSON.mensaje, "success");
-                            $("#btncerrar").click(); //Cerrar la ventana 
-                            listar(); //actualizar la lista
-                            $("#btncerrarTratamientoPaciente").click(); //Cerrar la ventana 
-                        } else {
-                            swal("Mensaje del sistema", resultado, "warning");
-                        }
-
-                    }).fail(function (error) {
-                        var datosJSON = $.parseJSON(error.responseText);
-                        swal("Error", datosJSON.mensaje, "error");
-                    });
-
-                }
-            });
-
-});
-
-
-$("#btnagregar").click(function () {
-    $("#txtTipoOperacion").val("agregar");
-    $("#txtCodigo").val("");
-    $("#txtCurso").val("");
-$("#titulomodal").html("Agregar nuevo Curso");
-});
-
-
-$("#myModal").on("shown.bs.modal", function () {
-    $("#txtPuesto").focus();
-});

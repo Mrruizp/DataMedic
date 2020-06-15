@@ -79,7 +79,7 @@ CREATE TABLE cita
 (
   cita_id integer not NULL,
   fecha character varying(50)not null,
-  hora character varying(50) not NULL,
+  nombre_doctor character varying(100) not null,
   descripcion character varying(500) not NULL,
   doc_id character varying(20),
   estado character varying(50)not null,
@@ -98,15 +98,15 @@ CREATE TABLE especialidad
   CONSTRAINT pk_especialidad_especialidad_id PRIMARY KEY (especialidad_id)
 );
 
-CREATE TABLE otra_Especializacion
+CREATE TABLE doctorEspecializacion
 (
-  otra_Especializacion_id integer not NULL,
+  doctorEspecializacion_id integer not NULL,
   -- otra_Especializacion_nombre character varying(100)not null,
   especialidad_id integer,
   doctor_id integer,
-  CONSTRAINT pk_otra_Especializacion_otra_Especializacion_id PRIMARY KEY (otra_Especializacion_id),
-  CONSTRAINT fk_otra_Especializacion_especialidad_id foreign key (especialidad_id) references especialidad(especialidad_id),
-  CONSTRAINT fk_otra_Especializacion_doctor_id foreign key (doctor_id) references doctor(doctor_id)	
+  CONSTRAINT pk_doctorEspecializacion_otra_doctorEspecializacion_id PRIMARY KEY (doctorEspecializacion_id),
+  CONSTRAINT fk_doctorEspecializacion_especialidad_id foreign key (especialidad_id) references especialidad(especialidad_id),
+  CONSTRAINT fk_doctorEspecializacion_doctor_id foreign key (doctor_id) references doctor(doctor_id)	
 );
 
 CREATE TABLE doctor
@@ -120,15 +120,6 @@ CREATE TABLE doctor
   telefono character varying(20) not NULL,
   email character varying(150) not NULL,
   CONSTRAINT pk_doctor_doctor_id PRIMARY KEY (doctor_id)
-);
-
-CREATE TABLE dia_semana
-(
-  dia_semana_id integer,
-  dia_semana character varying(50) not null,
-  mes character varying(50) not NULL,
-  ano char(4) not NULL, -- año
-  CONSTRAINT pk_dia_semana_dia_semana_id PRIMARY KEY (dia_semana_id)
 );
 
 -- horario de trabajo y atención de cada doctor.
@@ -814,9 +805,14 @@ values(31,2,2,'Miercoles','1','Julio','2020','4:00','PM','1');
 insert into horario_atencion
 values(32,2,2,'Miercoles','1','Julio','2020','4:30','PM','1');
 
--- insert MES Y AÑO
+-- 
 
-select * from consultorio
+
+-- insert MES Y AÑO
+update 
+	menu_item
+set nombre = 'cis Citas'
+select * from menu_item
 
 
 -- FIN AMPLIACIÓN
@@ -1063,7 +1059,7 @@ CREATE OR REPLACE FUNCTION f_generar_correlativo(p_tabla character varying)
  end
  $$ language plpgsql;
  
- select * from paciente;
+ select * from consultorio;
  select * from cita;
  select * from log_paciente;
  select * from log_cita;
@@ -1104,21 +1100,17 @@ select * from fn_registrarCita_paciente(
 												
 												
 												
-	 											
+	 									select * from paciente;	
+										delete from paciente;
 	 											
 												
 CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
-												p_usuarioQueRegistra_doc_id character varying(20),
-												p_usuarioQueRegistra_nombres character varying(100),
-												p_usuarioQueRegistra_cargo_id int,
-												p_usuarioQueRegistra_tipo char(1),
-												p_ip character varying(200),
 	 											p_cita_id integer,
 												p_fecha character varying(50),
-												p_hora character varying(50),
+												p_consultorio_id int,
 												p_descripcion character varying(500),
 												p_doc_id_usuario character varying(20),
-												p_doctor_id int,
+												p_nombre_doctor character varying(100),
 	 											p_doc_id_paciente character varying(20),
 	 											p_nombres character varying(100),
 	 											p_apellidos character varying(100),
@@ -1135,12 +1127,11 @@ CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
 											 )  RETURNS void AS   
  $$
  declare
- p_estadoPaciente int := (select count(*) from paciente where doc_id = p_doc_id_paciente);
- p_fecha_registro character varying(50)  := current_date;
- p_tiempo_registro character varying(50) := current_time;
+ -- p_estadoPaciente int := (select count(*) from paciente where doc_id = p_doc_id_paciente);
+ --p_fecha_registro character varying(50)  := current_date;
+ --p_tiempo_registro character varying(50) := current_time;
  begin
 							
-							if p_estadoPaciente = 0 then
 								insert into paciente
 													(
 														paciente_id,
@@ -1175,57 +1166,7 @@ CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
 											p_personaresponsable_telefono
 										);
 										
-										insert into log_paciente
-																(
-																	usuarioqueregistra_doc_id, 
-																	usuarioqueregistra_nombres,
-																	usuarioqueregistra_cargo_id, 
-																	usuarioqueregistra_tipo,
-																	fecha,
-																	tiempo,
-																	tipo_operacion,
-																	ip,
-																	paciente_id,
-																	doc_id,
-																	nombres,
-																	apellidos,
-																	edad,
-																	sexo,
-																	naturalde,
-																	estado_civil,
-																	ocupacion,
-																	religion,
-																	domicilio,
-																	telefono,
-																	personaresponsable,
-																	personaresponsable_telefono
-																
-																)
-											values(
-													
-													p_usuarioqueregistra_doc_id, 
-													p_usuarioqueregistra_nombres,
-													p_usuarioqueregistra_cargo_id, 
-													p_usuarioqueregistra_tipo,
-													p_fecha_registro,
-													p_tiempo_registro,
-													'Insert',
-													p_ip,
-													(select * from f_generar_correlativo('paciente') as nc),
-													p_doc_id_paciente,
-													p_nombres,
-													p_apellidos,
-													p_edad,
-													p_sexo,
-													p_naturalde,
-													p_estado_civil,
-													p_ocupacion,
-													p_religion,
-													p_domicilio,
-													p_telefono,
-													p_personaresponsable,
-													p_personaresponsable_telefono
-												);
+										
 												
 										update 
 											correlativo 
@@ -1233,128 +1174,73 @@ CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
 											numero = numero + 1 
 										where 
 											tabla='paciente';	
-										
-							else
-								
-								update 
-									paciente
-								set
-									nombres = p_nombres,
-									apellidos = p_apellidos,
-									edad = p_edad,
-									sexo = p_sexo,
-									naturalde = p_naturalde,
-									estado_civil = p_estado_civil,
-									ocupacion = p_ocupacion,
-									religion = p_religion,
-									domicilio = p_domicilio,
-									telefono = p_telefono,
-									personaresponsable = p_personaresponsable,
-									personaresponsable_telefono = p_personaresponsable_telefono
-								where
-									doc_id = p_doc_id_paciente;
-								
-								update 
-									log_paciente
-								set
-								
-									usuarioqueregistra_doc_id = p_usuarioqueregistra_doc_id, 
-									usuarioqueregistra_nombres = p_usuarioqueregistra_nombres,
-									usuarioqueregistra_cargo_id = p_usuarioqueregistra_cargo_id, 
-									usuarioqueregistra_tipo = p_usuarioqueregistra_tipo,
-									fecha = p_fecha_registro,
-									tiempo = p_tiempo_registro,
-									tipo_operacion = 'Update',
-									ip = p_ip,
-									nombres = p_nombres,
-									apellidos = p_apellidos,
-									edad = p_edad,
-									sexo = p_sexo,
-									naturalde = p_naturalde,
-									estado_civil = p_estado_civil,
-									ocupacion = p_ocupacion,
-									religion = p_religion,
-									domicilio = p_domicilio,
-									telefono = p_telefono,
-									personaresponsable = p_personaresponsable,
-									personaresponsable_telefono = p_personaresponsable_telefono
-								where
-									doc_id = p_doc_id_paciente;
-									
-							end if;
 							
 							insert into cita(
 												cita_id,
 												fecha,
-												hora, 
+												nombre_doctor,
 												descripcion,
 												doc_id,
-												doctor_id,
 												estado,
+												consultorio_id,
 												paciente_id
 											)
 										values(
 													p_cita_id,
 													p_fecha,
-													p_hora, 
+													p_nombre_doctor,
 													p_descripcion,
 													p_doc_id_usuario,
-													p_doctor_id,
 													'En proceso de confirmación',
+													p_consultorio_id,
 													(select paciente_id from paciente where doc_id = p_doc_id_paciente)
 												);
-							insert into log_cita(
-												usuarioqueregistra_doc_id, 
-												usuarioqueregistra_nombres,
-												usuarioqueregistra_cargo_id, 
-												usuarioqueregistra_tipo,
-												fecha,
-												tiempo,
-												tipo_operacion,
-												ip,
-												cita_id,
-												fecha_cita,
-												hora_cita, 
-												descripcion,
-												doc_id_usuario,
-												doctor_id,
-												estado,
-												paciente_id
-											) 
-										values(
-													p_usuarioqueregistra_doc_id, 
-													p_usuarioqueregistra_nombres,
-													p_usuarioqueregistra_cargo_id, 
-													p_usuarioqueregistra_tipo,
-													p_fecha,
-													p_hora,
-													'Insert',
-													p_ip,
-													p_cita_id,
-													p_fecha_registro,
-													p_tiempo_registro,
-													p_descripcion,
-													p_doc_id_usuario,
-													p_doctor_id,
-													'En proceso de confirmación',
-													(select paciente_id from paciente where doc_id = p_doc_id_paciente)
-												);
-												
+							
 										update 
 											correlativo 
 										set numero = p_cita_id
 										where 
 											tabla='cita';
+										
 											
-										update 
-											fecha
-										set
-											estado = 'no disponible'
-										where
-											hora = p_hora;
 						
  end
  $$ language plpgsql;
+ 
+ select * from cita;
+  select * from paciente;
+ 
+ select * from fn_registrarCita_paciente(
+                                                1,
+                                                'Miercoles, 1 de Julio del 2020, 10:00 AM',
+                                                1,
+                                                :p_descripcion,
+                                                :p_doc_id_usuario,
+                                                :p_doctor_id,
+                                                :p_doc_id_paciente,
+                                                :p_nombre_paciente,
+                                                :p_apellidos_paciente,
+                                                :p_edad_paciente,
+                                                :p_sexo_paciente,
+                                                :p_ciudad_paciente,
+                                                :p_estadoCivil_paciente,
+                                                :p_ocupacion_paciente,
+                                                :p_religion_paciente,
+                                                :p_domicilio_paciente,
+                                                :p_telefono_paciente,
+                                                :p_personaResponsable_paciente,
+                                                :p_telefonoResponsable_paciente
+                                             );
+ 
+ 
+ 
+ 	
+										update 
+											horario_atencion 
+										set estado = 0
+										where 
+											tabla='cita';
+ 
  
  update 
 											fecha
@@ -1363,10 +1249,10 @@ CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
 										where
 											hora = '10:30';
 											
-  select * from correlativo
+  select * from horario_Atencion
  select * from doctor;
-  select * from fecha
-  
+  select * from cita
+  drop table fecha
  update correlativo set numero = 0
                     	where tabla='historial_tratamiento';
 						

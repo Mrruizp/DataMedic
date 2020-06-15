@@ -105,6 +105,7 @@ function listarHorarioDetalle(codigo_doctor) {
             html += '<th style="text-align:center">HORA</th>';
             html += '<th style="text-align: center">HORARIO</th>';
             html += '<th style="text-align: center">ESTADO</th>';
+            html += '<th style="text-align: center">REGISTRAR CITA</th>';
             html += '</tr>';
             html += '</thead>';
             html += '<tbody>';
@@ -115,10 +116,12 @@ function listarHorarioDetalle(codigo_doctor) {
                 html += '<td align="center" style="font-weight:normal">' + item.hora + '</td>';
                 html += '<td align="center" style="font-weight:normal">' + item.horario + '</td>';
                 if(item.estado  === "1")
-                    html += '<td align="center" style="font-weight:normal">Disponible</td>';
+                    html += '<td align="center" style="font-weight:normal" class="text-primary">Disponible</td>';
                 else
-                    html += '<td align="center" style="font-weight:normal">No Disponible</td>';
-
+                    html += '<td align="center" style="font-weight:normal" class="text-danger">No Disponible</td>';
+                html += '<td align="center">';
+                html += '<button type="button" class="btn btn-default btn-xs" onclick="registrarCita(' + item.horario_atencion_id + ')"><ion-icon name="document-text-outline"></ion-icon></button>';
+                html += '</td>';
                 html += '</tr>';
             });
 
@@ -272,6 +275,11 @@ function leerDatos(codigo_horario) {
         var datosJSON = $.parseJSON(error.responseText);
         swal("Error", datosJSON.mensaje, "error");
     });
+}
+
+function registrarCita(codigo_horario_atencion) {
+    
+    location.href = "../view/gestionarCita.view.php?id="+ codigo_horario_atencion +"";
 }
 
 function eliminar(codHorario) {

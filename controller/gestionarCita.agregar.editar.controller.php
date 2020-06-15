@@ -4,7 +4,12 @@ try {
 
     require_once '../logic/Cita.class.php';
     require_once '../util/functions/Helper.class.php';
-
+/*
+   echo '<pre>';
+    echo 'Datos que llegan por POST';
+     print_r($_POST);
+   echo '</pre>';
+*/
     if
     (
             !isset($_POST["p_doc_id"]) ||
@@ -13,14 +18,11 @@ try {
             !isset($_POST["p_fecha"]) ||
             empty($_POST["p_fecha"]) ||
 
-            !isset($_POST["p_hora"]) ||
-            empty($_POST["p_hora"]) ||
+            !isset($_POST["p_consultorio"]) ||
+            empty($_POST["p_consultorio"]) ||
 
             !isset($_POST["p_doctor"]) ||
             empty($_POST["p_doctor"]) ||
-
-            !isset($_POST["p_descripcion"]) ||
-            empty($_POST["p_descripcion"]) ||
 // Paciente:  
             !isset($_POST["p_doc_id_paciente"]) ||
             empty($_POST["p_doc_id_paciente"]) ||
@@ -61,6 +63,9 @@ try {
             !isset($_POST["p_telefonoResponsable_paciente"]) ||
             empty($_POST["p_telefonoResponsable_paciente"]) ||
 
+            !isset($_POST["p_descripcion"]) ||
+            empty($_POST["p_descripcion"]) ||
+
             !isset($_POST["p_tipo_ope"]) ||
             empty($_POST["p_tipo_ope"])
     ) {
@@ -70,9 +75,9 @@ try {
 //Cita
      $doc_id        = $_POST["p_doc_id"];
      $fecha         = $_POST["p_fecha"];
-     $hora          = $_POST["p_hora"];
+     $consultorio   = $_POST["p_consultorio"];
      $doctor        = $_POST["p_doctor"];
-     $descripcion   = $_POST["p_descripcion"];
+     
 //Paciente
      $Doc_id_paciente              = $_POST["p_doc_id_paciente"];
      $Ciudad_paciente              = $_POST["p_ciudad_paciente"];
@@ -87,6 +92,7 @@ try {
      $Telefono_paciente            = $_POST["p_telefono_paciente"];
      $PersonaResponsable_paciente  = $_POST["p_personaResponsable_paciente"];
      $TelefonoResponsable_paciente = $_POST["p_telefonoResponsable_paciente"];
+     $descripcion   = $_POST["p_descripcion"];
 
      $tipoOperacion = $_POST["p_tipo_ope"];
 
@@ -96,9 +102,9 @@ try {
 //Cita
         $objCita->setDoc_id($doc_id);
         $objCita->setFecha($fecha);
-        $objCita->setHora($hora);
-        $objCita->setDoctor_id($doctor);
-        $objCita->setDescripcion($descripcion);
+        $objCita->setConsultorio($consultorio);
+        $objCita->setNombreDoctor($doctor);
+        
 //Paciente  
         $objCita->setDoc_id_paciente($Doc_id_paciente);
         $objCita->setCiudad_paciente($Ciudad_paciente);
@@ -113,6 +119,7 @@ try {
         $objCita->setTelefono_paciente($Telefono_paciente);
         $objCita->setPersonaResponsable_paciente($PersonaResponsable_paciente);
         $objCita->setTelefonoResponsable_paciente($TelefonoResponsable_paciente);
+        $objCita->setDescripcion($descripcion);
         
         $resultado = $objCita->agregar();
         if ($resultado) {
@@ -130,8 +137,8 @@ try {
         $codigo = $_POST["p_codigo_curso"];
         $objCita->setDoc_id($doc_id);
         $objCita->setFecha($fecha);
-        $objCita->setHora($hora);
-        $objCita->setDoctor_id($doctor);
+        $objCita->setConsultorio($consultorio);
+        $objCita->setNombreDoctor($doctor);
         $objCita->setDescripcion($descripcion);
         $resultado = $objCita->editar();
         if ($resultado) {

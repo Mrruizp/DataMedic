@@ -142,6 +142,30 @@ class comboCodigo extends Conexion {
         }
     }
 
+    public function cargarDatos_CodigoConsultorioCita($codigo_consultorio) {
+        
+        try {
+            $sql = "
+                    select 
+                      c.consultorio_id,
+                      c.nombre_consultorio
+                    from
+                        horario_atencion h inner join consultorio c
+                    on
+                        h.consultorio_id = c.consultorio_id
+                    where
+                        h.horario_atencion_id = $codigo_consultorio;";
+
+            
+            $sentencia = $this->dblink->prepare($sql);
+           // $sentencia->bindParam(":p_curso_id", $codigo_curso);
+            $sentencia->execute();
+            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
 
     public function cargarDatos_CodigoFecha() {
         
