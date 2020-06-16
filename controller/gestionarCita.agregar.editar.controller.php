@@ -11,7 +11,10 @@ try {
    echo '</pre>';
 */
     if
-    (
+    (       
+            !isset($_POST["p_codigo_Horario_atencion"]) ||
+            empty($_POST["p_codigo_Horario_atencion"]) ||
+
             !isset($_POST["p_doc_id"]) ||
             empty($_POST["p_doc_id"]) ||
 
@@ -73,6 +76,7 @@ try {
         exit();
     }
 //Cita
+     $CodHorario    = $_POST["p_codigo_Horario_atencion"];
      $doc_id        = $_POST["p_doc_id"];
      $fecha         = $_POST["p_fecha"];
      $consultorio   = $_POST["p_consultorio"];
@@ -100,6 +104,7 @@ try {
 
     if ($tipoOperacion == "agregar") {
 //Cita
+        $objCita->setCodHorario($CodHorario);
         $objCita->setDoc_id($doc_id);
         $objCita->setFecha($fecha);
         $objCita->setConsultorio($consultorio);

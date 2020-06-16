@@ -67,18 +67,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                               <div class="card-body">
 
                                 <div class="row">
-                                  <div class="col-2">
-                                      <p>
-                                          <input type="hidden" value="" id="txtTipoOperacion" name="txtTipoOperacion">
-                                          Código <input type="text" 
-                                                        name="txtCodigo" 
-                                                        id="txtCodigo" 
-                                                        class="form-control input-sm" 
-                                                        readonly="true">
-                                      </p>
-                                    </div>
-                                    
-                                    <div class="col-2">
+                                  <div class="col-4">
                                         <p>
                                             
                                             DNI del Usuario<input type="text" 
@@ -88,8 +77,8 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                                           value="<?php echo $resultado["doc_id"];  ?>"
                                                           readonly ="true">
                                         </p>
-                                    </div>
-                                    <div class="col-3">
+                                  </div>
+                                  <div class="col-4">
                                         <p>
                                            
                                             Fecha de la Cita<input type="text" 
@@ -99,22 +88,44 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                                           readonly ="true">
                                         </p>
                                     </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col-2">
+                                  <div class="col-1">
+                                      <p>
+                                          <input type="hidden" value="" id="txtTipoOperacion" name="txtTipoOperacion">
+                                         <!-- Código--> <input type="hidden" 
+                                                        name="txtCodigo" 
+                                                        id="txtCodigo" 
+                                                        class="form-control input-sm" 
+                                                        readonly="true">
+                                      </p>
+                                    </div>
+                                    <div class="col-1">
                                       <p>
                                           
-                                          Código Consultorio<input type="text" 
+                                         <!-- Código Horario--><input type="hidden" 
+                                                        name="txtHorario_atencion_id" 
+                                                        id="txtHorario_atencion_id" 
+                                                        class="form-control input-sm" 
+                                                        readonly="true">
+                                      </p>
+                                    </div>
+                                    <div class="col-1">
+                                      <p>
+                                          
+                                         <!-- Código Consultorio--><input type="hidden" 
                                                         name="txtCodigoConsultorio" 
                                                         id="txtCodigoConsultorio" 
                                                         class="form-control input-sm" 
                                                         readonly="true">
                                       </p>
                                     </div>
-                                    <div class="col-5">
+                                    
+                                    
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-4">
                                         <p>
                                            
-                                            Nombre del Consultorio <select class="form-control" name="cbConsultorio" id="cbConsultorio">
+                                            Nombre del Consultorio <select class="form-control" name="cbConsultorio" id="cbConsultorio" readOnly="true">
                                                         </select>
                                               <!--          
                                             <input type="text" 
@@ -136,7 +147,6 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                             
                                         </p>
                                     </div>
-                                    
                                   </div>
                                   <div class="row">
                                     <div class="modal-header col-12">

@@ -30,7 +30,7 @@ function listar() {
             html += '<th style="text-align: center">FECHA</th>';
             html += '<th style="text-align: center">CONSULTORIO</th>';
             html += '<th style="text-align:center">DOCTOR</th>';
-            html += '<th style="text-align: center">DETALLE</th>';
+            html += '<th style="text-align: center">SEPARAR CITAR</th>';
             html += '<th style="text-align: center">OPCIONES</th>';
             html += '</tr>';
             html += '</thead>';
@@ -120,7 +120,10 @@ function listarHorarioDetalle(codigo_doctor) {
                 else
                     html += '<td align="center" style="font-weight:normal" class="text-danger">No Disponible</td>';
                 html += '<td align="center">';
-                html += '<button type="button" class="btn btn-default btn-xs" onclick="registrarCita(' + item.horario_atencion_id + ')"><ion-icon name="document-text-outline"></ion-icon></button>';
+                if(item.estado === "0")
+                    html += '<ion-icon name="lock-closed-outline"></ion-icon>';
+                else
+                    html += '<button type="button" class="btn btn-default btn-xs" onclick="registrarCita(' + item.horario_atencion_id + ')"><ion-icon name="document-text-outline"></ion-icon></button>';
                 html += '</td>';
                 html += '</tr>';
             });

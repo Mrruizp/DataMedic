@@ -13,6 +13,7 @@ class Cita extends Conexion {
     private $Hora_historial_tratamiento;
     private $Descripcion_historial_tratamiento;
 
+    private $CodHorario;
     private $Cita_id;
     private $Fecha;
     private $Consultorio;
@@ -34,6 +35,9 @@ class Cita extends Conexion {
     private $PersonaResponsable_paciente;
     private $TelefonoResponsable_paciente;
 
+    public function getCodHorario() {
+        return $this->CodHorario;
+    }
 
     public function getTratamiento_id() {
         return $this->Tratamiento_id;
@@ -153,6 +157,10 @@ class Cita extends Conexion {
 
     public function getTelefonoResponsable_paciente() {
         return $this->TelefonoResponsable_paciente;
+    }
+
+    public function setCodHorario($CodHorario) {
+        $this->CodHorario = $CodHorario;
     }
 
     public function setCita_id($Cita_id) {
@@ -390,6 +398,7 @@ class Cita extends Conexion {
                 $sql = "
 
                     select * from fn_registrarCita_paciente(
+                                                :p_codHorario,
                                                 :p_cita_id,
                                                 :p_fecha,
                                                 :p_consultorio,
@@ -413,6 +422,7 @@ class Cita extends Conexion {
                     ";
                 $sentencia = $this->dblink->prepare($sql);
     // Cita
+                $sentencia->bindParam(":p_codHorario", $this->getCodHorario());
                 $sentencia->bindParam(":p_cita_id", $this->getCita_id());
                 $sentencia->bindParam(":p_fecha", $this->getFecha());
                 $sentencia->bindParam(":p_consultorio", $this->getConsultorio());

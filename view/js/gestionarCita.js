@@ -33,7 +33,7 @@ function cargarDatos(codHorario_atencion) {
             $("#txtTipoOperacion").val("agregar");
             // Paciente:
             $("#txtFecha").val(jsonResultado.datos.fecha);
-            //$("#txtConsultorio").val(jsonResultado.datos.nombre_consultorio);
+            $("#txtHorario_atencion_id").val(jsonResultado.datos.horario_atencion_id);
             $("#txtCodigoConsultorio").val(jsonResultado.datos.consultorio_id);
             $("#txtDoctor").val(jsonResultado.datos.nombresdoctor);
 
@@ -192,10 +192,11 @@ $("#frmgrabar").submit(function (event) {
                     $.post(
                             "../controller/gestionarCita.agregar.editar.controller.php",
                             {
+                                p_codigo_Horario_atencion: $("#txtHorario_atencion_id").val(),
                                 p_doc_id:       $("#txtDoc_id").val(),
                                 p_fecha:        $("#txtFecha").val(),
-                                p_consultorio:         $("#txtCodigoConsultorio").val(),
-                                //p_especialidad: $("#especialidad").val(),
+                                p_consultorio:  $("#txtCodigoConsultorio").val(),
+                                
                                 p_doctor:       $("#txtDoctor").val(),
                                
                     // Paciente:
@@ -222,7 +223,7 @@ $("#frmgrabar").submit(function (event) {
 
                         if (datosJSON.estado === 200) {
                             swal("Exito", datosJSON.mensaje, "success");
-
+                            $("#txtHorario_atencion_id").val("");
                             $("#cbConsultorio").val("");
                             $("#txtDoc_id").val("");
                             $("#txtFecha").val("");

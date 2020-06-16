@@ -811,7 +811,10 @@ values(32,2,2,'Miercoles','1','Julio','2020','4:30','PM','1');
 -- insert MES Y AÑO
 update 
 	menu_item
-set nombre = 'cis Citas'
+set nombre = 'Mis Citas'
+where
+	nombre = 'ver Cita'
+	
 select * from menu_item
 
 
@@ -1105,6 +1108,7 @@ select * from fn_registrarCita_paciente(
 	 											
 												
 CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
+												p_codHorario integer,
 	 											p_cita_id integer,
 												p_fecha character varying(50),
 												p_consultorio_id int,
@@ -1201,13 +1205,19 @@ CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
 										set numero = p_cita_id
 										where 
 											tabla='cita';
+											
+										update 
+											horario_atencion 
+										set estado = '0'
+										where 
+											horario_atencion_id = p_codHorario;
 										
 											
 						
  end
  $$ language plpgsql;
  
- select * from cita;
+ select * from horario_atencion;
   select * from paciente;
  
  select * from fn_registrarCita_paciente(
