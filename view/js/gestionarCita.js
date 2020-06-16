@@ -250,7 +250,7 @@ $("#frmgrabar").submit(function (event) {
 
                     }).fail(function (error) {
                         var datosJSON = $.parseJSON(error.responseText);
-                        swal("Error", datosJSON.mensaje, "error");
+                        swal("Horario ocupado", "Registre su cita en otro horario", "warning");
                     });
 
                 }

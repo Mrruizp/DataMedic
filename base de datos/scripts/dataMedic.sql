@@ -1103,8 +1103,8 @@ select * from fn_registrarCita_paciente(
 												
 												
 												
-	 									select * from paciente;	
-										delete from paciente;
+	 									select * from cita;	
+										select * from paciente;
 	 											
 												
 CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
@@ -1131,11 +1131,12 @@ CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
 											 )  RETURNS void AS   
  $$
  declare
- -- p_estadoPaciente int := (select count(*) from paciente where doc_id = p_doc_id_paciente);
- --p_fecha_registro character varying(50)  := current_date;
- --p_tiempo_registro character varying(50) := current_time;
+
+ p_fechaCita character varying(50):= (select fecha from cita where cita_id = p_cita_id);
+ p_nombre_doctor_cita character varying(50):= (select nombre_doctor from cita where cita_id = p_cita_id);
+ 
  begin
-							
+							if p_fechaCita != p_fecha and p_nombre_doctor_cita != p_nombre_doctor then
 								insert into paciente
 													(
 														paciente_id,
@@ -1211,14 +1212,16 @@ CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
 										set estado = '0'
 										where 
 											horario_atencion_id = p_codHorario;
-										
-											
+								else
+									RAISE EXCEPTION 'HORARIO OCUPADO (%)', p_fechaCita
+     								USING HINT = 'Registre con otro horario';
+								end if;			
 						
  end
  $$ language plpgsql;
  
  select * from horario_atencion;
-  select * from paciente;
+  select * from cita;
  
  select * from fn_registrarCita_paciente(
                                                 1,
