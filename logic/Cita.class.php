@@ -324,19 +324,18 @@ class Cita extends Conexion {
                                 select 
                                     c.cita_id,
                                     c.fecha,
-                                    c.hora,
                                     c.descripcion,
                                     u.nombrecompleto,
-                                    concat(nombre, ' ',apellido) as nombresdoctor,
-                                    c.doc_id,
+                                    c.nombre_doctor,
                                     c.estado,
-                                    c.paciente_id
+                                    c.paciente_id,
+                                    o.nombre_consultorio
                                 from 
-                                    cita c inner join doctor d
+                                    cita c inner join usuario u
                                 on
-                                    c.doctor_id = d.doctor_id inner join usuario u
+                                    c.doc_id = u.doc_id inner join consultorio o
                                 on
-                                    c.doc_id = u.doc_id;
+                                    c.consultorio_id = o.consultorio_id
                             ";      
                     break;
             }
