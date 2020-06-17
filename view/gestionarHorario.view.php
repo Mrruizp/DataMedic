@@ -80,7 +80,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                             </div>
                         </div>
                     </div>
-
+                    <input type="hidden" class="form-control" id="txtTipoUsuario" name="txtTipoUsuario" value="<?php echo $resultado["tipo"];  ?>">
               </section>
               <form id="frmgrabar" class="form-horizontal">
                 <div class="modal fade" id="myModal">
@@ -92,7 +92,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                           <span aria-hidden="true">&times;</span></button>
                       </div>
                       <div class="modal-body">
-                        <div class="row">
+                        <div class="row">>
                             <div class="col-3">
                                 <p>
                                     <input type="hidden" value="" id="txtTipoOperacion" name="txtTipoOperacion">

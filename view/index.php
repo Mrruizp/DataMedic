@@ -101,51 +101,7 @@
           <!-- Left col -->
           <section class="col-lg-5">
             <!-- Custom tabs (Charts with tabs)-->
-            <div class="card">
-              <div class="card-header text-center bg-info">
-                <h3>
-                  <!--<ion-icon name="calendar-outline"></ion-icon>-->
-                  Agenda tu cita
-                </h3>
-              </div><!-- /.card-header -->
-              <div class="form-horizontal">
-                <div class="card-body">
-                  <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-3 col-form-label">Especialidad:</label>
-                    <div class="row">
-                      <div class="col-lg-12">
-                      <!-- select -->
-                          <div class="form-group">
-                              <select class="form-control" name="especialidad" id="especialidad" 
-                                      onchange="cargarCbCodigoDoctor('#doctor',this.value,'seleccione')">
-                              </select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-3 col-form-label">Doctor:</label>
-                    <div class="row">
-                      <div class="col-sm-12">
-                      <!-- select -->
-                          <div class="form-group">
-                            <select class="form-control" name="doctor" id="doctor" 
-                                    onchange="ListarHorarioDisponible(this.value)">
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              
-              <div class="card-body">
-                <label for="inputEmail3" class="col-sm-3 col-form-label">Fecha y hora:</label>
-                <div id="listado" class="table table-responsive"></div>
-              </div>
-
-              </div>
-
-            </div>
+            
             <!-- /.card -->
           </section>
           <section class="col-lg-6">

@@ -619,7 +619,7 @@ select * from correlativo;
 
 -- actualización al 01/06/2020
 select * from f_generar_correlativo('especialidad') as nc
-select * from correlativo;
+select * from menu_item_accesos;
 
 update correlativo
 set numero = 5
@@ -643,8 +643,13 @@ values(7,1,4,1);
 
 -- actualización de ampliación al 09062020
 
-select * from f_generar_correlativo('empresa') as nc
-select * from cargo;
+select * from menu_item('empresa') as nc
+
+select * from menu_item_accesos where codigo_menu = 8 and codigo_menu_item = 1 and cargo_id = 1;
+
+update menu_item_accesos
+set acceso = 1
+where codigo_menu = 2 and codigo_menu_item = 1 and cargo_id = 2;
 
 insert into menu(codigo_menu,nombre)
 values(8,'Empresa');
@@ -674,6 +679,15 @@ values(8,4,4,1);
 insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
 values(8,4,1,1);
 
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(8,1,1,0);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(8,2,1,0);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(8,3,1,0);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(8,4,1,0);
+
 insert into correlativo(tabla, numero)
 values('Horario de Atención',0);
 
@@ -685,6 +699,9 @@ insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
 values(9,1,1,1);
 insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
 values(9,1,4,1);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(9,1,3,1);
+
 
 
 select * from menu
@@ -1103,7 +1120,7 @@ select * from fn_registrarCita_paciente(
 												
 												
 												
-	 									select * from cita;	
+	 									select * from correlativo;	
 										select * from paciente;
 	 											
 												
@@ -1132,11 +1149,11 @@ CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
  $$
  declare
 
- p_fechaCita character varying(50):= (select fecha from cita where cita_id = p_cita_id);
- p_nombre_doctor_cita character varying(50):= (select nombre_doctor from cita where cita_id = p_cita_id);
+  p_fechaCita character varying(50):= (select fecha from cita where cita_id = p_cita_id);
+  p_nombre_doctor_cita character varying(50):= (select nombre_doctor from cita where cita_id = p_cita_id);
  
  begin
-							if p_fechaCita != p_fecha and p_nombre_doctor_cita != p_nombre_doctor then
+							if p_fechaCita is null and p_nombre_doctor_cita is null then
 								insert into paciente
 													(
 														paciente_id,
@@ -1393,8 +1410,8 @@ CREATE OR REPLACE FUNCTION fn_registrarUsuario(
 								values(
 										p_doc_id,
 										p_nombres,
-										'-',
-										'-',
+										p_direccion,
+										p_telefono,
 										p_email,
 										p_cargo_id
 									  );

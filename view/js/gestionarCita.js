@@ -243,7 +243,7 @@ $("#frmgrabar").submit(function (event) {
                             $("#txtPersonaResponsable_paciente").val("");
                             $("#txtTelefonoResponsable_paciente").val("");
                             $("#txtDescripcion").val("");
-
+                            location.href = "../view/cita.view.php";
                         } else {
                             swal("Mensaje del sistema", resultado, "warning");
                         }

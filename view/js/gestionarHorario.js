@@ -6,7 +6,7 @@ $(document).ready(function () {
     cargarCbCodigoArea("#cbArea", "seleccione");
     cargarCbCodigoConsultorio2("#cbConsultorio", "seleccione");
     cargarCbCodigoDoctorHorario("#cbDoctor", "seleccione");//muestra todos los doctores
-    
+      
 });
 
 //cargarCbCodigoDoctor("#doctor", "seleccione");
@@ -21,7 +21,8 @@ function listar() {
 
         if (datosJSON.estado === 200) {
             var html = "";
-
+            var tipUsuario = "";
+            tipUsuario = $("#txtTipoUsuario").val();
             html += '<small>';
             html += '<table id="tabla-listado" class="table table-bordered table-hover">';
             html += '<thead>';
@@ -31,7 +32,10 @@ function listar() {
             html += '<th style="text-align: center">CONSULTORIO</th>';
             html += '<th style="text-align:center">DOCTOR</th>';
             html += '<th style="text-align: center">SEPARAR CITAR</th>';
-            html += '<th style="text-align: center">OPCIONES</th>';
+            if(tipUsuario === "S" || tipUsuario === "A")
+            {
+                html += '<th style="text-align: center">OPCIONES</th>';
+            }
             html += '</tr>';
             html += '</thead>';
             html += '<tbody>';
@@ -44,11 +48,15 @@ function listar() {
                 html += '<td align="center">';
                 html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalHorarioDetalle" onclick="listarHorarioDetalle(' + item.doctor_id +',' + item.horario_atencion_id +')"><ion-icon name="time-outline"></ion-icon></button>';
                 html += '</td>';
-                html += '<td align="center">';
-                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal" onclick="leerDatos(' + item.horario_atencion_id + ')"><ion-icon name="create-outline"></ion-icon></button>';
-                html += '&nbsp;&nbsp;'
-                html += '<button type="button" class="btn btn-danger btn-xs" onclick="eliminar(' + item.horario_atencion_id + ')"><ion-icon name="trash-sharp"></ion-icon></button>';
-                html += '</td>';
+                if(tipUsuario === "S" || tipUsuario === "A")
+                {
+                    html += '<td align="center">';
+                    html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal" onclick="leerDatos(' + item.horario_atencion_id + ')"><ion-icon name="create-outline"></ion-icon></button>';
+                    html += '&nbsp;&nbsp;'
+                    html += '<button type="button" class="btn btn-danger btn-xs" onclick="eliminar(' + item.horario_atencion_id + ')"><ion-icon name="trash-sharp"></ion-icon></button>';
+                    html += '</td>';    
+                }
+                
                 html += '</tr>';
             });
 

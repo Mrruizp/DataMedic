@@ -252,19 +252,18 @@ class Cita extends Conexion {
                                 select 
                                     c.cita_id,
                                     c.fecha,
-                                    c.hora,
                                     c.descripcion,
                                     u.nombrecompleto,
-                                    concat(nombre, ' ',apellido) as nombresdoctor,
-                                    c.doc_id,
+                                    c.nombre_doctor,
                                     c.estado,
-                                    c.paciente_id
+                                    c.paciente_id,
+                                    o.nombre_consultorio
                                 from 
-                                    cita c inner join doctor d
+                                    cita c inner join usuario u
                                 on
-                                    c.doctor_id = d.doctor_id inner join usuario u
+                                    c.doc_id = u.doc_id inner join consultorio o
                                 on
-                                    c.doc_id = u.doc_id;
+                                    c.consultorio_id = o.consultorio_id
                             ";
                     break;
 
@@ -273,24 +272,21 @@ class Cita extends Conexion {
                                 select 
                                     c.cita_id,
                                     c.fecha,
-                                    c.hora,
                                     c.descripcion,
                                     u.nombrecompleto,
-                                    concat(nombre, ' ',apellido) as nombresdoctor,
-                                    c.doc_id,
+                                    c.nombre_doctor,
                                     c.estado,
                                     c.paciente_id,
-                                    d.email
+                                    o.nombre_consultorio,
+                                    'D' as doctor_id
                                 from 
-                                    cita c inner join doctor d
+                                    cita c inner join usuario u
                                 on
-                                    c.doctor_id = d.doctor_id inner join usuario u
+                                    c.doc_id = u.doc_id inner join consultorio o
                                 on
-                                    c.doc_id = u.doc_id inner join credenciales_acceso a
-                                on
-                                    u.doc_id = a.doc_id
+                                    c.consultorio_id = o.consultorio_id
                                 where
-                                    d.email = '$_SESSION[s_email]';
+                                    c.nombre_doctor = '$_SESSION[s_usuario]';
                             ";
                     break;
 
@@ -299,18 +295,14 @@ class Cita extends Conexion {
                                 select 
                                     c.cita_id,
                                     c.fecha,
-                                    c.hora,
                                     c.descripcion,
                                     u.nombrecompleto,
-                                    concat(nombre, ' ',apellido) as nombresdoctor,
-                                    c.doc_id,
+                                    c.nombre_doctor,
                                     c.estado,
                                     c.paciente_id,
-                                    a.tipo
+                                    'C' as cliente_id
                                 from 
-                                    cita c inner join doctor d
-                                on
-                                    c.doctor_id = d.doctor_id inner join usuario u
+                                    cita c inner join usuario u
                                 on
                                     c.doc_id = u.doc_id inner join credenciales_acceso a
                                 on

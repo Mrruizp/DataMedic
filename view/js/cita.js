@@ -36,7 +36,7 @@ function listar() {
             html += '<th style="text-align: center">PACIENTE</th>';
             html += '<th style="text-align: center">TRATAMIENTO</th>';
             html += '<th style="text-align: center">ESTADO</th>';
-            if(datosJSON.datos[0].tipo !== "C" && (!datosJSON.datos[0].email))
+            if(datosJSON.datos[0].cliente_id !== "C" && datosJSON.datos[0].doctor_id !== "D" )
             {
                 html += '<th style="text-align: center">HABILITAR</th>';
             }
@@ -54,10 +54,10 @@ function listar() {
                 html += '<td align="center">';
                 html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalPaciente" onclick="leerDatos(' + item.paciente_id + ')"><ion-icon name="person-outline"></ion-icon></button>';
                 html += '</td>';
-
-                if(item.tipo === "C")
-                {
-                    if(item.estado === "Cita Atendida")
+                /*
+                if(item.cliente_id === "C" )
+                {*/
+                    if(item.estado === "Cita Atendida" || item.estado === "Cita Confirmada")
                     {
                         html += '<td align="center">';
                         html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalTratamientoPaciente" onclick="leerDatosTratamiento(' + item.cita_id + ','+ item.paciente_id +')"><ion-icon name="document-text-outline"></ion-icon></button>';
@@ -67,14 +67,14 @@ function listar() {
                        html += '<td align="center" style="font-weight:normal" class="text-warning"><b>NO DISPONIBLE</b></td>';                  
                         html += '</td>'; 
                     }
-                }else
+                /*}else
                 {
                     html += '<td align="center">';
                     html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalTratamientoPaciente" onclick="leerDatosTratamiento(' + item.cita_id + ','+ item.paciente_id +')"><ion-icon name="document-text-outline"></ion-icon></button>';
                     html += '</td>'; 
                 }
 
-
+                */
                 
                 if(item.estado === "Cita Confirmada" || item.estado === "Cita Atendida" )
                 {
@@ -82,7 +82,7 @@ function listar() {
                 }else
                     html += '<td align="center" style="font-weight:normal"class="text-success"><b>' + item.estado + '</b></td>';
                 
-                if(item.tipo !== "C" && (!item.email))
+                if(item.cliente_id !== "C" && item.doctor_id !== "D")
                 {
                     html += '<td align="center">';
                     html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalEstadoCita" onclick="leerDatosEstado(' + item.paciente_id + ')"><ion-icon name="checkmark-done-outline"></ion-icon></button>';

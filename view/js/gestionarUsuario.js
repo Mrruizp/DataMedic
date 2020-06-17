@@ -47,12 +47,19 @@ function listar() {
                     html += '<td align="center" style="font-weight:normal">Deshabilitado</td>';
 
                 html += '<td align="center" style="font-weight:normal">' + item.fecha_registro + '</td>';
-                html += '<td align="center">';
+                if(item.tipo !== "S")
+                {
+                    html += '<td align="center">';
                 //html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalFoto" onclick="leerFoto(' + item.doc_id + ')"><i class="fa fa-camera"></i></button>';
                 //html += '&nbsp;&nbsp;&nbsp;';
-                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal" onclick="leerDatos(' + item.doc_id + ')"><ion-icon name="create-outline"></ion-icon></button>';
-                html += '&nbsp;&nbsp;&nbsp;';
-                html += '<button type="button" class="btn btn-danger btn-xs" onclick="eliminar(' + item.doc_id + ')"><ion-icon name="trash-outline"></ion-icon></button>';
+                    html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal" onclick="leerDatos(' + item.doc_id + ')"><ion-icon name="create-outline"></ion-icon></button>';
+                    html += '&nbsp;&nbsp;&nbsp;';
+                    html += '<button type="button" class="btn btn-danger btn-xs" onclick="eliminar(' + item.doc_id + ')"><ion-icon name="trash-outline"></ion-icon></button>';    
+                    
+                }else{
+                    html += '<td align="center" style="font-weight:normal">No disponible</td>';
+                }
+                
                 html += '</td>';
                 html += '</tr>';
             });

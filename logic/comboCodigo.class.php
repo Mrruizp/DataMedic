@@ -52,7 +52,7 @@ class comboCodigo extends Conexion {
             $sql = "
                     select 
                         doctor_id,
-                        concat(nombre, ', ',apellido)as nombres
+                        concat(nombre, ' ',apellido)as nombres
                     from 
                         doctor
                     where
