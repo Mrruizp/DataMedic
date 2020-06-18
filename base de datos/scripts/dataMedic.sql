@@ -250,7 +250,7 @@ CREATE TABLE historial_tratamiento
   CONSTRAINT fk_historial_tratamiento_paciente_id foreign key(paciente_id) references paciente(paciente_id),
   CONSTRAINT fk_historial_tratamiento_tratamiento_id foreign key(tratamiento_id) references tratamiento(tratamiento_id)
 );
-
+select * from doctor
 CREATE TABLE pago
 (
   pago_id integer not NULL,
@@ -266,16 +266,6 @@ CREATE TABLE pago
   CONSTRAINT fk_pago_paciente_id foreign key(paciente_id) references paciente(paciente_id)
 );
 
-CREATE TABLE fecha
-(
-  fecha_id integer not NULL,
-  mes character varying(50)not null,
-  dia_semana character varying(50)not null,
-  numero char(2)not null, -- ejemplo: 01, 02,03,04 ... 31
-  hora char(8)not null, -- ejemplo: 8:00 am ..., 5:00 pm
-  estado character varying(50)not null,
-  CONSTRAINT pk_fecha_fecha_id PRIMARY KEY (fecha_id)
-);
 -- LOGS
 
 -- tabla para el historial de log inicio sesión
@@ -621,29 +611,55 @@ select * from correlativo;
 select * from f_generar_correlativo('especialidad') as nc
 select * from menu_item_accesos;
 
-update correlativo
-set numero = 5
-where tabla = 'especialidad'
 
-insert into correlativo
-values('especialidad', 5)
 
-insert into menu(codigo_menu,nombre)
-values(7,'Especialidad');
+delete from menu
+where codigo_menu = 7 and codigo_menu_item = 1
 
-insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
-values(7,1,'Gestionar Especialidad', 'gestionarEspecialidad.view.php');
+delete from menu_item
+where codigo_menu = 7 and codigo_menu_item = 1
 
-insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
-values(7,1,1,1);
-insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
-values(7,1,4,1);
-
+delete from menu_item_accesos
+where codigo_menu = 7 and codigo_menu_item = 1
 -- fin de actualización al 01/06/202
 
 -- actualización de ampliación al 09062020
 
-select * from menu_item('empresa') as nc
+	
+select * from menu_item_accesos('empresa') as nc
+ -- agregando módulo doctor
+ 
+insert into menu(codigo_menu,nombre)
+values(10,'Doctor');
+
+insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
+values(10,1,'Gestionar Doctor', 'gestionarDoctor.view.php');
+
+insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
+values(10,2,'Gestionar Especialidad', 'gestionarEspecialidad.view.php');
+
+insert into menu_item(codigo_menu,codigo_menu_item,nombre,archivo)
+values(10,3,'Gestionar Detalle', 'gestionarDetalle.view.php');
+
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(10,1,1,1);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(10,1,4,1);
+
+
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(10,2,1,1);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(10,2,4,1);
+
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(10,3,1,1);
+insert into menu_item_accesos(codigo_menu,codigo_menu_item,cargo_id,acceso)
+values(10,3,4,1);
+
+ -- fin módulo doctor
+insert into menu(codigo_menu,nombre)
+values(8,'Empresa');
 
 select * from menu_item_accesos where codigo_menu = 8 and codigo_menu_item = 1 and cargo_id = 1;
 

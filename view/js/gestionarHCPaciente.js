@@ -3,9 +3,9 @@ $(document).ready(function () {
     
     listar();
     //listarHistPaciente();
-    cargarCbCodigoEspecialidad("#especialidad", "seleccione");
-    cargarCbCodigoFecha("#txtFecha", "seleccione");
-    cargarCbCodigoHora("#txtHora", "seleccione");
+    //cargarCbCodigoEspecialidad("#especialidad", "seleccione");
+    //cargarCbCodigoFecha("#txtFecha", "seleccione");
+   // cargarCbCodigoHora("#txtHora", "seleccione");
     
 });
 
@@ -86,8 +86,8 @@ function listar() {
             */
             $('#tabla-listado').DataTable({
             "paging": true,
-            "lengthChange": false,
-            "searching": false,
+            "lengthChange": true,
+            "searching": true,
             "ordering": true,
             "info": true,
             "autoWidth": false,

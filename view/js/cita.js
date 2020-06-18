@@ -2,11 +2,12 @@
 $(document).ready(function () {
     
     listar();
+    cargarCbTratamiento("#comboTratamiento", "seleccione");
     /*
     cargarCbCodigoEspecialidad("#especialidad", "seleccione");
     cargarCbCodigoFecha("#txtFecha", "seleccione");
     cargarCbCodigoHora("#txtHora", "seleccione");
-    cargarCbTratamiento("#comboTratamiento", "seleccione");
+    
     */
 });
 
@@ -105,8 +106,8 @@ function listar() {
             */
             $('#tabla-listado').DataTable({
             "paging": true,
-            "lengthChange": false,
-            "searching": false,
+            "lengthChange": true,
+            "searching": true,
             "ordering": true,
             "info": true,
             "autoWidth": false,
