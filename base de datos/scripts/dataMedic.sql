@@ -501,69 +501,6 @@ values(6,1,4,1);
  alter table usuario 
  add column numInicioSesion int;
  
- -- fin
-/*
-CREATE TABLE mes
-(
-  mes_id integer not NULL,
-  nombre_mes character varying(100)not null, 
-  CONSTRAINT pk_mes_mes_id PRIMARY KEY (mes_id)
-);
-
-CREATE TABLE dia_semana
-(
-  dia_semana_id integer not NULL,
-  nombre_dia_semana character varying(100)not null, 
-  CONSTRAINT pk_dia_semana_dia_semana_id PRIMARY KEY (dia_semana_id)
-);
--- insertar calentadio
--- select * from mes
-insert into mes
-values(1,'Enero');
-insert into mes
-values(2,'Febrero');
-insert into mes
-values(3,'Marzo');
-insert into mes
-values(4,'Abril');
-insert into mes
-values(5,'Mayo');
-insert into mes
-values(6,'Junio');
-insert into mes
-values(7,'Julio');
-insert into mes
-values(8,'Agosto');
-insert into mes
-values(9,'Setiembre');
-insert into mes
-values(10,'Octubre');
-insert into mes
-values(11,'Noviembre');
-insert into mes
-values(12,'Diciembre');
-
--- select * from dia_semana
-insert into dia_semana
-values(1,'Lunes');
-insert into dia_semana
-values(2,'Martes');
-insert into dia_semana
-values(3,'Miércoles');
-insert into dia_semana
-values(4,'Jueves');
-insert into dia_semana
-values(5,'Viernes');
-insert into dia_semana
-values(6,'Sábado');
-insert into dia_semana
-values(7,'Domingo');
-
--- select * from fecha
-insert into fecha
-values(1,'01','9:00 am',1,1);
---
-*/
 select * from correlativo
 -- actualizado para al ampliación del sistema al 08062020
 insert into correlativo
@@ -611,6 +548,10 @@ select * from correlativo;
 select * from f_generar_correlativo('especialidad') as nc
 select * from menu_item_accesos;
 
+update menu_item
+set archivo= 'gestionarEspecializacion.view.php'
+where codigo_menu = 10 and codigo_menu_item = 3
+	
 
 
 delete from menu
@@ -838,23 +779,19 @@ values(31,2,2,'Miercoles','1','Julio','2020','4:00','PM','1');
 insert into horario_atencion
 values(32,2,2,'Miercoles','1','Julio','2020','4:30','PM','1');
 
--- 
 
+insert into doctorespecializacion
+values(1,2,1);
 
--- insert MES Y AÑO
-update 
-	menu_item
-set nombre = 'Mis Citas'
-where
-	nombre = 'ver Cita'
-	
-select * from menu_item
+insert into doctorespecializacion
+values(2,2,2)
 
-
+insert into correlativo
+values('doctorespecializacion', 1);
 -- FIN AMPLIACIÓN
 -- cargo
-select * from f_generar_correlativo('empresa') as nc
-select * from fecha_atencion_doctor
+select * from f_generar_correlativo('doctorespecializacion') as nc
+select * from correlativo
 update menu
 set nombre = 'Tratamiento'
 where codigo_menu = 4
