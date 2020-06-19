@@ -22514,14 +22514,18 @@ html.maximized-card {
 
 .login-page,
 .register-page {
+  background-image:url('../../../images/fondoiniciosesion.jpg');
   -ms-flex-align: center;
   align-items: center;
-  background: #e9ecef;
   display: -ms-flexbox;
   display: flex;
   height: 100vh;
   -ms-flex-pack: center;
   justify-content: center;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 .login-box,
