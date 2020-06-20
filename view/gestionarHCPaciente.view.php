@@ -193,10 +193,11 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                             <div class="col-12">
                                 <p>
                                     
-                                    Enfermedad Actual<textarea type="text"
-                                                  name="txtEnfermedadActual"
-                                                  id="txtEnfermedadActual"
-                                                  class="form-control input-sm" rows="5"></textarea>
+                                    Descripcion Clínica<textarea type="text"
+                                                  name="editor1"
+                                                  id="editor1"
+                                                  placeholder="Ejemplo: Síntomas principales, tipo de enfermedad, forma de inicio, relato cronológico" 
+                                                  class = "ckeditor" cols="20"></textarea>
                                 </p>
                             </div>
 
@@ -242,7 +243,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                         <button type="button" class="btn btn-danger" data-dismiss="modal" id="btncerrar">Close</button>
                       <?php
 
-                              if($_SESSION["tipo"] === "A")
+                              if($_SESSION["tipo"] !== "C")
                               {
                             ?>
                         <button type="submit" class="btn btn-outline-info"><ion-icon name="save-outline"></ion-icon>  Registrar</button>

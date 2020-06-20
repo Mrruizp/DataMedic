@@ -136,7 +136,7 @@ $("#frmgrabarDatosAdicionales").submit(function (event) {
                                 p_horaHistClinica:$("#txtHoraHistClinica").val(),
                                 p_modoIngreso:$("#txtModoIngreso").val(),
                                 p_fechaHistClinica:$("#txtFechaHistClinica").val(),
-                                p_enfermedadActual:$("#txtEnfermedadActual").val(),
+                                p_enfermedadActual:$("#editor1").val(),
                                 p_personaResponsable_paciente1:$("#txtPersonaResponsable_paciente1").val(),
                                 p_telefono_paciente2:$("#txtTelefono_paciente2").val(),
                             }
@@ -199,12 +199,13 @@ function leerDatos(codigo_paciente) {
             $("#txtHoraHistClinica").val(jsonResultado.datos.hora);
             $("#txtModoIngreso").val(jsonResultado.datos.modoingreso);
             $("#txtFechaHistClinica").val(jsonResultado.datos.fecha_historia_clinica);
-            $("#txtEnfermedadActual").val(jsonResultado.datos.descripcion_enfermedad_actual);
+            $(CKEDITOR.instances["editor1"].setData(jsonResultado.datos.descripcion_enfermedad_actual));
+            //$("#txtEnfermedadActual").val(jsonResultado.datos.descripcion_enfermedad_actual);
             $("#txtPersonaResponsable_paciente1").val(jsonResultado.datos.personaresponsable);
             $("#txtTelefono_paciente2").val(jsonResultado.datos.personaresponsable_telefono);
 
            
-            $("#titulomodal").html("Datos del Paciente");
+            $("#titulomodal").html("Datos de Historia Clínica");
         }
     }).fail(function (error) {
         var datosJSON = $.parseJSON(error.responseText);

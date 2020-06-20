@@ -40,6 +40,9 @@
 <script src="../util/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <script src = "https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"> </script>
+
+<!--  CK Editor -->
+<script src="../util/plugins/ckeditor/ckeditor.js"></script>
 <!-- overlayScrollbars -->
 <script src="../util/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 

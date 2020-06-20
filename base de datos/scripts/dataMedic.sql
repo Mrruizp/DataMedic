@@ -223,9 +223,12 @@ CREATE TABLE paciente
   hora character varying(20),
   modoingreso character varying(50),
   fecha_historia_clinica character varying(50),
-  descripcion_enfermedad_actual character varying(1000),
+  descripcion_enfermedad_actual character varying(50000), -- historia_clinica
   CONSTRAINT pk_paciente_paciente_id PRIMARY KEY(paciente_id)
 );
+-- alter table paciente
+-- add column descripcion_enfermedad_actual character varying(50000);
+
 -- drop table cita;
 -- drop table paciente;
 -- drop table pago;
