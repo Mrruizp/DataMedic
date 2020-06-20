@@ -35,7 +35,7 @@ function listar() {
             html += '<th style="text-align: center">LUGAR DE NACIMIENTO</th>';
             html += '<th style="text-align: center">ESTADO CIVIL</th>';
             html += '<th style="text-align: center">OCUPACION</th>';
-            html += '<th style="text-align: center">DATOS ADICIONALES</th>';
+            html += '<th style="text-align: center">HISTORIA CLÍNICA</th>';
             html += '<th style="text-align: center">TRATAMIENTOS</th>';
             html += '</tr>';
             html += '</thead>';
@@ -247,7 +247,7 @@ function listarHistPaciente(codigo_paciente) {
                 html += '<td align="center" style="font-weight:normal">' + item.fecha + '</td>';
 
                 html += '<td align="center" style="font-weight:normal">' + item.hora + '</td>';
-                html += '<td align="center" style="font-weight:normal">' + item.descripcion + '</td>';
+                html += '<td align="left" style="font-weight:normal">' + item.descripcion + '</td>';
 
                 html += '<td align="center" style="font-weight:normal">' + item.nombre_tratamiento + '</td>';
 
