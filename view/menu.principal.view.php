@@ -3,7 +3,7 @@
     $_POST["s_usuario"] = $dniSesion;
 
     if($_SESSION["tipo"] === "S") header("location:log.view.php");
-    if($_SESSION["tipo"] === "A") header("location:log.view.php"); // implementar el dashboard
+    if($_SESSION["tipo"] === "A") header("location:dashboard.view.php"); // implementar el dashboard
     if($_SESSION["tipo"] === "D") header("location:gestionarHCPaciente.view.php");
     if($_SESSION["tipo"] === "C") header("location:gestionarHorario.view.php");
 

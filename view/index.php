@@ -8,9 +8,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <?php include_once 'estilos.view.php'; ?>
 </head>
+<style>
 
+  #inicioSesion{
+            padding: 90px 0px 190px 0px;
+        }
+
+</style>
 <body class="hold-transition register-page">
-<div class="login-box">
+<div class="login-box" id="inicioSesion">
   <!-- /.login-logo -->
   <div class="card">
     <div class="">
@@ -21,7 +27,7 @@
         <div class="card-body login-card-body" style="display:block;" id = "iniciarSesion">
           <div class="card-body login-card-body">
 
-            <form id="frmgrabar" class="form-horizontal">
+            <form id="frmgrabar">
               <div class="input-group mb-3">
                 <input type="email" class="form-control" id = "txtEmail" name = "txtEmail" placeholder="Email" required="true">
                 <div class="input-group-append">
@@ -145,7 +151,7 @@
 <?php include_once 'scripts.view.php'; ?>
 <script src="js/sesionValidar.js" type="text/javascript"></script>
 <script src="js/registrate.usuario.js" type="text/javascript"></script>
-<script src="js/index.js" type="text/javascript"></script>
-<script src="js/cbCodigo.js" type="text/javascript"></script>
+<!--<script src="js/index.js" type="text/javascript"></script>
+<script src="js/cbCodigo.js" type="text/javascript"></script>-->
 </body>
 </html>
