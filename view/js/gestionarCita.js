@@ -216,7 +216,7 @@ $("#frmgrabar").submit(function (event) {
                                 p_descripcion:  $("#txtDescripcion").val(),
 
                                 p_tipo_ope:     $("#txtTipoOperacion").val(),
-                                p_codigo_curso: codCita
+                                p_codigo_cita: codCita
                             }
                     ).done(function (resultado) {
                         var datosJSON = resultado;
@@ -250,7 +250,8 @@ $("#frmgrabar").submit(function (event) {
 
                     }).fail(function (error) {
                         var datosJSON = $.parseJSON(error.responseText);
-                        swal("Horario ocupado", "Registre su cita en otro horario", "warning");
+                        swal("Error", datosJSON.mensaje, "error");
+                        //swal("Horario ocupado", "Registre su cita en otro horario", "warning");
                     });
 
                 }

@@ -1079,7 +1079,30 @@ select * from fn_registrarCita_paciente(
 	 									select * from correlativo;	
 										select * from paciente;
 	 											
-												
+fn_registrarcita_paciente(
+							integer,
+							integer,
+							character varying,
+							integer,
+							character varying,
+							character varying,
+							character varying,
+							character varying,
+							character varying,
+							character varying,
+							character varying,
+							character,
+							character varying,
+							character,
+							character varying,
+							character varying,
+							character varying,
+							character varying,
+							character varying,
+							character varying
+						) en la línea 77 en sentencia SQL"
+						
+						
 CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
 												p_codHorario integer,
 	 											p_cita_id integer,
@@ -1106,118 +1129,208 @@ CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
  declare
 
   p_fechaCita character varying(50):= (select fecha from cita where cita_id = p_cita_id);
-  p_nombre_doctor_cita character varying(50):= (select nombre_doctor from cita where cita_id = p_cita_id);
+  --p_nombre_doctor_cita character varying(50):= (select nombre_doctor from cita where cita_id = p_cita_id);
+  p_cita_id_estado character varying(50):= (select cita_id from cita where cita_id = p_cita_id); -- null = insert, not null = insert
+  paciente_id_estado character varying(50):= (select paciente_id from cita where cita_id = p_cita_id); -- null = insert, not null = insert 
+  p_doc_id_paciente_temp integer:= (select paciente_id from paciente where doc_id = p_doc_id_paciente);
  
  begin
-							if p_fechaCita is null and p_nombre_doctor_cita is null then
-								insert into paciente
-													(
-														paciente_id,
+								if p_fechaCita is null then
+									if paciente_id_estado is null then
+										insert into paciente
+																	(
+																		paciente_id,
+																		doc_id,
+																		nombres,
+																		apellidos,
+																		edad,
+																		sexo,
+																		naturalde,
+																		estado_civil,
+																		ocupacion,
+																		religion,
+																		domicilio,
+																		telefono,
+																		personaresponsable,
+																		personaresponsable_telefono
+																	)
+												values(
+															(select * from f_generar_correlativo('paciente') as nc),
+															p_doc_id_paciente,
+															p_nombres,
+															p_apellidos,
+															p_edad,
+															p_sexo,
+															p_naturalde,
+															p_estado_civil,
+															p_ocupacion,
+															p_religion,
+															p_domicilio,
+															p_telefono,
+															p_personaresponsable,
+															p_personaresponsable_telefono
+														);
+
+
+
+														update 
+															correlativo 
+														set 
+															numero = numero + 1 
+														where 
+															tabla='paciente';
+
+										else
+											update 
+												paciente 
+											set 
+												doc_id = p_doc_id_paciente,
+												nombres = p_nombres,
+												apellidos = p_apellidos,
+												edad = p_edad,
+												sexo = p_sexo,
+												naturalde = p_naturalde,
+												estado_civil = p_estado_civil,
+												ocupacion = p_ocupacion,
+												religion = p_religion,
+												domicilio = p_domicilio,
+												telefono = p_telefono,
+												personaresponsable = p_personaresponsable,
+												personaresponsable_telefono = p_personaresponsable_telefono
+											where 
+												doc_id = p_doc_id_paciente;
+										end if;
+
+										if p_cita_id_estado is null then
+											insert into cita(
+														cita_id,
+														fecha,
+														nombre_doctor,
+														descripcion,
 														doc_id,
-														nombres,
-														apellidos,
-														edad,
-														sexo,
-														naturalde,
-														estado_civil,
-														ocupacion,
-														religion,
-														domicilio,
-														telefono,
-														personaresponsable,
-														personaresponsable_telefono
+														estado,
+														consultorio_id,
+														paciente_id
 													)
-								values(
-										    (select * from f_generar_correlativo('paciente') as nc),
-											p_doc_id_paciente,
-											p_nombres,
-											p_apellidos,
-											p_edad,
-											p_sexo,
-											p_naturalde,
-											p_estado_civil,
-											p_ocupacion,
-											p_religion,
-											p_domicilio,
-											p_telefono,
-											p_personaresponsable,
-											p_personaresponsable_telefono
-										);
-										
-										
-												
-										update 
-											correlativo 
-										set 
-											numero = numero + 1 
-										where 
-											tabla='paciente';	
-							
-							insert into cita(
-												cita_id,
-												fecha,
-												nombre_doctor,
-												descripcion,
-												doc_id,
-												estado,
-												consultorio_id,
-												paciente_id
-											)
-										values(
-													p_cita_id,
-													p_fecha,
-													p_nombre_doctor,
-													p_descripcion,
-													p_doc_id_usuario,
-													'En proceso de confirmación',
-													p_consultorio_id,
-													(select paciente_id from paciente where doc_id = p_doc_id_paciente)
-												);
-							
-										update 
-											correlativo 
-										set numero = p_cita_id
-										where 
-											tabla='cita';
-											
-										update 
-											horario_atencion 
-										set estado = '0'
-										where 
-											horario_atencion_id = p_codHorario;
-								else
-									RAISE EXCEPTION 'HORARIO OCUPADO (%)', p_fechaCita
+												values(
+															p_cita_id,
+															p_fecha,
+															p_nombre_doctor,
+															p_descripcion,
+															p_doc_id_usuario,
+															'En proceso de confirmación',
+															p_consultorio_id,
+															p_doc_id_paciente_temp
+														);
+
+												update 
+													correlativo 
+												set 
+													numero = p_cita_id
+												where 
+													tabla='cita';
+
+												update 
+													horario_atencion 
+												set estado = '0'
+												where 
+													horario_atencion_id = p_codHorario;
+										else
+											update 
+													cita 
+												set 
+													descripcion = p_descripcion
+												where 
+													cita_id = p_cita_id;
+										end if;
+							else
+
+								RAISE EXCEPTION 'HORARIO OCUPADO (%)', p_fechaCita
      								USING HINT = 'Registre con otro horario';
-								end if;			
+
+							end if;
+								
 						
  end
  $$ language plpgsql;
  
- select * from horario_atencion;
+ select * from paciente;
   select * from cita;
  
- select * from fn_registrarCita_paciente(
-                                                1,
-                                                'Miercoles, 1 de Julio del 2020, 10:00 AM',
-                                                1,
-                                                :p_descripcion,
-                                                :p_doc_id_usuario,
-                                                :p_doctor_id,
-                                                :p_doc_id_paciente,
-                                                :p_nombre_paciente,
-                                                :p_apellidos_paciente,
-                                                :p_edad_paciente,
-                                                :p_sexo_paciente,
-                                                :p_ciudad_paciente,
-                                                :p_estadoCivil_paciente,
-                                                :p_ocupacion_paciente,
-                                                :p_religion_paciente,
-                                                :p_domicilio_paciente,
-                                                :p_telefono_paciente,
-                                                :p_personaResponsable_paciente,
-                                                :p_telefonoResponsable_paciente
-                                             );
  
+							
+							insert into cita(
+cita_id,
+fecha,
+nombre_doctor,
+descripcion,
+doc_id,
+estado,
+consultorio_id,
+paciente_id
+)
+values(
+p_cita_id,
+p_fecha,
+p_nombre_doctor,
+p_descripcion,
+p_doc_id_usuario,
+'En proceso de confirmación',
+p_consultorio_id,
+(select paciente_id from paciente where doc_id = '54545454')
+)
+							
+							
+							
+							
+							
+							
+							
+							
+							p_codHorario integer,
+	 											p_cita_id integer,
+												p_fecha character varying(50),
+												p_consultorio_id int,
+												p_descripcion character varying(500),
+												p_doc_id_usuario character varying(20),
+												p_nombre_doctor character varying(100),
+	 											p_doc_id_paciente character varying(20),
+	 											p_nombres character varying(100),
+	 											p_apellidos character varying(100),
+	 											p_edad character varying(3),
+	 											p_sexo char(1),
+	 											p_naturalde character varying(100),
+	 											p_estado_civil char(1),
+	 											p_ocupacion character varying(200),
+	 											p_religion character varying(100),
+	 											p_domicilio character varying(200),
+	 											p_telefono character varying(20),
+	 											p_personaresponsable character varying(100),
+	 											p_personaresponsable_telefono character varying(20)
+							
+												
+select * from fn_registrarCita_paciente(
+												17,
+                                                2,
+												'Miercoles, 1 de Julio del 2020, 8:00 AM',
+                                                2,
+                                                'Cambio de horario2222222222222222',
+												'22222222',
+                                                'Juan, Córdoba',
+                                                '54545454',
+                                                'Fiorela ',
+                                                'Diaz2',
+                                                '44',
+                                                'M',
+                                                'Trujillo',
+                                                'C',
+                                                'Lic. En Administración',
+                                                'Católico',
+                                                'Lima - Chorrillos',
+                                                '965214588',
+                                                'Cass urbina',
+                                                '998555447'
+                                             );
  
  
  	
@@ -1235,7 +1348,7 @@ CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
 										where
 											hora = '10:30';
 											
-  select * from horario_Atencion
+  select * from consultorio
  select * from doctor;
   select * from cita
   drop table fecha

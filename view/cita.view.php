@@ -70,7 +70,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                               if($_SESSION["tipo"] !== "D")
                               {
                             ?>
-                                <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#myModal" id="btnagregar"><ion-icon name="calendar-outline"></ion-icon> Agregar cita</button>
+                                <!--<button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#myModal" id="btnagregar"><ion-icon name="calendar-outline"></ion-icon> Agregar cita</button>-->
                             <?php
                               }
                             ?>
@@ -93,7 +93,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                       <div class="modal-header bg-info">
-                        <h4 class="modal-title">Registrar Cita</h4>
+                        <h4 class="modal-title">Actualizar Cita</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span></button>
                       </div>
@@ -102,13 +102,14 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                             <div class="col-3">
                                 <p>
                                     <input type="hidden" value="" id="txtTipoOperacion" name="txtTipoOperacion">
-                                    Código <input type="text" 
+                                     <input type="hidden" 
                                                   name="txtCodigo" 
                                                   id="txtCodigo" 
                                                   class="form-control input-sm" 
                                                   readonly="true">
                                 </p>
                             </div>
+                <!--
                             <div class="col-3">
                                 <p>
                                     
@@ -133,7 +134,9 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                           </select>
                                 </p>
                             </div>
+                  -->
                           </div>
+                  <!--
                           <div class="row">
                             <div class="col-6">
                                 <p>
@@ -156,6 +159,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                             </div>
                             
                           </div>
+                    -->
                           <div class="row">
                             <div class="modal-header col-12">
                                 <h5 class="modal-title"><b>Paciente</b></h5>
@@ -382,7 +386,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                   Mensaje <textarea type="text" 
                                                 name="txtDescripcion" 
                                                 id="txtDescripcion" 
-                                                class="form-control input-sm" rows="2"></textarea>
+                                                class="form-control input-sm" rows="4"></textarea>
                               </p>
                           </div>
                       </div>
@@ -398,7 +402,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                 </div>
                 <!-- /.modal -->
               </form>
-              <form id="frmgrabar" class="form-horizontal">
+        <!--       <form id="frmgrabar2" class="form-horizontal">
                 <div class="modal fade" id="myModalPaciente">
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -623,7 +627,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                 </p>
                             </div>
                         </div>
-                       <!--<div class="row">
+                       <div class="row">
                           <div class="col-12">
                               <p>
                                   
@@ -633,19 +637,18 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                                 class="form-control input-sm" rows="2"></textarea>
                               </p>
                           </div>
-                      </div>-->
+                      </div>
                       </div>
                       <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-danger" data-dismiss="modal" id="btncerrar">Close</button>
+                        <button type="submit" class="btn btn-outline-info"><ion-icon name="save-outline"></ion-icon> Guardar</button>
                       </div>
                     </div>
-                    <!-- /.modal-content -->
+                   
                   </div>
-                  <!-- /.modal-dialog -->
                 </div>
-                <!-- /.modal -->
               </form>
-
+            -->
               <form id="frmgrabarTratamientoPaciente" class="form-horizontal">
                 <div class="modal fade" id="myModalTratamientoPaciente">
                   <div class="modal-dialog modal-lg">
@@ -766,6 +769,8 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                       <option value="Cita Confirmada">Confirmado</option>
                                       <option value="Cita Denegada">Denegado</option>
                                       <option value="En proceso de confirmación">En proceso</option>
+                                      <option value="Cita pospuesta a otro doctor">Denegado</option>
+                                      <option value="Cita en stand by">Denegado</option>
                                   </select>
                               </p>
                           </div>

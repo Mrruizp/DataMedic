@@ -300,13 +300,16 @@ class Cita extends Conexion {
                                     c.nombre_doctor,
                                     c.estado,
                                     c.paciente_id,
-                                    'C' as cliente_id
+                                    'C' as cliente_id,
+                                    o.nombre_consultorio
                                 from 
                                     cita c inner join usuario u
                                 on
                                     c.doc_id = u.doc_id inner join credenciales_acceso a
                                 on
-                                    c.doc_id = a.doc_id
+                                    c.doc_id = a.doc_id inner join consultorio o
+                                on
+                                    c.consultorio_id = o.consultorio_id
                                 where
                                     c.doc_id = '$_SESSION[s_doc_id]';
                             ";
@@ -385,7 +388,7 @@ class Cita extends Conexion {
                                              );
                     ";
                     */
-
+                    
                 $sql = "
 
                     select * from fn_registrarCita_paciente(
@@ -506,7 +509,8 @@ class Cita extends Conexion {
             $sql = "
                     select 
                         p.paciente_id,
-                        p.doc_id,
+                        p.doc_id as doc_paciente,
+                        c.doc_id as doc_usuario,
                         p.nombres,
                         p.apellidos,
                         p.edad,
@@ -520,7 +524,10 @@ class Cita extends Conexion {
                         p.personaresponsable,
                         p.personaresponsable_telefono,
                         c.estado,
-                        c.cita_id
+                        c.cita_id,
+                        c.fecha,
+                        c.nombre_doctor,
+                        c.descripcion
                     from 
                         cita c inner join paciente p
                     on
@@ -606,18 +613,51 @@ class Cita extends Conexion {
     public function editar() {
         try {
             $sql = "
-                update 
-                    curso 
-                set  
-                    nombre_curso = :p_nombre_curso
-                where
-                    curso_id = :p_curso_id
+                        select * from fn_registrarCita_paciente(
+                                                null,
+                                                :p_cita_id,
+                                                null,
+                                                null,
+                                                :p_descripcion,
+                                                null,
+                                                null,
+                                                :p_doc_id_paciente,
+                                                :p_nombre_paciente,
+                                                :p_apellidos_paciente,
+                                                :p_edad_paciente,
+                                                :p_sexo_paciente,
+                                                :p_ciudad_paciente,
+                                                :p_estadoCivil_paciente,
+                                                :p_ocupacion_paciente,
+                                                :p_religion_paciente,
+                                                :p_domicilio_paciente,
+                                                :p_telefono_paciente,
+                                                :p_personaResponsable_paciente,
+                                                :p_telefonoResponsable_paciente
+                                             );
                 ";
             $sentencia = $this->dblink->prepare($sql);
-            $sentencia->bindParam(":p_nombre_curso", $this->getNombre_curso());
-            $sentencia->bindParam(":p_curso_id", $this->getCodigo_curso());
-            $sentencia->execute();
-
+            // Cita
+               // $sentencia->bindParam(":p_codHorario", $this->getCodHorario());
+                $sentencia->bindParam(":p_cita_id", $this->getCita_id());
+                
+    // Paciente
+                $sentencia->bindParam(":p_doc_id_paciente", $this->getDoc_id_paciente());
+                $sentencia->bindParam(":p_ciudad_paciente", $this->getCiudad_paciente());
+                $sentencia->bindParam(":p_estadoCivil_paciente", $this->getEstadoCivil_paciente());
+                $sentencia->bindParam(":p_edad_paciente", $this->getEdad_paciente());
+                $sentencia->bindParam(":p_nombre_paciente", $this->getNombre_paciente());
+                $sentencia->bindParam(":p_apellidos_paciente", $this->getApellidos_paciente());
+                $sentencia->bindParam(":p_sexo_paciente", $this->getSexo_paciente());
+                $sentencia->bindParam(":p_ocupacion_paciente", $this->getOcupacion_paciente());
+                $sentencia->bindParam(":p_religion_paciente", $this->getReligion_paciente());
+                $sentencia->bindParam(":p_domicilio_paciente", $this->getDomicilio_paciente());
+                $sentencia->bindParam(":p_telefono_paciente", $this->getTelefono_paciente());
+                $sentencia->bindParam(":p_personaResponsable_paciente", $this->getPersonaResponsable_paciente());
+                $sentencia->bindParam(":p_telefonoResponsable_paciente", $this->getTelefonoResponsable_paciente());
+                $sentencia->bindParam(":p_descripcion", $this->getDescripcion());
+                $sentencia->execute();
+                /*
             $sql = "select * from fn_insert_log_curso
                                     (
                                         '$_SESSION[s_doc_id]',
@@ -634,6 +674,7 @@ class Cita extends Conexion {
                 $sentencia->bindParam(":p_curso_id", $this->getCodigo_curso());
                 $sentencia->bindParam(":p_nombre_curso", $this->getNombre_curso());
                 $sentencia->execute();
+                */
             return true;
         } catch (Exception $exc) {
             throw $exc;
