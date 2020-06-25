@@ -16,6 +16,8 @@ class Cita extends Conexion {
     private $CodHorario;
     private $Cita_id;
     private $Fecha;
+    private $Hora;
+    private $Horario;
     private $Consultorio;
     private $Descripcion;
     private $Doc_id;
@@ -85,6 +87,14 @@ class Cita extends Conexion {
 
     public function getFecha() {
         return $this->Fecha;
+    }
+
+    public function getHora() {
+        return $this->Hora;
+    }
+
+    public function getHorario() {
+        return $this->Horario;
     }
 
     public function getConsultorio() {
@@ -171,6 +181,14 @@ class Cita extends Conexion {
         $this->Fecha = $Fecha;
     }
 
+     public function setHora($Hora) {
+        $this->Hora = $Hora;
+    }
+
+     public function setHorario($Horario) {
+        $this->Horario = $Horario;
+    }
+
     public function setConsultorio($Consultorio) {
         $this->Consultorio = $Consultorio;
     }
@@ -252,6 +270,8 @@ class Cita extends Conexion {
                                 select 
                                     c.cita_id,
                                     c.fecha,
+                                    c.hora as horacita,
+                                    c.horario,
                                     c.descripcion,
                                     u.nombrecompleto,
                                     c.nombre_doctor,
@@ -272,6 +292,8 @@ class Cita extends Conexion {
                                 select 
                                     c.cita_id,
                                     c.fecha,
+                                    c.hora as horacita,
+                                    c.horario,
                                     c.descripcion,
                                     u.nombrecompleto,
                                     c.nombre_doctor,
@@ -295,6 +317,8 @@ class Cita extends Conexion {
                                 select 
                                     c.cita_id,
                                     c.fecha,
+                                    c.hora as horacita,
+                                    c.horario,
                                     c.descripcion,
                                     u.nombrecompleto,
                                     c.nombre_doctor,
@@ -319,18 +343,27 @@ class Cita extends Conexion {
                                 select 
                                     c.cita_id,
                                     c.fecha,
+                                    c.hora as horacita,
+                                    c.horario,
                                     c.descripcion,
                                     u.nombrecompleto,
                                     c.nombre_doctor,
                                     c.estado,
                                     c.paciente_id,
-                                    o.nombre_consultorio
+                                    o.nombre_consultorio,
+                                    h.tratamiento_id,
+                                    h.fecha as fechahistratamiento,
+                                    h.hora
                                 from 
                                     cita c inner join usuario u
                                 on
                                     c.doc_id = u.doc_id inner join consultorio o
                                 on
-                                    c.consultorio_id = o.consultorio_id
+                                    c.consultorio_id = o.consultorio_id inner join paciente p
+                                on
+                                    c.paciente_id = p.paciente_id left join historial_tratamiento h
+                                on
+                                    p.paciente_id = h.paciente_id
                             ";      
                     break;
             }
@@ -395,6 +428,8 @@ class Cita extends Conexion {
                                                 :p_codHorario,
                                                 :p_cita_id,
                                                 :p_fecha,
+                                                :p_hora,
+                                                :p_horario,
                                                 :p_consultorio,
                                                 :p_descripcion,
                                                 :p_doc_id_usuario,
@@ -419,6 +454,8 @@ class Cita extends Conexion {
                 $sentencia->bindParam(":p_codHorario", $this->getCodHorario());
                 $sentencia->bindParam(":p_cita_id", $this->getCita_id());
                 $sentencia->bindParam(":p_fecha", $this->getFecha());
+                $sentencia->bindParam(":p_hora", $this->getHora());
+                $sentencia->bindParam(":p_horario", $this->getHorario());
                 $sentencia->bindParam(":p_consultorio", $this->getConsultorio());
                 $sentencia->bindParam(":p_descripcion", $this->getDescripcion());
                 $sentencia->bindParam(":p_doc_id_usuario", $this->getDoc_id());
@@ -453,33 +490,38 @@ class Cita extends Conexion {
         return false;
     }
 
-    public function agregarHistorialTratamiento($cod_tratamiento,$cod_citaTratamiento,$cod_paciente,$fechaHistTratamiento,$horaHistTratamiento,$descripcionHistTratamiento) {
+    public function agregarHistorialTratamiento(
+                                                    $cod_tratamiento,
+                                                    $cod_citaTratamiento,
+                                                    $cod_paciente,
+                                                    $fechaHistTratamiento,
+                                                    $horaHistTratamiento,
+                                                    $horarioHistTratamiento,
+                                                    $descripcionHistTratamiento
+                                                ) {
         $this->dblink->beginTransaction();
 
         try {
-            $sql = "select * from f_generar_correlativo('historial_tratamiento') as nc";
-            $sentencia = $this->dblink->prepare($sql);
-            $sentencia->execute();
-
-            if ($sentencia->rowCount()) {
-                $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
-                $nuevoCodigo = $resultado["nc"];
-                $this->setHistorial_tratamiento_id($nuevoCodigo);
+            
+            
+               // $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+                //$nuevoCodigo = $resultado["nc"];
+               // $this->setHistorial_tratamiento_id($nuevoCodigo);
 
                
                 $sql = "
                     select * from fn_registrarCita_historialTratamiento(
                                                 $cod_tratamiento,
                                                 $cod_citaTratamiento,
-                                                :p_historial_tratamiento_id,
                                                 $cod_paciente,
                                                 '$fechaHistTratamiento',
                                                 '$horaHistTratamiento',
+                                                '$horarioHistTratamiento',
                                                 '$descripcionHistTratamiento'
                                              );
                     ";
                 $sentencia = $this->dblink->prepare($sql);
-                $sentencia->bindParam(":p_historial_tratamiento_id", $this->getHistorial_tratamiento_id());
+                //$sentencia->bindParam(":p_historial_tratamiento_id", $this->getHistorial_tratamiento_id());
                 /*
                 $sentencia->bindParam(":p_tratamiento_id", $this->getTratamiento_id());
                 $sentencia->bindParam(":p_cita_id", $this->getCita_id());
@@ -493,9 +535,7 @@ class Cita extends Conexion {
                 
                 $this->dblink->commit();
                 return true;
-            } else {
-                throw new Exception("No se ha configurado el correlativo para la tabla cita y paciente");
-            }
+            
         } catch (Exception $exc) {
             $this->dblink->rollBack();
             throw $exc;
@@ -555,9 +595,11 @@ class Cita extends Conexion {
                                     )
 
                         horario_atencion_id,
-                        concat(d.nombre, ', ',d.apellido) as nombresDoctor,
+                        concat(d.nombre, ' ',d.apellido) as nombresDoctor,
                         c.nombre_consultorio,
-                        concat(h.dia_semana, ', ',h.numero,' de ',h.mes,' del ', h.ano,', ', h.hora, ' ', h.horario) as fecha,
+                        concat(h.dia_semana, ', ',h.numero,' de ',h.mes,' del ', h.ano) as fecha,
+                        h.hora,
+                        h.horario,
                         d.doctor_id,
                         c.nombre_consultorio,
                         c.consultorio_id
@@ -580,7 +622,7 @@ class Cita extends Conexion {
         }
     }
 
-    public function leerDatosHistorialTratamiento($p_codigoCita, $p_codigoPaciente) {
+    public function leerDatosHistorialTratamiento($p_codigocita, $p_codigopaciente, $p_fechahisttratamiento_cita, $p_hora_tratamiento) {
         try {
             $sql = "
                     select 
@@ -588,17 +630,17 @@ class Cita extends Conexion {
                         c.paciente_id,
                         t.fecha,
                         t.hora,
+                        t.horario,
                         t.descripcion,
                         t.tratamiento_id
-                        
                     from 
                         cita c inner join paciente p
                     on
-                        c.paciente_id = p.paciente_id left join historial_tratamiento t
+                        c.paciente_id = p.paciente_id left join  historial_tratamiento t
                     on
                         p.paciente_id = t.paciente_id
                     where
-                        c.paciente_id = $p_codigoPaciente and c.cita_id = $p_codigoCita;
+                        c.cita_id = $p_codigocita and c.paciente_id = $p_codigopaciente or (t.fecha = '$p_fechahisttratamiento_cita' and t.hora = '$p_hora_tratamiento');
                 ";
             $sentencia = $this->dblink->prepare($sql);
             //$sentencia->bindParam(":p_codigo_paciente", $p_codigoPaciente);
@@ -616,6 +658,8 @@ class Cita extends Conexion {
                         select * from fn_registrarCita_paciente(
                                                 null,
                                                 :p_cita_id,
+                                                null,
+                                                null,
                                                 null,
                                                 null,
                                                 :p_descripcion,

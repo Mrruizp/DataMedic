@@ -79,6 +79,8 @@ CREATE TABLE cita
 (
   cita_id integer not NULL,
   fecha character varying(50)not null,
+  hora character varying(50)not null,
+  horario char(2)not null,
   nombre_doctor character varying(100) not null,
   descripcion character varying(500) not NULL,
   doc_id character varying(20),
@@ -88,7 +90,8 @@ CREATE TABLE cita
   CONSTRAINT pk_cita_cita_id PRIMARY KEY (cita_id),
   CONSTRAINT fk_cita_doc_id foreign key (doc_id) references usuario(doc_id),
   CONSTRAINT fk_cita_consultorio_id foreign key (consultorio_id) references consultorio(consultorio_id),
-  CONSTRAINT fk_cita_paciente_id foreign key (paciente_id) references paciente(paciente_id)
+  CONSTRAINT fk_cita_paciente_id foreign key (paciente_id) references paciente(paciente_id),
+  CONSTRAINT unq_cita_paciente_id_fecha UNIQUE(fecha, paciente_id)
 );
 
 CREATE TABLE especialidad
@@ -226,6 +229,10 @@ CREATE TABLE paciente
   descripcion_enfermedad_actual character varying(50000), -- historia_clinica
   CONSTRAINT pk_paciente_paciente_id PRIMARY KEY(paciente_id)
 );
+--drop table cita;
+--drop table paciente;
+--drop table pago;
+--drop table historial_tratamiento;
 -- alter table paciente
 -- add column descripcion_enfermedad_actual character varying(50000);
 
@@ -246,6 +253,7 @@ CREATE TABLE historial_tratamiento
   historial_tratamiento_id integer not NULL,
   fecha character varying(50)not null,
   hora character varying(50) not NULL,
+  horario char(2)not null, 
   descripcion character varying(2000) not NULL,
   paciente_id int,
   tratamiento_id int,
@@ -253,7 +261,7 @@ CREATE TABLE historial_tratamiento
   CONSTRAINT fk_historial_tratamiento_paciente_id foreign key(paciente_id) references paciente(paciente_id),
   CONSTRAINT fk_historial_tratamiento_tratamiento_id foreign key(tratamiento_id) references tratamiento(tratamiento_id)
 );
-select * from doctor
+
 CREATE TABLE pago
 (
   pago_id integer not NULL,
@@ -1107,6 +1115,8 @@ CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
 												p_codHorario integer,
 	 											p_cita_id integer,
 												p_fecha character varying(50),
+												p_hora character varying(50),
+												p_horario char(2),
 												p_consultorio_id int,
 												p_descripcion character varying(500),
 												p_doc_id_usuario character varying(20),
@@ -1128,14 +1138,14 @@ CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
  $$
  declare
 
-  p_fechaCita character varying(50):= (select fecha from cita where cita_id = p_cita_id);
+ -- p_fechaCita character varying(50):= (select fecha from cita where cita_id =1 p_cita_id);
   --p_nombre_doctor_cita character varying(50):= (select nombre_doctor from cita where cita_id = p_cita_id);
   p_cita_id_estado character varying(50):= (select cita_id from cita where cita_id = p_cita_id); -- null = insert, not null = insert
   paciente_id_estado character varying(50):= (select paciente_id from cita where cita_id = p_cita_id); -- null = insert, not null = insert 
-  p_doc_id_paciente_temp integer:= (select paciente_id from paciente where doc_id = p_doc_id_paciente);
+  p_doc_id_paciente_temp integer;
  
  begin
-								if p_fechaCita is null then
+								
 									if paciente_id_estado is null then
 										insert into paciente
 																	(
@@ -1200,11 +1210,13 @@ CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
 											where 
 												doc_id = p_doc_id_paciente;
 										end if;
-
+										select paciente_id into p_doc_id_paciente_temp from paciente where doc_id = p_doc_id_paciente;
 										if p_cita_id_estado is null then
 											insert into cita(
 														cita_id,
 														fecha,
+														hora,
+														horario,
 														nombre_doctor,
 														descripcion,
 														doc_id,
@@ -1215,6 +1227,8 @@ CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
 												values(
 															p_cita_id,
 															p_fecha,
+															p_hora,
+															p_horario,
 															p_nombre_doctor,
 															p_descripcion,
 															p_doc_id_usuario,
@@ -1243,12 +1257,7 @@ CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
 												where 
 													cita_id = p_cita_id;
 										end if;
-							else
-
-								RAISE EXCEPTION 'HORARIO OCUPADO (%)', p_fechaCita
-     								USING HINT = 'Registre con otro horario';
-
-							end if;
+							
 								
 						
  end
@@ -1391,48 +1400,50 @@ select * from historial_tratamiento;
 delete from historial_tratamiento;
 
 CREATE OR REPLACE FUNCTION fn_registrarCita_historialTratamiento(
-												p_tratamiento_id integer,
-												p_cita_id integer,
-	 										    p_historial_tratamiento_id integer,
-												p_cod_pac integer,
-												p_fecha character varying(50),
-												p_hora character varying(50),
-												p_descripcion character varying(2000)
+												p_tratamiento_id integer, -- 2
+												p_cita_id integer, -- 1
+	 										    -- p_historial_tratamiento_id integer,
+												p_cod_pac integer, -- 1
+												p_fecha character varying(50), -- Miercoles, 1 de Julio del 2020
+												p_hora character varying(50), -- 8:30
+												p_horario char(2), -- AM
+												p_descripcion character varying(2000) -- aaaaaaaaaaaaaaa
 											 )  RETURNS void AS   
  $$
  declare
- p_fecha_cita character varying(50) := (select fecha from cita where cita_id = p_cita_id);
- p_fec_hisTra character varying(50) := (select fecha from historial_tratamiento where fecha = p_fecha);
- p_historial_tratamiento_id_actual integer := (select historial_tratamiento_id from historial_tratamiento where fecha = p_fecha);
+ 
+ p_historial_tratamiento_id_actual integer := (select historial_tratamiento_id from historial_tratamiento where paciente_id = p_cod_pac);
+
 
  begin
-							if p_fecha_cita like p_fec_hisTra then
+							if p_historial_tratamiento_id_actual is null then
+								
+								insert into historial_tratamiento(historial_tratamiento_id, fecha, hora, horario, descripcion, paciente_id, tratamiento_id)
+								values((select * from f_generar_correlativo('historial_tratamiento')), p_fecha, p_hora, p_horario, p_descripcion, p_cod_pac, p_tratamiento_id);
+								
+								update correlativo set numero = numero +1
+                    					 where tabla='historial_tratamiento';
+										 
+								
+							else
+								
 								update 
 											historial_tratamiento
 										set 
 											fecha          = p_fecha,
 											hora           = p_hora,
+											horario        = p_horario,
 											descripcion    = p_descripcion, 
 											paciente_id    = p_cod_pac, 
 											tratamiento_id = p_tratamiento_id
 										where
 											historial_tratamiento_id = p_historial_tratamiento_id_actual;
-							else
-							
-								insert into historial_tratamiento(historial_tratamiento_id, fecha, hora, descripcion, paciente_id, tratamiento_id)
-								values(p_historial_tratamiento_id, p_fecha, p_hora, p_descripcion, p_cod_pac, p_tratamiento_id);
 								
-								update correlativo set numero = numero +1
-                    					 where tabla='historial_tratamiento';
 							end if;
 								
-								
-											
-										 
-						
  end
  $$ language plpgsql;
-
+ 
 delete from historial_tratamiento;
 
 select * from fn_registrarUsuario(                    

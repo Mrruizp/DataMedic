@@ -31,6 +31,8 @@ function listar() {
             html += '<th style="text-align:center">CODIGO</th>';
             html += '<th style="text-align: center">USUARIO</th>';
             html += '<th style="text-align:center">FECHA</th>';
+            html += '<th style="text-align:center">HORA</th>';
+            html += '<th style="text-align:center">HORARIO</th>';
             html += '<th style="text-align:center">CONSULTORIO</th>';
              html += '<th style="text-align: center">DOCTOR</th>';
             html += '<th style="text-align: center">MENSAJE</th>';
@@ -49,6 +51,8 @@ function listar() {
                 html += '<td align="center" style="font-weight:normal">' + item.cita_id + '</td>';
                 html += '<td align="center" style="font-weight:normal">' + item.nombrecompleto + '</td>';
                 html += '<td align="center" style="font-weight:normal">' + item.fecha + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.horacita + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.horario + '</td>';
                 html += '<td align="center" style="font-weight:normal">' + item.nombre_consultorio + '</td>';
                 html += '<td align="center" style="font-weight:normal">' + item.nombre_doctor + '</td>';
                 html += '<td align="center" style="font-weight:normal">' + item.descripcion + '</td>';
@@ -61,7 +65,7 @@ function listar() {
                     if(item.estado === "Cita Atendida" || item.estado === "Cita Confirmada")
                     {
                         html += '<td align="center">';
-                        html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalTratamientoPaciente" onclick="leerDatosTratamiento(' + item.cita_id + ','+ item.paciente_id +')"><ion-icon name="document-text-outline"></ion-icon></button>';
+                        html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalTratamientoPaciente" onclick="leerDatosTratamiento(' + item.cita_id + ','+ item.paciente_id +',\''+ item.fecha +'\',\''+ item.horacita +'\')"><ion-icon name="document-text-outline"></ion-icon></button>';
                         html += '</td>';                    
                     }else
                     {
@@ -221,6 +225,7 @@ function leerDatos(codigo_paciente) {
             ).done(function (resultado) {
         var jsonResultado = resultado;
         if (jsonResultado.estado === 200) {
+
             $("#txtTipoOperacion").val("editar");
             // usuario
             $("#txtCodigo").val(jsonResultado.datos.cita_id);
@@ -373,13 +378,15 @@ $("#myModal").on("shown.bs.modal", function () {
     $("#txtPuesto").focus();
 });
 
-function leerDatosTratamiento(codigo_cita, codigo_paciente) {
+function leerDatosTratamiento(codigo_cita, codigo_paciente, p_fechahisttratamiento, p_hora) {
     $.post
             (
                     "../controller/gestionarHistorialTratamiento.leer.datos.controller.php",
                     {
                         p_codigo_cita: codigo_cita,
-                        p_codigo_paciente: codigo_paciente
+                        p_codigo_paciente: codigo_paciente,
+                        p_fechahisttratamiento_cita: p_fechahisttratamiento,
+                        p_hora_tratamiento: p_hora
                     }
             ).done(function (resultado) {
         var jsonResultado = resultado;
@@ -391,6 +398,7 @@ function leerDatosTratamiento(codigo_cita, codigo_paciente) {
             $("#txtCod_paciente").val(jsonResultado.datos.paciente_id);
             $("#txtFechaTratamiento").val(jsonResultado.datos.fecha);
             $("#txtHoraTratamiento").val(jsonResultado.datos.hora);
+            $("#txtHorario").val(jsonResultado.datos.horario);
             $("#txtDescripcionTratamientoPaciente").val(jsonResultado.datos.descripcion);
            
             $("#titulomodalTratamientoPaciente").html("Detalle del tratamiento");
@@ -424,16 +432,18 @@ $("#frmgrabarTratamientoPaciente").submit(function (event) {
                         var p_cod_paciente = "";
                         var p_fechaHistTratamiento = "";
                         var p_horaHistTratamiento = "";
+                        var p_horario = "";
                         var p_descripcionHistTratamiento = "";
-                            
+                        
                             p_cod_tratamiento            = $("#comboTratamiento").val();
                             p_cod_citaTratamiento        = $("#txtCod_citaTratamiento").val();
                             p_cod_paciente               = $("#txtCod_paciente").val();
                             p_fechaHistTratamiento       = $("#txtFechaTratamiento").val();
                             p_horaHistTratamiento        = $("#txtHoraTratamiento").val();
+                            p_horario                    = $("#txtHorario").val();
                             p_descripcionHistTratamiento = $("#txtDescripcionTratamientoPaciente").val();
 
-
+                            
                             //alert(p_cod_citaTratamiento+", "+p_cod_paciente+", "+p_fechaHistTratamiento+", "+p_horaHistTratamiento+", "+p_cod_tratamiento+", "+p_descripcionHistTratamiento);
                             
                     $.post(
@@ -444,6 +454,7 @@ $("#frmgrabarTratamientoPaciente").submit(function (event) {
                                 p_cod_paciente:               $("#txtCod_paciente").val(),
                                 p_fechaHistTratamiento:       $("#txtFechaTratamiento").val(),
                                 p_horaHistTratamiento:        $("#txtHoraTratamiento").val(),
+                                p_horario:                    $("#txtHorario").val(),
                                 p_descripcionHistTratamiento: $("#txtDescripcionTratamientoPaciente").val()
 
                             }

@@ -16,6 +16,12 @@ try {
             !isset($_POST["p_fecha"]) ||
             empty($_POST["p_fecha"]) ||
 
+            !isset($_POST["p_hora"]) ||
+            empty($_POST["p_hora"]) ||
+
+            !isset($_POST["p_horario"]) ||
+            empty($_POST["p_horario"]) ||
+
             !isset($_POST["p_consultorio"]) ||
             empty($_POST["p_consultorio"]) ||
 
@@ -74,6 +80,8 @@ try {
      $CodHorario    = $_POST["p_codigo_Horario_atencion"];
      $doc_id        = $_POST["p_doc_id"];
      $fecha         = $_POST["p_fecha"];
+     $hora          = $_POST["p_hora"];
+     $horario       = $_POST["p_horario"];
      $consultorio   = $_POST["p_consultorio"];
      $doctor        = $_POST["p_doctor"];
      
@@ -102,6 +110,8 @@ try {
         $objCita->setCodHorario($CodHorario);
         $objCita->setDoc_id($doc_id);
         $objCita->setFecha($fecha);
+        $objCita->setHora($hora);
+        $objCita->setHorario($horario);
         $objCita->setConsultorio($consultorio);
         $objCita->setNombreDoctor($doctor);
         
@@ -140,6 +150,8 @@ try {
         $objCita->setCodHorario($CodHorario);
         $objCita->setDoc_id($doc_id);
         $objCita->setFecha($fecha);
+        $objCita->setHora($hora);
+        $objCita->setHorario($horario);
         $objCita->setConsultorio($consultorio);
         $objCita->setNombreDoctor($doctor);
         

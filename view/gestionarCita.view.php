@@ -78,12 +78,32 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                                           readonly ="true">
                                         </p>
                                   </div>
-                                  <div class="col-4">
+                                  <div class="col-3">
                                         <p>
                                            
                                             Fecha de la Cita<input type="text" 
                                                           name="txtFecha" 
                                                           id="txtFecha" 
+                                                          class="form-control input-sm" 
+                                                          readonly ="true">
+                                        </p>
+                                    </div>
+                                    <div class="col-1">
+                                        <p>
+                                           
+                                            Hora<input type="text" 
+                                                          name="txtHora" 
+                                                          id="txtHora" 
+                                                          class="form-control input-sm" 
+                                                          readonly ="true">
+                                        </p>
+                                    </div>
+                                    <div class="col-1">
+                                        <p>
+                                           
+                                            Horario<input type="text" 
+                                                          name="txtHorario" 
+                                                          id="txtHorario" 
                                                           class="form-control input-sm" 
                                                           readonly ="true">
                                         </p>
@@ -136,7 +156,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                                -->
                                         </p>
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-5">
                                         <p>
                                            
                                             Doctor <input type="text" 

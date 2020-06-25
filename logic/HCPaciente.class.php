@@ -13,30 +13,34 @@ class HCPaciente extends Conexion {
 
                 $sql = "
                         select 
-                            paciente_id,
-                            doc_id,
-                            nombres,
-                            apellidos,
-                            edad,
-                            sexo,
-                            naturalde,
-                            estado_civil,
-                            ocupacion,
-                            raza,
-                            procedencia,
-                            instruccion,
-                            religion,
-                            domicilio,
-                            telefono,
-                            personaresponsable,
-                            personaresponsable_telefono,
-                            fecha_ingreso,
-                            hora,
-                            modoingreso,
-                            fecha_historia_clinica,
-                            descripcion_enfermedad_actual
+                           distinct p.paciente_id,
+                            p.doc_id,
+                            p.nombres,
+                            p.apellidos,
+                            p.edad,
+                            p.sexo,
+                            p.naturalde,
+                            p.estado_civil,
+                            p.ocupacion,
+                            p.raza,
+                            p.procedencia,
+                            p.instruccion,
+                            p.religion,
+                            p.domicilio,
+                            p.telefono,
+                            p.personaresponsable,
+                            p.personaresponsable_telefono,
+                            p.fecha_ingreso,
+                            p.hora,
+                            p.modoingreso,
+                            p.fecha_historia_clinica,
+                            p.descripcion_enfermedad_actual
                         from 
-                            paciente
+                            paciente p inner join cita c 
+                        on
+                            p.paciente_id = c.paciente_id
+                        where
+                            c.estado = 'Cita Confirmada' or c.estado = 'Cita Atendido'
                 ";
             $sentencia = $this->dblink->prepare($sql);
             $sentencia->execute();

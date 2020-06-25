@@ -64,11 +64,18 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                           <!-- form start -->
                           
                             <div class="card-body">
+                    <?php
+                        if($_SESSION["tipo"] !== "C")
+                          {
+                    ?>
                               <div class="form-group">
                            
                                 <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#myModal" id="btnagregar"><ion-icon name="calendar-outline"></ion-icon> Agregar Horario</button>
                            
                               </div>
+                    <?php
+                          }
+                    ?>
                               <div class="form-group">
                                <div id="listado" class="table table-responsive"></div>
                                 

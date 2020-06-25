@@ -161,9 +161,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                           </div>
                     -->
                           <div class="row">
-                            <div class="modal-header col-12">
-                                <h5 class="modal-title"><b>Paciente</b></h5>
-                            </div>
+                            
                           </div><br/>
                           <div class="row">
                             <div class="col-3">
@@ -391,10 +389,27 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                           </div>
                       </div>
                       </div>
+              <?php
+
+                if($_SESSION["tipo"] !== "C")
+                {
+              ?>
                       <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-danger" data-dismiss="modal" id="btncerrar">Close</button>
                         <button type="submit" class="btn btn-outline-info"><ion-icon name="save-outline"></ion-icon>  Registrar</button>
                       </div>
+              <?php
+                }else{
+
+              ?>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" id="btncerrar">Close</button><br/><br/>
+                        <!--<button type="submit" class="btn btn-outline-info"><ion-icon name="save-outline"></ion-icon>  Registrar</button>-->
+                      </div>
+              <?php
+                }
+              ?>
+              
                     </div>
                     <!-- /.modal-content -->
                   </div>
@@ -679,7 +694,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                                   class="form-control input-sm" readonly="true">
                                 </p>
                             </div>
-                            <div class="col-4">
+                            <div class="col-3">
                                 <p>
                                     <!--Código del paciente -->
                                     Fecha<input type="text" 
@@ -689,13 +704,23 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                                   class="form-control input-sm">
                                 </p>
                             </div>
-                            <div class="col-4">
+                            <div class="col-2">
                                 <p>
                                     <!--Código del paciente -->
                                     Hora<input type="text"
                                                 placeholder="ejemplo: 9:00"  
                                                   name="txtHoraTratamiento" 
                                                   id="txtHoraTratamiento" 
+                                                  class="form-control input-sm">
+                                </p>
+                            </div>
+                            <div class="col-2">
+                                <p>
+                                    <!--Código del paciente -->
+                                    Horario<input type="text"
+                                                placeholder="AM-PM"  
+                                                  name="txtHorario" 
+                                                  id="txtHorario" 
                                                   class="form-control input-sm">
                                 </p>
                             </div>
@@ -724,10 +749,24 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                               </p>
                           </div>
                       </div>
+        <?php
+          if($_SESSION["tipo"] !== "C")
+                {
+              ?>
                       <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-danger" data-dismiss="modal" id="btncerrarTratamientoPaciente">Close</button>
                         <button type="submit" class="btn btn-outline-info"><ion-icon name="save-outline"></ion-icon>  Registrar</button>
                       </div>
+        <?php
+            }else
+            {
+        ?>
+              <div class="text-center">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" id="btncerrarTratamientoPaciente">Close</button>
+                      </div>
+        <?php
+            }
+        ?>
                     </div>
                     <!-- /.modal-content -->
                   </div>

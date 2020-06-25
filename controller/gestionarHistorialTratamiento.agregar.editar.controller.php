@@ -5,6 +5,7 @@ try {
     require_once '../logic/Cita.class.php';
     require_once '../util/functions/Helper.class.php';
 
+
     if
     (
             !isset($_POST["p_cod_tratamiento"]) ||
@@ -22,23 +23,23 @@ try {
             !isset($_POST["p_horaHistTratamiento"]) ||
             empty($_POST["p_horaHistTratamiento"]) ||
 
+            !isset($_POST["p_horario"]) ||
+            empty($_POST["p_horario"]) ||
+
             !isset($_POST["p_descripcionHistTratamiento"]) ||
             empty($_POST["p_descripcionHistTratamiento"]) 
     ) {
         Helper::imprimeJSON(500, "Falta completar datos", "");
         exit();
     }
-/*
-    echo '<pre>';
-    echo 'Datos que llegan por POST';
-    print_r($_POST);
-    echo '</pre>';
-*/
+
+
      $cod_tratamiento             = $_POST["p_cod_tratamiento"];
      $cod_citaTratamiento         = $_POST["p_cod_citaTratamiento"];
      $cod_paciente                = $_POST["p_cod_paciente"];
      $fechaHistTratamiento        = $_POST["p_fechaHistTratamiento"];
      $horaHistTratamiento         = $_POST["p_horaHistTratamiento"];
+     $horarioHistTratamiento      = $_POST["p_horario"];
      $descripcionHistTratamiento  = $_POST["p_descripcionHistTratamiento"];
 
      //$tipoOperacion = $_POST["p_tipo_ope"];
@@ -52,9 +53,18 @@ try {
         $objCita->setHora_historial_tratamiento($horaHistTratamiento);
         $objCita->setDescripcion_historial_tratamiento($descripcionHistTratamiento);
         */
-        $resultado = $objCita->agregarHistorialTratamiento($cod_tratamiento,$cod_citaTratamiento,$cod_paciente,$fechaHistTratamiento,$horaHistTratamiento,$descripcionHistTratamiento);
+        $resultado = $objCita->agregarHistorialTratamiento(
+                                                                $cod_tratamiento,
+                                                                $cod_citaTratamiento,
+                                                                $cod_paciente,
+                                                                $fechaHistTratamiento,
+                                                                $horaHistTratamiento,
+                                                                $horarioHistTratamiento,
+                                                                $descripcionHistTratamiento
+                                                            );
         
         
+     
 
         if ($resultado) {
             Helper::imprimeJSON(200, "Agregado correctamente", "");
