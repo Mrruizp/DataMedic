@@ -32,6 +32,39 @@ function cargarCbCodigoDoctor(p_doctor_id, p_nombreCombo_especialidad, p_tipo){
     });
 }
 
+function cargarCbCodigoDoctorConsultorio(p_doctor_id, p_nombreCombo_consultorio, p_tipo){
+    $.post
+    (
+        "../controller/comboCodigoDoctorConsultorio.php",
+        {
+            p_codigo_consultorio: p_nombreCombo_consultorio
+        }
+
+    ).done(function(resultado){
+    var datosJSON = resultado;
+    
+        if (datosJSON.estado===200){
+            var html = "";
+            if (p_tipo==="seleccione"){
+                html += '<option value="">-</option>';
+            }else{
+                html += '<option value="0">Todos los doctores</option>';
+            }
+
+            
+            $.each(datosJSON.datos, function(i,item) {
+                html += '<option value="'+item.doctor_id+'">'+item.nombres+'</option>';
+            });
+            
+            $(p_doctor_id).html(html);
+    }else{
+            swal("Mensaje del sistema", resultado , "warning");
+        }
+    }).fail(function(error){
+    var datosJSON = $.parseJSON( error.responseText );
+    swal("Error", datosJSON.mensaje , "error");
+    });
+}
 
 
 function cargarCbCodigoEspecialidad(p_nombreCombo, p_doctor_id, p_tipo){

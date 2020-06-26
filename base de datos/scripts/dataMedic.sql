@@ -515,6 +515,8 @@ values(6,1,4,1);
 select * from correlativo
 -- actualizado para al ampliación del sistema al 08062020
 insert into correlativo
+values('horario_atencion',0); 
+insert into correlativo
 values('cita',0); 
 insert into correlativo
 values('usuario',0); 
@@ -1904,6 +1906,103 @@ CREATE OR REPLACE FUNCTION fn_eliminarUsuario(p_doc_id character varying(20))RET
 						
  end
  $$ language plpgsql;
+
+select * from horario_atencion;
+select * from correlativo;
+-- Agregar función para registrar horario de atención
+
+CREATE OR REPLACE FUNCTION fn_registrarHorario(
+												p_consultorio int,
+												p_doctor int,
+												p_dia_semana character varying(50),
+												p_numero character varying(50),
+												p_mes character varying(50),
+												p_ano character varying(50)
+											)RETURNS void AS
+$$
+declare
+	
+begin
+						
+							insert into horario_atencion
+							values((select * from f_generar_correlativo('horario_atencion')),p_doctor,p_consultorio,p_dia_semana,p_numero,p_mes,p_ano,'8:00','AM','1');							
+							update correlativo set numero = numero + 1 where tabla='horario_atencion';
+							
+							insert into horario_atencion
+							values((select * from f_generar_correlativo('horario_atencion')),p_doctor,p_consultorio,p_dia_semana,p_numero,p_mes,p_ano,'8:30','AM','1');							
+							update correlativo set numero = numero + 1 where tabla='horario_atencion';
+							
+							insert into horario_atencion
+							values((select * from f_generar_correlativo('horario_atencion')),p_doctor,p_consultorio,p_dia_semana,p_numero,p_mes,p_ano,'9:00','AM','1');							
+							update correlativo set numero = numero + 1 where tabla='horario_atencion';
+							
+							insert into horario_atencion
+							values((select * from f_generar_correlativo('horario_atencion')),p_doctor,p_consultorio,p_dia_semana,p_numero,p_mes,p_ano,'9:30','AM','1');							
+							update correlativo set numero = numero + 1 where tabla='horario_atencion';
+							
+							insert into horario_atencion
+							values((select * from f_generar_correlativo('horario_atencion')),p_doctor,p_consultorio,p_dia_semana,p_numero,p_mes,p_ano,'10:00','AM','1');							
+							update correlativo set numero = numero + 1 where tabla='horario_atencion';
+							
+							insert into horario_atencion
+							values((select * from f_generar_correlativo('horario_atencion')),p_doctor,p_consultorio,p_dia_semana,p_numero,p_mes,p_ano,'10:30','AM','1');							
+							update correlativo set numero = numero + 1 where tabla='horario_atencion';
+							
+							insert into horario_atencion
+							values((select * from f_generar_correlativo('horario_atencion')),p_doctor,p_consultorio,p_dia_semana,p_numero,p_mes,p_ano,'11:00','AM','1');							
+							update correlativo set numero = numero + 1 where tabla='horario_atencion';
+							
+							insert into horario_atencion
+							values((select * from f_generar_correlativo('horario_atencion')),p_doctor,p_consultorio,p_dia_semana,p_numero,p_mes,p_ano,'11:30','AM','1');							
+							update correlativo set numero = numero + 1 where tabla='horario_atencion';
+							
+							insert into horario_atencion
+							values((select * from f_generar_correlativo('horario_atencion')),p_doctor,p_consultorio,p_dia_semana,p_numero,p_mes,p_ano,'12:00','PM','1');							
+							update correlativo set numero = numero + 1 where tabla='horario_atencion';
+							
+							insert into horario_atencion
+							values((select * from f_generar_correlativo('horario_atencion')),p_doctor,p_consultorio,p_dia_semana,p_numero,p_mes,p_ano,'12:30','PM','1');							
+							update correlativo set numero = numero + 1 where tabla='horario_atencion';
+							
+							insert into horario_atencion
+							values((select * from f_generar_correlativo('horario_atencion')),p_doctor,p_consultorio,p_dia_semana,p_numero,p_mes,p_ano,'1:00','PM','1');							
+							update correlativo set numero = numero + 1 where tabla='horario_atencion';
+							
+							insert into horario_atencion
+							values((select * from f_generar_correlativo('horario_atencion')),p_doctor,p_consultorio,p_dia_semana,p_numero,p_mes,p_ano,'2:00','PM','1');							
+							update correlativo set numero = numero + 1 where tabla='horario_atencion';
+							
+							insert into horario_atencion
+							values((select * from f_generar_correlativo('horario_atencion')),p_doctor,p_consultorio,p_dia_semana,p_numero,p_mes,p_ano,'2:30','PM','1');							
+							update correlativo set numero = numero + 1 where tabla='horario_atencion';
+							
+							insert into horario_atencion
+							values((select * from f_generar_correlativo('horario_atencion')),p_doctor,p_consultorio,p_dia_semana,p_numero,p_mes,p_ano,'3:00','PM','1');							
+							update correlativo set numero = numero + 1 where tabla='horario_atencion';
+							
+							insert into horario_atencion
+							values((select * from f_generar_correlativo('horario_atencion')),p_doctor,p_consultorio,p_dia_semana,p_numero,p_mes,p_ano,'3:30','PM','1');							
+							update correlativo set numero = numero + 1 where tabla='horario_atencion';
+							
+							insert into horario_atencion
+							values((select * from f_generar_correlativo('horario_atencion')),p_doctor,p_consultorio,p_dia_semana,p_numero,p_mes,p_ano,'4:00','PM','1');							
+							update correlativo set numero = numero + 1 where tabla='horario_atencion';
+							
+							insert into horario_atencion
+							values((select * from f_generar_correlativo('horario_atencion')),p_doctor,p_consultorio,p_dia_semana,p_numero,p_mes,p_ano,'4:30','PM','1');							
+							update correlativo set numero = numero + 1 where tabla='horario_atencion';
+							
+							insert into horario_atencion
+							values((select * from f_generar_correlativo('horario_atencion')),p_doctor,p_consultorio,p_dia_semana,p_numero,p_mes,p_ano,'5:00','PM','1');							
+							update correlativo set numero = numero + 1 where tabla='horario_atencion';
+								
+
+end
+$$ language plpgsql;
+
+
+
+
 
 
 

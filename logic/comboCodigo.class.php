@@ -69,6 +69,31 @@ class comboCodigo extends Conexion {
         }
     }
 
+    public function cargarDatos_CodigoDoctorConsultorio($codigo_consultorio) {
+        
+        try {
+            $sql = "
+                    select 
+                        distinct h.doctor_id,
+                        concat(d.nombre, ' ',d.apellido)as nombres
+                    from 
+                        horario_atencion h inner join doctor d
+                    on
+                        h.doctor_id = d.doctor_id 
+                    where
+                        h.consultorio_id = $codigo_consultorio;";
+
+            
+            $sentencia = $this->dblink->prepare($sql);
+           // $sentencia->bindParam(":p_curso_id", $codigo_curso);
+            $sentencia->execute();
+            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
     public function cargarDatos_CodigoAreaSede2($codigo_sede) {
         
         try {

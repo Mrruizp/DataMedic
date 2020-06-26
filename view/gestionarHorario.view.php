@@ -99,7 +99,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                           <span aria-hidden="true">&times;</span></button>
                       </div>
                       <div class="modal-body">
-                        <div class="row">>
+                        <div class="row">
                             <div class="col-3">
                                 <p>
                                     <input type="hidden" value="" id="txtTipoOperacion" name="txtTipoOperacion">
@@ -139,6 +139,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                 <p>
                                    
                                     Consultorio <select class="form-control" name="cbConsultorio" id="cbConsultorio">
+
                                                  </select>
                      
                  
@@ -276,7 +277,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
 
             </div> 
             
-              <form id="frmgrabar" class="form-horizontal">
+              <form id="" class="form-horizontal">
                 <div class="modal fade" id="myModalHorarioDetalle">
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">

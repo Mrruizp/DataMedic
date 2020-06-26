@@ -3,8 +3,8 @@ $(document).ready(function () {
     
     listar();
     cargarCbCodigoSede("#cbSede", "seleccione");
-    cargarCbCodigoArea("#cbArea", "seleccione");
-    cargarCbCodigoConsultorio2("#cbConsultorio", "seleccione");
+   // cargarCbCodigoArea("#cbArea", "seleccione");
+   // cargarCbCodigoConsultorio2("#cbConsultorio", "seleccione");
     cargarCbCodigoDoctorHorario("#cbDoctor", "seleccione");//muestra todos los doctores
       
 });
@@ -189,38 +189,26 @@ $("#frmgrabar").submit(function (event) {
 
                     //var codLab = ($("#txtTipoOperacion").val()==="agregar")? 
 
-                    var codCita = "";
+                    var codHorarioA = "";
                     if ($("#txtTipoOperacion").val() === "agregar") {
-                        codCita = "0";
+                        codHorarioA = "0";
                     } else {
-                        codCita = $("#txtCodigo").val();
+                        codHorarioA = $("#txtCodigo").val();
                     }
                     $.post(
-                            "../controller/gestionarCita.agregar.editar.controller.php",
+                            "../controller/gestionarHorario.agregar.editar.controller.php",
                             {
-                                p_doc_id:       $("#txtDoc_id").val(),
-                                p_fecha:        $("#txtFecha").val(),
-                                p_hora:         $("#txtHora").val(),
-                                //p_especialidad: $("#especialidad").val(),
-                                p_doctor:       $("#doctor").val(),
-                                p_descripcion:  $("#txtDescripcion").val(),
-                    // Paciente:
-                                p_doc_id_paciente:  $("#txtDoc_id_paciente").val(),
-                                p_ciudad_paciente:  $("#txtCiudad_paciente").val(),
-                                p_estadoCivil_paciente:  $("#estadoCivil_paciente").val(),
-                                p_edad_paciente:         $("#edad_paciente").val(),
-                                p_nombre_paciente:       $("#txtNombre_paciente").val(),
-                                p_apellidos_paciente:    $("#txtApellidos_paciente").val(),
-                                p_sexo_paciente:         $("#sexo_paciente").val(),
-                                p_ocupacion_paciente:    $("#txtOcupacion_paciente").val(),
-                                p_religion_paciente:     $("#txtReligion_paciente").val(),
-                                p_domicilio_paciente:    $("#txtDomicilio_paciente").val(),
-                                p_telefono_paciente:     $("#txtTelefono_paciente").val(),
-                                p_personaResponsable_paciente:   $("#txtPersonaResponsable_paciente").val(),
-                                p_telefonoResponsable_paciente:  $("#txtTelefonoResponsable_paciente").val(),
+                               // p_sede:         $("#cbSede").val(),
+                               // p_area:         $("#cbArea").val(),
+                                p_consultorio:  $("#cbConsultorio").val(),
+                                p_doctor:       $("#cbDoctor").val(),
+                                p_dia:          $("#cbDia").val(),
+                                p_numero:       $("#cbNumero").val(),
+                                p_mes:          $("#cbMes").val(),
+                                p_ano:          $("#cbAno").val(),
 
                                 p_tipo_ope:     $("#txtTipoOperacion").val(),
-                                p_codigo_curso: codCita
+                                p_codigo_horario: codHorarioA
                             }
                     ).done(function (resultado) {
                         var datosJSON = resultado;

@@ -11,8 +11,7 @@ class Horario extends Conexion {
     private $Numero;
     private $Mes;
     private $Ano;
-    private $Estado;
-
+    //private $Estado;
 
 
     public function getHorario_id() {
@@ -40,10 +39,6 @@ class Horario extends Conexion {
         return $this->Ano;
     }
 
-    public function getEstado() {
-        return $this->Estado;
-    }
-
     public function setHorario_id($Horario_id) {
         $this->Horario_id = $Horario_id;
     }
@@ -67,9 +62,6 @@ class Horario extends Conexion {
         $this->Ano = $Ano;
     }
 
-    public function setEstado($Estado) {
-        $this->Estado = $Estado;
-    }
 
     public function listar() {
         try {
@@ -133,75 +125,31 @@ class Horario extends Conexion {
         $this->dblink->beginTransaction();
 
         try {
-            $sql = "select * from f_generar_correlativo('cita') as nc";
-            $sentencia = $this->dblink->prepare($sql);
-            $sentencia->execute();
-
-            if ($sentencia->rowCount()) {
-                $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
-                $nuevoCodigo = $resultado["nc"];
-                $this->setCita_id($nuevoCodigo);
+            
 
                 
                 $sql = "
-
-                    select * from fn_registrarCita_paciente(
-                                                '$_SESSION[s_doc_id]', 
-                                                '$_SESSION[s_usuario]',
-                                                $_SESSION[cargo_id], 
-                                                '$_SESSION[tipo]', 
-                                                '$_SERVER[REMOTE_ADDR]',
-                                                :p_cita_id,
-                                                :p_fecha,
-                                                :p_hora,
-                                                :p_descripcion,
-                                                :p_doc_id_usuario,
-                                                :p_doctor_id,
-                                                :p_doc_id_paciente,
-                                                :p_nombre_paciente,
-                                                :p_apellidos_paciente,
-                                                :p_edad_paciente,
-                                                :p_sexo_paciente,
-                                                :p_ciudad_paciente,
-                                                :p_estadoCivil_paciente,
-                                                :p_ocupacion_paciente,
-                                                :p_religion_paciente,
-                                                :p_domicilio_paciente,
-                                                :p_telefono_paciente,
-                                                :p_personaResponsable_paciente,
-                                                :p_telefonoResponsable_paciente
-                                             );
+                    select * from fn_registrarHorario(
+                                                :p_consultorio_id,
+                                                :p_doctor_id ,
+                                                :p_dia,
+                                                :p_numero,
+                                                :p_mes,
+                                                :p_ano
+                                            );
                     ";
                 $sentencia = $this->dblink->prepare($sql);
-    // Cita
-                $sentencia->bindParam(":p_cita_id", $this->getCita_id());
-                $sentencia->bindParam(":p_fecha", $this->getFecha());
-                $sentencia->bindParam(":p_hora", $this->getHora());
-                $sentencia->bindParam(":p_descripcion", $this->getDescripcion());
-                $sentencia->bindParam(":p_doc_id_usuario", $this->getDoc_id());
+                $sentencia->bindParam(":p_consultorio_id", $this->getConsultorio_id());
                 $sentencia->bindParam(":p_doctor_id", $this->getDoctor_id());
-                
-    // Paciente
-                $sentencia->bindParam(":p_doc_id_paciente", $this->getDoc_id_paciente());
-                $sentencia->bindParam(":p_ciudad_paciente", $this->getCiudad_paciente());
-                $sentencia->bindParam(":p_estadoCivil_paciente", $this->getEstadoCivil_paciente());
-                $sentencia->bindParam(":p_edad_paciente", $this->getEdad_paciente());
-                $sentencia->bindParam(":p_nombre_paciente", $this->getNombre_paciente());
-                $sentencia->bindParam(":p_apellidos_paciente", $this->getApellidos_paciente());
-                $sentencia->bindParam(":p_sexo_paciente", $this->getSexo_paciente());
-                $sentencia->bindParam(":p_ocupacion_paciente", $this->getOcupacion_paciente());
-                $sentencia->bindParam(":p_religion_paciente", $this->getReligion_paciente());
-                $sentencia->bindParam(":p_domicilio_paciente", $this->getDomicilio_paciente());
-                $sentencia->bindParam(":p_telefono_paciente", $this->getTelefono_paciente());
-                $sentencia->bindParam(":p_personaResponsable_paciente", $this->getPersonaResponsable_paciente());
-                $sentencia->bindParam(":p_telefonoResponsable_paciente", $this->getTelefonoResponsable_paciente());
+                $sentencia->bindParam(":p_dia", $this->getDia());
+                $sentencia->bindParam(":p_numero", $this->getNumero());
+                $sentencia->bindParam(":p_mes", $this->getMes());
+                $sentencia->bindParam(":p_ano", $this->getAno());
                 $sentencia->execute();
                 
                 $this->dblink->commit();
                 return true;
-            } else {
-                throw new Exception("No se ha configurado el correlativo para la tabla cita y paciente");
-            }
+           
         } catch (Exception $exc) {
             $this->dblink->rollBack();
             throw $exc;

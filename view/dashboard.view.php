@@ -54,8 +54,19 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
             <!-- BAR CHART -->
             <div class="card card-success">
               <div class="card-header">
-                <h3 class="card-title">Número de citas, según su estado</h3>
-
+                <h3 class="card-title">Número de citas: por estado y mes</h3>
+                <input type="hidden" id="textCitaConfEne" name="textCitaConfEne" value="<?php echo $resultado2["num_cita_conf_enero"];    ?>">
+                <input type="hidden" id="textCitaConfFeb" name="textCitaConfFeb" value="<?php echo $resultado3["num_cita_conf_febrero"];  ?>">
+                <input type="hidden" id="textCitaConfMar" name="textCitaConfMar" value="<?php echo $resultado4["num_cita_conf_marzo"];    ?>">
+                <input type="hidden" id="textCitaConfAbr" name="textCitaConfAbr" value="<?php echo $resultado5["num_cita_conf_abril"];    ?>">
+                <input type="hidden" id="textCitaConfMay" name="textCitaConfMay" value="<?php echo $resultado6["num_cita_conf_mayo"];     ?>">
+                <input type="hidden" id="textCitaConfJun" name="textCitaConfJun" value="<?php echo $resultado7["num_cita_conf_junio"];    ?>">
+                <input type="hidden" id="textCitaConfJul" name="textCitaConfJul" value="<?php echo $resultado8["num_cita_conf_julio"];    ?>">
+                <input type="hidden" id="textCitaConfAgo" name="textCitaConfAgo" value="<?php echo $resultado9["num_cita_conf_agosto"];   ?>">
+                <input type="hidden" id="textCitaConfSet" name="textCitaConfSet" value="<?php echo $resultado10["num_cita_conf_setiembre"];?>">
+                <input type="hidden" id="textCitaConfOct" name="textCitaConfOct" value="<?php echo $resultado11["num_cita_conf_octubre"];  ?>">
+                <input type="hidden" id="textCitaConfNov" name="textCitaConfNov" value="<?php echo $resultado12["num_cita_conf_noviembre"];?>">
+                <input type="hidden" id="textCitaConfDic" name="textCitaConfDic" value="<?php echo $resultado13["num_cita_conf_diciembre"];?>">
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
                   </button>
@@ -198,51 +209,46 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
 
     var areaChartData = {
       labels  : ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junino', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+
       datasets: [
+  /*
         {
-          label               : 'Citas en Proceso',
-          backgroundColor     : '#f39c12',
-          borderColor         : '#f39c12',
-          pointRadius          : false,
-          pointColor          : '#3b8bba',
-          pointStrokeColor    : '#f39c12',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: '#f39c12',
-          data                : [28, 48, 40, 19, 86, 27, 90]
-        },
-        {
-          label               : 'Citas en Confirmadas',
-          backgroundColor     : '#3c8dbc',
-          borderColor         : '#3c8dbc',
-          pointRadius         : false,
-          pointColor          : '#3c8dbc',
-          pointStrokeColor    : '#3c8dbc',
-          pointHighlightFill  : '#3c8dbc',
-          pointHighlightStroke: '#3c8dbc',
-          data                : [65, 59, 80, 81, 56, 55, 40]
-        },
-        {
-          label               : 'Citas en Atendidas',
-          backgroundColor     : '#00a65a',
-          borderColor         : '#00a65a',
-          pointRadius         : false,
-          pointColor          : '00a65a',
-          pointStrokeColor    : '#00a65a',
-          pointHighlightFill  : '#00a65a',
-          pointHighlightStroke: '#00a65a',
-          data                : [65, 59, 80, 81, 56, 55, 40]
-        },
-        {
+         // enero               : ,
           label               : 'Citas en Denegadas',
           backgroundColor     : '#f56954',
           borderColor         : '#f56954',
           pointRadius         : false,
           pointColor          : '#f56954',
           pointStrokeColor    : '#f56954',
-          pointHighlightFill  : '#f56954',
+          pointHighlightFill  : '#fff',
           pointHighlightStroke: '#f56954',
-          data                : [65, 59, 80, 81, 56, 55, 40]
+          data                : [5, 8, 12, 22, 28, 30, 31]
         },
+  */
+        {
+          label               : 'Citas en Atendidas',
+          backgroundColor     : '#00a65a',
+          borderColor         : '#00a65a',
+          pointRadius         : false,
+          pointColor          : '#00a65a',
+          pointStrokeColor    : '#00a65a',
+          pointHighlightFill  : '#00a65a',
+          pointHighlightStroke: '#00a65a',
+          data                : [
+                                  $("#textCitaConfEne").val(), 
+                                  $("#textCitaConfFeb").val(),  
+                                  $("#textCitaConfMar").val(), 
+                                  $("#textCitaConfAbr").val(), 
+                                  $("#textCitaConfMay").val(), 
+                                  $("#textCitaConfJun").val(), 
+                                  $("#textCitaConfJul").val(),
+                                  $("#textCitaConfAgo").val(),
+                                  $("#textCitaConfSet").val(),
+                                  $("#textCitaConfOct").val(),
+                                  $("#textCitaConfNov").val(),
+                                  $("#textCitaConfDic").val()]
+        },
+        
       ]
     }
 

@@ -420,4 +420,256 @@ class Usuario extends Conexion {
         }
         return false;
     }
+    // REPORTE 1: Número de citas: por estado y mes
+    public function reporte1_enero() {// enero
+        try {
+            $sql = "
+                    select 
+                        count(*) as num_cita_conf_enero
+                    from 
+                        cita
+                    where  fecha like '%Enero del 2020%' and estado = 'Cita Confirmada';
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function reporte1_febrero() {// febrero
+        try {
+            $sql = "
+                    select 
+                        count(*) as num_cita_conf_febrero
+                    from 
+                        cita
+                    where  fecha like '%Febrero del 2020%' and estado = 'Cita Atendida';
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function reporte1_marzo() {// marzo
+        try {
+            $sql = "
+                    select 
+                        count(*) as num_cita_conf_marzo
+                    from 
+                        cita
+                    where  fecha like '%Marzo del 2020%' and estado = 'Cita Atendida';
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function reporte1_abril() {// abril
+        try {
+            $sql = "
+                    select 
+                        count(*) as num_cita_conf_abril
+                    from 
+                        cita
+                    where  fecha like '%Abril del 2020%' and estado = 'Cita Atendida';
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function reporte1_mayo() {// mayo
+        try {
+            $sql = "
+                    select 
+                        count(*) as num_cita_conf_mayo
+                    from 
+                        cita
+                    where  fecha like '%Mayo del 2020%' and estado = 'Cita Atendida';
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function reporte1_junio() {// junio
+        try {
+            $sql = "
+                    select 
+                        count(*) as num_cita_conf_junio
+                    from 
+                        cita
+                    where  fecha like '%Junio del 2020%' and estado = 'Cita Atendida';
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function reporte1_julio() {// julio
+        try {
+            $sql = "
+                    select 
+                        count(*) as num_cita_conf_julio
+                    from 
+                        cita
+                    where  fecha like '%Julio del 2020%' and estado = 'Cita Atendida';
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function reporte1_agosto() {// agosto
+        try {
+            $sql = "
+                    select 
+                        count(*) as num_cita_conf_agosto
+                    from 
+                        cita
+                    where  fecha like '%Agosto del 2020%' and estado = 'Cita Atendida';
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function reporte1_setiembre() {// setiembre
+        try {
+            $sql = "
+                    select 
+                        count(*) as num_cita_conf_setiembre
+                    from 
+                        cita
+                    where  fecha like '%Setiembre del 2020%' and estado = 'Cita Atendida';
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function reporte1_octubre() {// octubre
+        try {
+            $sql = "
+                    select 
+                        count(*) as num_cita_conf_octubre
+                    from 
+                        cita
+                    where  fecha like '%Octubre del 2020%' and estado = 'Cita Atendida';
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function reporte1_noviembre() {// noviembre
+        try {
+            $sql = "
+                    select 
+                        count(*) as num_cita_conf_noviembre
+                    from 
+                        cita
+                    where  fecha like '%Noviembre del 2020%' and estado = 'Cita Atendida';
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function reporte1_diciembre() {// diciembre
+        try {
+            $sql = "
+                    select 
+                        count(*) as num_cita_conf_diciembre
+                    from 
+                        cita
+                    where  fecha like '%Diciembre del 2020%' and estado = 'Cita Atendida';
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
 }
