@@ -98,7 +98,7 @@ class Horario extends Conexion {
         }
     }
 
-    public function listarHorarioDetalle($codigo_doctor) {
+    public function listarHorarioDetalle($codigo_doctor, $codigo_mes, $codigo_numero, $codigo_ano) {
         try {
                 $sql = "
                     select
@@ -109,7 +109,7 @@ class Horario extends Conexion {
                     from 
                         horario_atencion
                     where
-                        doctor_id =  $codigo_doctor;
+                        doctor_id =  $codigo_doctor and mes =  '$codigo_mes' and numero =  '$codigo_numero' and ano =  '$codigo_ano';
                 ";
 
             $sentencia = $this->dblink->prepare($sql);

@@ -46,7 +46,7 @@ function listar() {
                 html += '<td align="center" style="font-weight:normal">' + item.nombre_consultorio + '</td>';
                 html += '<td align="center" style="font-weight:normal">' + item.nombresdoctor + '</td>';
                 html += '<td align="center">';
-                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalHorarioDetalle" onclick="listarHorarioDetalle(' + item.doctor_id +',' + item.horario_atencion_id +')"><ion-icon name="time-outline"></ion-icon></button>';
+                html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModalHorarioDetalle" onclick="listarHorarioDetalle(' + item.doctor_id +',' + item.numero +',\''+ item.mes +'\',\''+ item.ano +'\')"><ion-icon name="time-outline"></ion-icon></button>';
                 html += '</td>';
                 if(tipUsuario === "S" || tipUsuario === "A")
                 {
@@ -91,12 +91,15 @@ function listar() {
     });
 }
 
-function listarHorarioDetalle(codigo_doctor) {
+function listarHorarioDetalle(codigo_doctor, codigo_numero, codigo_mes, codigo_ano) {
     $.post
             (       
                     "../controller/gestionarHorarioDetalle.listar.controller.php",
                         {
-                            p_codigo_doctor: codigo_doctor
+                            p_codigo_doctor: codigo_doctor,
+                            p_codigo_mes: codigo_mes,
+                            p_codigo_numero: codigo_numero,
+                            p_codigo_ano: codigo_ano,
                         }
                     ).done(function (resultado) {
         var datosJSON = resultado;

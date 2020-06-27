@@ -54,19 +54,20 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
             <!-- BAR CHART -->
             <div class="card card-success">
               <div class="card-header">
-                <h3 class="card-title">Número de citas: por estado y mes</h3>
-                <input type="hidden" id="textCitaConfEne" name="textCitaConfEne" value="<?php echo $resultado2["num_cita_conf_enero"];    ?>">
-                <input type="hidden" id="textCitaConfFeb" name="textCitaConfFeb" value="<?php echo $resultado3["num_cita_conf_febrero"];  ?>">
-                <input type="hidden" id="textCitaConfMar" name="textCitaConfMar" value="<?php echo $resultado4["num_cita_conf_marzo"];    ?>">
-                <input type="hidden" id="textCitaConfAbr" name="textCitaConfAbr" value="<?php echo $resultado5["num_cita_conf_abril"];    ?>">
-                <input type="hidden" id="textCitaConfMay" name="textCitaConfMay" value="<?php echo $resultado6["num_cita_conf_mayo"];     ?>">
-                <input type="hidden" id="textCitaConfJun" name="textCitaConfJun" value="<?php echo $resultado7["num_cita_conf_junio"];    ?>">
-                <input type="hidden" id="textCitaConfJul" name="textCitaConfJul" value="<?php echo $resultado8["num_cita_conf_julio"];    ?>">
-                <input type="hidden" id="textCitaConfAgo" name="textCitaConfAgo" value="<?php echo $resultado9["num_cita_conf_agosto"];   ?>">
-                <input type="hidden" id="textCitaConfSet" name="textCitaConfSet" value="<?php echo $resultado10["num_cita_conf_setiembre"];?>">
-                <input type="hidden" id="textCitaConfOct" name="textCitaConfOct" value="<?php echo $resultado11["num_cita_conf_octubre"];  ?>">
-                <input type="hidden" id="textCitaConfNov" name="textCitaConfNov" value="<?php echo $resultado12["num_cita_conf_noviembre"];?>">
-                <input type="hidden" id="textCitaConfDic" name="textCitaConfDic" value="<?php echo $resultado13["num_cita_conf_diciembre"];?>">
+                <h3 class="card-title">Número de citas atendidas</h3>
+               
+                <input type="hidden" id="textCitaConfEne" name="textCitaConfEne" value="<?php echo $resultado1["num_cita_conf_enero"];    ?>">
+                <input type="hidden" id="textCitaConfFeb" name="textCitaConfFeb" value="<?php echo $resultado2["num_cita_conf_febrero"];  ?>">
+                <input type="hidden" id="textCitaConfMar" name="textCitaConfMar" value="<?php echo $resultado3["num_cita_conf_marzo"];    ?>">
+                <input type="hidden" id="textCitaConfAbr" name="textCitaConfAbr" value="<?php echo $resultado4["num_cita_conf_abril"];    ?>">
+                <input type="hidden" id="textCitaConfMay" name="textCitaConfMay" value="<?php echo $resultado5["num_cita_conf_mayo"];     ?>">
+                <input type="hidden" id="textCitaConfJun" name="textCitaConfJun" value="<?php echo $resultado6["num_cita_conf_junio"];    ?>">
+                <input type="hidden" id="textCitaConfJul" name="textCitaConfJul" value="<?php echo $resultado7["num_cita_conf_julio"];    ?>">
+                <input type="hidden" id="textCitaConfAgo" name="textCitaConfAgo" value="<?php echo $resultado8["num_cita_conf_agosto"];   ?>">
+                <input type="hidden" id="textCitaConfSet" name="textCitaConfSet" value="<?php echo $resultado9["num_cita_conf_setiembre"];?>">
+                <input type="hidden" id="textCitaConfOct" name="textCitaConfOct" value="<?php echo $resultado10["num_cita_conf_octubre"];  ?>">
+                <input type="hidden" id="textCitaConfNov" name="textCitaConfNov" value="<?php echo $resultado11["num_cita_conf_noviembre"];?>">
+                <input type="hidden" id="textCitaConfDic" name="textCitaConfDic" value="<?php echo $resultado12["num_cita_conf_diciembre"];?>">
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
                   </button>
@@ -211,25 +212,12 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
       labels  : ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junino', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],
 
       datasets: [
-  /*
+  
         {
-         // enero               : ,
-          label               : 'Citas en Denegadas',
-          backgroundColor     : '#f56954',
-          borderColor         : '#f56954',
-          pointRadius         : false,
-          pointColor          : '#f56954',
-          pointStrokeColor    : '#f56954',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: '#f56954',
-          data                : [5, 8, 12, 22, 28, 30, 31]
-        },
-  */
-        {
-          label               : 'Citas en Atendidas',
+          label               : 'Citas Atendidas',
           backgroundColor     : '#00a65a',
           borderColor         : '#00a65a',
-          pointRadius         : false,
+          pointRadius         : true,
           pointColor          : '#00a65a',
           pointStrokeColor    : '#00a65a',
           pointHighlightFill  : '#00a65a',
@@ -253,20 +241,20 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
     }
 
     var areaChartOptions = {
-      maintainAspectRatio : false,
+      maintainAspectRatio : true,
       responsive : true,
       legend: {
-        display: false
+        display: true
       },
       scales: {
         xAxes: [{
           gridLines : {
-            display : false,
+            display : true,
           }
         }],
         yAxes: [{
           gridLines : {
-            display : false,
+            display : true,
           }
         }]
       }

@@ -1213,6 +1213,7 @@ CREATE OR REPLACE FUNCTION fn_registrarCita_paciente(
 												doc_id = p_doc_id_paciente;
 										end if;
 										select paciente_id into p_doc_id_paciente_temp from paciente where doc_id = p_doc_id_paciente;
+										
 										if p_cita_id_estado is null then
 											insert into cita(
 														cita_id,

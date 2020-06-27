@@ -11,6 +11,7 @@ $dni = $_POST["s_usuario"];
 try {
     $objUsuario  = new Usuario();
 //  a. Estado = Cita Atendida
+    $objUsuario1 = new Usuario();
     $objUsuario2 = new Usuario();
     $objUsuario3 = new Usuario();
     $objUsuario4 = new Usuario();
@@ -22,24 +23,23 @@ try {
     $objUsuario10 = new Usuario();
     $objUsuario11 = new Usuario();
     $objUsuario12 = new Usuario();
-    $objUsuario13 = new Usuario();
 // --------------------------------------------------   
     $resultado   = $objUsuario->leerDatos($dni);
 
 // REPORTE 1: Número de citas: por estado y mes 
 //  a. Estado = Cita Atendida
-    $resultado2  = $objUsuario2->reporte1_enero();
-    $resultado3  = $objUsuario3->reporte1_febrero();
-    $resultado4  = $objUsuario4->reporte1_marzo();
-    $resultado5  = $objUsuario5->reporte1_abril();
-    $resultado6  = $objUsuario6->reporte1_mayo();
-    $resultado7  = $objUsuario7->reporte1_junio();
-    $resultado8  = $objUsuario8->reporte1_julio();
-    $resultado9  = $objUsuario9->reporte1_agosto();
-    $resultado10 = $objUsuario10->reporte1_setiembre();
-    $resultado11 = $objUsuario11->reporte1_octubre();
-    $resultado12 = $objUsuario12->reporte1_noviembre();
-    $resultado13 = $objUsuario13->reporte1_diciembre();
+    $resultado1  = $objUsuario1->reporte1_enero();
+    $resultado2  = $objUsuario2->reporte1_febrero();
+    $resultado3  = $objUsuario3->reporte1_marzo();
+    $resultado4  = $objUsuario4->reporte1_abril();
+    $resultado5  = $objUsuario5->reporte1_mayo();
+    $resultado6  = $objUsuario6->reporte1_junio();
+    $resultado7  = $objUsuario7->reporte1_julio();
+    $resultado8  = $objUsuario8->reporte1_agosto();
+    $resultado9 = $objUsuario9->reporte1_setiembre();
+    $resultado10 = $objUsuario10->reporte1_octubre();
+    $resultado11 = $objUsuario11->reporte1_noviembre();
+    $resultado12 = $objUsuario12->reporte1_diciembre();
 // b. Estado : Citan Denegada.
 //    echo '<pre>';
 //    print_r($resultado);

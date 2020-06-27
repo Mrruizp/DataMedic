@@ -428,7 +428,7 @@ class Usuario extends Conexion {
                         count(*) as num_cita_conf_enero
                     from 
                         cita
-                    where  fecha like '%Enero del 2020%' and estado = 'Cita Confirmada';
+                    where  fecha like '%Enero del 2020%' and estado = 'Cita Atendida';
 
                 ";
             
