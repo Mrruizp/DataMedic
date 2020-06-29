@@ -23,6 +23,21 @@ try {
     $objUsuario10 = new Usuario();
     $objUsuario11 = new Usuario();
     $objUsuario12 = new Usuario();
+    $objUsuario13 = new Usuario();
+    $objUsuario14 = new Usuario();
+    /*
+    $objUsuario14 = new Usuario();
+    $objUsuario15 = new Usuario();
+    $objUsuario16 = new Usuario();
+    $objUsuario17 = new Usuario();
+    $objUsuario18 = new Usuario();
+    $objUsuario19 = new Usuario();
+    $objUsuario20 = new Usuario();
+    $objUsuario21 = new Usuario();
+    $objUsuario22 = new Usuario();
+    $objUsuario23 = new Usuario();
+    $objUsuario24 = new Usuario();
+    */
 // --------------------------------------------------   
     $resultado   = $objUsuario->leerDatos($dni);
 
@@ -40,6 +55,21 @@ try {
     $resultado10 = $objUsuario10->reporte1_octubre();
     $resultado11 = $objUsuario11->reporte1_noviembre();
     $resultado12 = $objUsuario12->reporte1_diciembre();
+    $resultado13 = $objUsuario13->reporte2_consultorio_1();
+    $resultado14 = $objUsuario14->reporte2_consultorio_2();
+    /*
+    $resultado14 = $objUsuario14->reporte2_consultorio_1_febrero();
+    $resultado15 = $objUsuario15->reporte2_consultorio_1_marzo();
+    $resultado16 = $objUsuario16->reporte2_consultorio_1_abril();
+    $resultado17 = $objUsuario17->reporte2_consultorio_1_mayo();
+    $resultado18 = $objUsuario18->reporte2_consultorio_1_junio();
+    $resultado19 = $objUsuario19->reporte2_consultorio_1_julio();
+    $resultado20 = $objUsuario20->reporte2_consultorio_1_agosto();
+    $resultado21 = $objUsuario21->reporte2_consultorio_1_setiembre();
+    $resultado22 = $objUsuario22->reporte2_consultorio_1_octubre();
+    $resultado23 = $objUsuario23->reporte2_consultorio_1_noviembre();
+    $resultado24 = $objUsuario24->reporte2_consultorio_1_diciembre();
+    */
 // b. Estado : Citan Denegada.
 //    echo '<pre>';
 //    print_r($resultado);

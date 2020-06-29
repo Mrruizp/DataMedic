@@ -50,7 +50,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-6">
             <!-- BAR CHART -->
             <div class="card card-success">
               <div class="card-header">
@@ -71,103 +71,182 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
                   </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
                 </div>
               </div>
               <div class="card-body">
                 <div class="chart">
-                  <canvas id="barChart" style="height:230px; min-height:230px"></canvas>
+                  <canvas id="barChart" style="height:260px; min-height:260px"></canvas>
                 </div>
               </div>
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
-
+            </div>
+            <div class="col-6">
             <!-- DONUT CHART -->
             <div class="card card-danger">
               <div class="card-header">
-                <h3 class="card-title">Número de citas confirmadas para cada consultorio, en el presente mes y año</h3>
-
+                <h3 class="card-title">Número de citas atendidas hasta la fecha, por cada consultorio</h3>
+                  <input type="hidden" id="textConsultorio_1" name="textConsultorio_1" value="<?php echo $resultado13["consultorio_1"];?>">
+                  <input type="hidden" id="textConsultorio_2" name="textConsultorio_2" value="<?php echo $resultado14["consultorio_2"];?>">
+              <!--
+                  <input type="text" id="textConsultorio_1_feb" name="textConsultorio_1_feb" value="<?php echo $resultado14["consultorio_1_febrero"];?>">
+                  <input type="text" id="textConsultorio_1_mar" name="textConsultorio_1_mar" value="<?php echo $resultado15["consultorio_1_marzo"];?>">
+                  <input type="text" id="textConsultorio_1_abr" name="textConsultorio_1_abr" value="<?php echo $resultado16["consultorio_1_abril"];?>">
+                  <input type="text" id="textConsultorio_1_may" name="textConsultorio_1_may" value="<?php echo $resultado17["consultorio_1_mayo"];?>">
+                  <input type="text" id="textConsultorio_1_jun" name="textConsultorio_1_jun" value="<?php echo $resultado18["consultorio_1_junio"];?>">
+                  <input type="text" id="textConsultorio_1_jul" name="textConsultorio_1_jul" value="<?php echo $resultado19["consultorio_1_julio"];?>">
+                  <input type="text" id="textConsultorio_1_ago" name="textConsultorio_1_ago" value="<?php echo $resultado20["consultorio_1_agosto"];?>">
+                  <input type="text" id="textConsultorio_1_set" name="textConsultorio_1_set" value="<?php echo $resultado21["consultorio_1_setiembre"];?>">
+                  <input type="text" id="textConsultorio_1_oct" name="textConsultorio_1_oct" value="<?php echo $resultado22["consultorio_1_octubre"];?>">
+                  <input type="text" id="textConsultorio_1_nov" name="textConsultorio_1_nov" value="<?php echo $resultado23["consultorio_1_noviembre"];?>">
+                  <input type="text" id="textConsultorio_1_dic" name="textConsultorio_1_dic" value="<?php echo $resultado24["consultorio_1_diciembre"];?>">
+              -->
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
                   </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
                 </div>
               </div>
               <div class="card-body">
-                <canvas id="donutChart" style="height:230px; min-height:230px"></canvas>
+                <canvas id="donutChart" style="height:260px; min-height:260px"></canvas>
               </div>
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
-
-            <!-- PIE CHART -->
-            <div class="card card-danger">
-              <div class="card-header">
-                <h3 class="card-title">Pie Chart</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                </div>
-              </div>
-              <div class="card-body">
-                <canvas id="pieChart" style="height:230px; min-height:230px"></canvas>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-
           </div>
-          <!-- /.col (LEFT) -->
-          <div class="col-md-6">
-            <!-- LINE CHART -->
-            <div class="card card-info">
-              <div class="card-header">
-                <h3 class="card-title">Line Chart</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="chart">
-                  <canvas id="lineChart" style="height:250px; min-height:250px"></canvas>
-                </div>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-
-            
-
-            <!-- STACKED BAR CHART -->
-            <div class="card card-success">
-              <div class="card-header">
-                <h3 class="card-title">Stacked Bar Chart</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="chart">
-                  <canvas id="stackedBarChart" style="height:230px; min-height:230px"></canvas>
-                </div>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-
-          </div>
-          <!-- /.col (RIGHT) -->
         </div>
         <!-- /.row -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-danger">
+              <div class="card-header">
+                <h3 class="card-title">Número de citas por día, según su estado</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <form id="frmgrabar" class="form-horizontal">
+              <div class="row col-12">
+                            <div class="col-2 ">
+                                <p>
+                                   
+                                    Mes<select id="cbMes" name="cbMes" class="form-control" required> 
+                                                    <option></option>
+                                                    <option value="Enero">Enero</option>
+                                                    <option value="Febrero">Febrero</option>
+                                                    <option value="Marzo">Marzo</option>
+                                                    <option value="Abril">Abril</option>
+                                                    <option value="Mayo">Mayo</option>
+                                                    <option value="Junio">Junio</option>
+                                                    <option value="Julio">Julio</option>
+                                                    <option value="Agosto">Agosto</option>
+                                                    <option value="Setiembre">Setiembre</option>
+                                                    <option value="Octubre">Octubre</option>
+                                                    <option value="Noviembre">Noviembre</option>
+                                                    <option value="Diciembre">Diciembre</option>
+                                                </select>
+                                </p>
+                            </div>
+                            <div class="col-1">
+                                <p>
+                                   
+                                    Número<select id="cbNumero" name="cbNumero" class="form-control" required> 
+                                                    <option></option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                    <option value="13">13</option>
+                                                    <option value="14">14</option>
+                                                    <option value="15">15</option>
+                                                    <option value="16">16</option>
+                                                    <option value="17">17</option>
+                                                    <option value="18">18</option>
+                                                    <option value="19">19</option>
+                                                    <option value="20">20</option>
+                                                    <option value="21">21</option>
+                                                    <option value="22">22</option>
+                                                    <option value="23">23</option>
+                                                    <option value="24">24</option>
+                                                    <option value="25">25</option>
+                                                    <option value="26">26</option>
+                                                    <option value="27">27</option>
+                                                    <option value="28">28</option>
+                                                    <option value="29">29</option>
+                                                    <option value="30">30</option>
+                                                    <option value="31">31</option>
+                                                </select>
+                                </p>
+                            </div>
+                            <div class="col-1">
+                                <p>
+                                   
+                                    Año<select id="cbAno" name="cbAno" class="form-control" required> 
+                                                    <option></option>
+                                                    <option value="2020">2020</option>
+                                                    <option value="2021">2021</option>
+                                                    <option value="2022">2022</option>
+                                                    <option value="2023">2023</option>
+                                                    <option value="2024">2024</option>
+                                                    <option value="2025">2025</option>
+                                                    <option value="2026">2026</option>
+                                                    <option value="2027">2027</option>
+                                                    <option value="2028">2028</option>
+                                                    <option value="2029">2029</option>
+                                                    <option value="2030">2030</option>
+                                                    <option value="2031">2031</option>
+                                                    <option value="2032">2032</option>
+                                                </select>
+                                </p>
+                            </div>
+                            <div class="col-2">
+                                <p>
+                                   
+                                    Estado <select class="form-control" name="txtEstado" id="txtEstado">
+                                                  <option></option>
+                                                  <option value="Cita Atendida">Atendido</option>
+                                                  <option value="Cita Confirmada">Confirmado</option>
+                                                  <option value="Cita Denegada">Denegado</option>
+                                                  <option value="En proceso de confirmación">En proceso</option>
+                                          </select>
+                                </p>
+                            </div>
+                            <div class="col-2">
+                                <p>
+                                   
+                                    <br/> <button type="submit" class="btn btn-outline-info"><ion-icon name="search-outline"></ion-icon></button>
+                                </p>
+                            </div>
+                </div>
+              </form>
+                <div class="row col-12">
+                  <div class="col-8">
+                                  <div id="listado" class="table table-responsive"></div>
+                                  <input type="hidden" id="textTotalCitas" name="textTotalCitas">
+                  </div>
+                  <div class="col-2">
+                                
+                                  <!--<canvas id="pieChart" style="height:230px; min-height:230px"></canvas>-->
+                  </div>
+                </div>
+              <div class="card-body">
+                
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
@@ -194,6 +273,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
 <!-- AdminLTE for demo purposes -->
 <script src="../util/dist/js/demo.js"></script>
 <!-- page script -->
+<script src="js/dashboard.js" type="text/javascript"></script>
 <script>
   $(function () {
     /* ChartJS
@@ -212,7 +292,8 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
       labels  : ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junino', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],
 
       datasets: [
-  
+        
+
         {
           label               : 'Citas Atendidas',
           backgroundColor     : '#00a65a',
@@ -241,7 +322,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
     }
 
     var areaChartOptions = {
-      maintainAspectRatio : true,
+      maintainAspectRatio : false,
       responsive : true,
       legend: {
         display: true
@@ -259,7 +340,9 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
         }]
       }
     }
-
+    areaChartData.datasets[0].fill = false;
+    //areaChartData.datasets[1].fill = false;
+    areaChartOptions.datasetFill = false
     // This will get the first returned node in the jQuery collection.
     var areaChart       = new Chart(areaChartCanvas, { 
       type: 'line',
@@ -270,19 +353,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
     //-------------
     //- LINE CHART -
     //--------------
-    var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
-    var lineChartOptions = jQuery.extend(true, {}, areaChartOptions)
-    var lineChartData = jQuery.extend(true, {}, areaChartData)
-    lineChartData.datasets[0].fill = false;
-    lineChartData.datasets[1].fill = false;
-    lineChartOptions.datasetFill = false
-
-    var lineChart = new Chart(lineChartCanvas, { 
-      type: 'line',
-      data: lineChartData, 
-      options: lineChartOptions
-    })
-
+    
     //-------------
     //- DONUT CHART -
     //-------------
@@ -290,17 +361,13 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
     var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
     var donutData        = {
       labels: [
-          'Chrome', 
-          'IE',
-          'FireFox', 
-          'Safari', 
-          'Opera', 
-          'Navigator', 
+          'Consultorio Dental - Endodoncia', 
+          'Consultorio denta - Cirugía y estética' 
       ],
       datasets: [
         {
-          data: [700,500,400,600,300,100],
-          backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+          data: [$("#textConsultorio_1").val(),$("#textConsultorio_2").val()],
+          backgroundColor : ['#00c0ef', '#00a65a'],
         }
       ]
     }
@@ -316,70 +383,46 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
       options: donutOptions      
     })
 
+
     //-------------
     //- PIE CHART -
     //-------------
     // Get context with jQuery - using jQuery's .get() method.
-    var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
-    var pieData        = donutData;
-    var pieOptions     = {
+   
+   var donutChartCanvas = $('#pieChart').get(0).getContext('2d')
+
+     var donutData        = {
+      labels: [
+          'Número', 
+          'Consultorio denta - Cirugía y estética' 
+      ],
+      datasets: [
+        {
+          data: [$("#textTotalCitas").val(),$("#textConsultorio_2").val()],
+          backgroundColor : ['#00c0ef', '#00a65a'],
+        }
+      ]
+    }
+    var donutOptions     = {
       maintainAspectRatio : false,
       responsive : true,
     }
     //Create pie or douhnut chart
     // You can switch between pie and douhnut using the method below.
-    var pieChart = new Chart(pieChartCanvas, {
-      type: 'pie',
-      data: pieData,
-      options: pieOptions      
+    var donutChart2 = new Chart(donutChartCanvas, {
+      type: 'doughnut',
+      data: donutData,
+      options: donutOptions      
     })
+
+    
 
     //-------------
     //- BAR CHART -
     //-------------
-    var barChartCanvas = $('#barChart').get(0).getContext('2d')
-    var barChartData = jQuery.extend(true, {}, areaChartData)
-    var temp0 = areaChartData.datasets[0]
-    var temp1 = areaChartData.datasets[1]
-    barChartData.datasets[0] = temp1
-    barChartData.datasets[1] = temp0
+    
 
-    var barChartOptions = {
-      responsive              : true,
-      maintainAspectRatio     : false,
-      datasetFill             : false
-    }
-
-    var barChart = new Chart(barChartCanvas, {
-      type: 'bar', 
-      data: barChartData,
-      options: barChartOptions
-    })
-
-    //---------------------
-    //- STACKED BAR CHART -
-    //---------------------
-    var stackedBarChartCanvas = $('#stackedBarChart').get(0).getContext('2d')
-    var stackedBarChartData = jQuery.extend(true, {}, barChartData)
-
-    var stackedBarChartOptions = {
-      responsive              : true,
-      maintainAspectRatio     : false,
-      scales: {
-        xAxes: [{
-          stacked: true,
-        }],
-        yAxes: [{
-          stacked: true
-        }]
-      }
-    }
-
-    var stackedBarChart = new Chart(stackedBarChartCanvas, {
-      type: 'bar', 
-      data: stackedBarChartData,
-      options: stackedBarChartOptions
-    })
+    
   })
 </script>
 </body>

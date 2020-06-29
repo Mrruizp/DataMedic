@@ -808,8 +808,6 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                       <option value="Cita Confirmada">Confirmado</option>
                                       <option value="Cita Denegada">Denegado</option>
                                       <option value="En proceso de confirmación">En proceso</option>
-                                      <option value="Cita pospuesta a otro doctor">Denegado</option>
-                                      <option value="Cita en stand by">Denegado</option>
                                   </select>
                               </p>
                           </div>

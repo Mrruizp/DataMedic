@@ -672,4 +672,301 @@ class Usuario extends Conexion {
             throw $exc;
         }
     }
+
+    public function reporte2_consultorio_1() {
+        try {
+            $sql = "
+                    select count(*) as consultorio_1 from cita where consultorio_id = 1;
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function reporte2_consultorio_2() {
+        try {
+            $sql = "
+                    select count(*) as consultorio_2 from cita where consultorio_id = 2;
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function reporte2_consultorio_1_enero() {
+        try {
+            $sql = "
+                    select 
+                        count(*) as consultorio_1_enero
+                    from 
+                        cita
+                    where  fecha like '%Mayo del 2020%' and consultorio_id = 1;
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function reporte2_consultorio_1_febrero() {
+        try {
+            $sql = "
+                    select 
+                        count(*) as consultorio_1_febrero
+                    from 
+                        cita
+                    where  fecha like '%Febrero del 2020%' and consultorio_id = 1;
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+
+public function reporte2_consultorio_1_marzo() {
+        try {
+            $sql = "
+                    select 
+                        count(*) as consultorio_1_marzo
+                    from 
+                        cita
+                    where  fecha like '%Marzo del 2020%' and consultorio_id = 1;
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+
+public function reporte2_consultorio_1_abril() {
+        try {
+            $sql = "
+                    select 
+                        count(*) as consultorio_1_abril
+                    from 
+                        cita
+                    where  fecha like '%Abril del 2020%' and consultorio_id = 1;
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+
+public function reporte2_consultorio_1_mayo() {
+        try {
+            $sql = "
+                    select 
+                        count(*) as consultorio_1_mayo
+                    from 
+                        cita
+                    where  fecha like '%Mayo del 2020%' and consultorio_id = 1;
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+
+public function reporte2_consultorio_1_junio() {
+        try {
+            $sql = "
+                    select 
+                        count(*) as consultorio_1_junio
+                    from 
+                        cita
+                    where  fecha like '%Junio del 2020%' and consultorio_id = 1;
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+
+public function reporte2_consultorio_1_julio() {
+        try {
+            $sql = "
+                    select 
+                        count(*) as consultorio_1_julio
+                    from 
+                        cita
+                    where  fecha like '%Julio del 2020%' and consultorio_id = 1;
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+
+public function reporte2_consultorio_1_agosto() {
+        try {
+            $sql = "
+                    select 
+                        count(*) as consultorio_1_agosto
+                    from 
+                        cita
+                    where  fecha like '%Agosto del 2020%' and consultorio_id = 1;
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+
+public function reporte2_consultorio_1_setiembre() {
+        try {
+            $sql = "
+                    select 
+                        count(*) as consultorio_1_setiembre
+                    from 
+                        cita
+                    where  fecha like '%Setiembredel 2020%' and consultorio_id = 1;
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+
+public function reporte2_consultorio_1_octubre() {
+        try {
+            $sql = "
+                    select 
+                        count(*) as consultorio_1_octubre
+                    from 
+                        cita
+                    where  fecha like '%Octubre del 2020%' and consultorio_id = 1;
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+
+public function reporte2_consultorio_1_noviembre() {
+        try {
+            $sql = "
+                    select 
+                        count(*) as consultorio_1_noviembre
+                    from 
+                        cita
+                    where  fecha like '%Noviembre del 2020%' and consultorio_id = 1;
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+
+public function reporte2_consultorio_1_diciembre() {
+        try {
+            $sql = "
+                    select 
+                        count(*) as consultorio_1_diciembre
+                    from 
+                        cita
+                    where  fecha like '%Diciembre del 2020%' and consultorio_id = 1;
+
+                ";
+            
+            $sentencia = $this->dblink->prepare($sql);
+            //$sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->execute();
+            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
 }

@@ -4,42 +4,60 @@ require_once '../data/Conexion.class.php';
 session_name("DataMedic");
 session_start();
 
-class Tratamiento extends Conexion {
+class Dashboard extends Conexion {
 
-    private $Tratamiento_id;
-    private $Tratamiento;
     
-
-
-    public function getTratamiento_id() {
-        return $this->Tratamiento_id;
-    }
-
-    public function getTratamiento() {
-        return $this->Tratamiento;
-    }
-
-
-    public function setTratamiento_id($Tratamiento_id) {
-        $this->Tratamiento_id = $Tratamiento_id;
-    }
-
-    public function setTratamiento($Tratamiento) {
-        $this->Tratamiento = $Tratamiento;
-    }
-
-
-    public function listar() {
+    public function listar($mes,$numero,$ano,$estado) {
         try {
 
                 $sql = "
-                        select 
-                            tratamiento_id,
-                            nombre_tratamiento
+                        select
+                            distinct i.cita_id,
+                            i.fecha,
+                            i.hora,
+                            i.horario,
+                            o.nombre_consultorio,
+                            i.nombre_doctor,
+                            i.estado,
+                            concat(p.nombres, ', ',p.apellidos) as nombrespaciente
+                            
                         from 
-                            tratamiento
+                            cita i left join consultorio o
+                        on
+                            i.consultorio_id = o.consultorio_id left join horario_atencion h
+                        on
+                            i.consultorio_id = h.consultorio_id inner join paciente p
+                        on
+                            i.paciente_id = p.paciente_id 
+                        where
+                            i.fecha like '%$mes%' and h.numero = '$numero' and h.ano = '$ano' and i.estado = '$estado';
                 ";
             
+            $sentencia = $this->dblink->prepare($sql);
+            $sentencia->execute();
+            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+/*
+    public function listarNumTotalCitas($mes,$numero,$ano,$estado) {
+        try {
+
+                $sql = "
+                        select
+                            count(*)
+                            
+                        from 
+                            cita i left join consultorio o
+                        on
+                            i.consultorio_id = o.consultorio_id left join horario_atencion h
+                        on
+                            i.consultorio_id = h.consultorio_id
+                        where
+                            i.fecha like '%$mes%' and h.numero = '$numero' and h.ano = '$ano' and i.estado = '$estado';
+                ";
             
             $sentencia = $this->dblink->prepare($sql);
             $sentencia->execute();
@@ -50,177 +68,5 @@ class Tratamiento extends Conexion {
         }
     }
 
-    public function agregar() {
-        $this->dblink->beginTransaction();
-
-        try {
-            $sql = "select * from f_generar_correlativo('tratamiento') as nc";
-            $sentencia = $this->dblink->prepare($sql);
-            $sentencia->execute();
-
-            if ($sentencia->rowCount()) {
-                $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
-                $nuevoCodigo = $resultado["nc"];
-                $this->setTratamiento_id($nuevoCodigo);
-
-                /* Insertar en la tabla laboratorio */
-                $sql = "
-
-                    insert into tratamiento
-                    values(:p_Tratamiento_id,:p_Tratamiento)
-                    ";
-                $sentencia = $this->dblink->prepare($sql);
-   
-                $sentencia->bindParam(":p_Tratamiento_id", $this->getTratamiento_id());
-                $sentencia->bindParam(":p_Tratamiento", $this->getTratamiento());
-                $sentencia->execute();
-                /*Insertar en la tabla laboratorio*/
-                
-                
-                //*Actualizar el correlativo*/
-                $sql = "select * from fn_insert_log_tratamiento(
-                                                                    '$_SESSION[s_doc_id]',
-                                                                    '$_SESSION[s_usuario]',
-                                                                     $_SESSION[cargo_id],
-                                                                    '$_SESSION[tipo]',
-                                                                    'Registro',
-                                                                    '$_SERVER[REMOTE_ADDR]',
-                                                                    :p_Tratamiento_id,
-                                                                    :p_Tratamiento
-                                                                );";
-                        $sentencia = $this->dblink->prepare($sql);
-                        $sentencia->bindParam(":p_Tratamiento_id", $this->getTratamiento_id());
-                        $sentencia->bindParam(":p_Tratamiento", $this->getTratamiento());
-                        $sentencia->execute();
-                    
-
-                    /*Actualizar el correlativo*/
-                $sql = "update correlativo set numero = numero + 1 
-                    where tabla='tratamiento'";
-                $sentencia = $this->dblink->prepare($sql);
-                $sentencia->execute();
-
-
-                $this->dblink->commit();
-                return true;
-                
-            }else{
-                throw new Exception("No se ha configurado el correlativo para la tabla tratamiento");
-            }
-            
-        } catch (Exception $exc) {
-            $this->dblink->rollBack();
-            throw $exc;
-        }
-        
-        return false;
-    }
-
-    public function leerDatos($p_codigoTratamiento) {
-        try {
-            $sql = "
-                    select 
-                        tratamiento_id,
-                        nombre_tratamiento
-                    from 
-                        tratamiento
-                    where
-                        tratamiento_id = $p_codigoTratamiento;
-                ";
-            $sentencia = $this->dblink->prepare($sql);
-          //  $sentencia->bindParam(":p_codigo_paciente", $p_codigoPaciente);
-            $sentencia->execute();
-            $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
-            return $resultado;
-        } catch (Exception $exc) {
-            throw $exc;
-        }
-    }
-
-    public function editar($p_codigoTrat) {
-        try {
-            $sql = "
-                update 
-                    tratamiento 
-                set  
-                    nombre_tratamiento = :p_Tratamiento
-                where
-                    tratamiento_id = $p_codigoTrat;
-                ";
-            $sentencia = $this->dblink->prepare($sql);
-            $sentencia->bindParam(":p_Tratamiento", $this->getTratamiento());
-            $sentencia->execute();
-
-            $sql = "select * from fn_insert_log_tratamiento(
-                                                                    '$_SESSION[s_doc_id]',
-                                                                    '$_SESSION[s_usuario]',
-                                                                     $_SESSION[cargo_id],
-                                                                    '$_SESSION[tipo]',
-                                                                    'Actualizar',
-                                                                    '$_SERVER[REMOTE_ADDR]',
-                                                                    :p_Tratamiento_id,
-                                                                    :p_Tratamiento
-                                                                );";
-                        $sentencia = $this->dblink->prepare($sql);
-                        $sentencia->bindParam(":p_Tratamiento_id", $this->getTratamiento_id());
-                        $sentencia->bindParam(":p_Tratamiento", $this->getTratamiento());
-                        $sentencia->execute();
-
-            return true;
-        } catch (Exception $exc) {
-            throw $exc;
-        }
-        return false;
-    }
-
-    public function eliminar() {
-        try {
-            $sql = "
-                delete from tratamiento where tratamiento_id = :p_tratamiento_id;
-                ";
-            $sentencia = $this->dblink->prepare($sql);
-            $sentencia->bindParam(":p_tratamiento_id", $this->getTratamiento_id());
-            $sentencia->execute();
-            
-            $sql = "select * from fn_insert_log_tratamiento
-                                    (
-                                        '$_SESSION[s_doc_id]',
-                                        '$_SESSION[s_usuario]',
-                                         $_SESSION[cargo_id],
-                                        '$_SESSION[tipo]',
-                                        'Eliminar',
-                                        '$_SERVER[REMOTE_ADDR]',
-                                        :p_tratamiento_id,
-                                        null
-                                    );";
-                $sentencia = $this->dblink->prepare($sql);
-                $sentencia->bindParam(":p_tratamiento_id", $this->getTratamiento_id());
-                $sentencia->execute();
-                
-            return true;
-        } catch (Exception $exc) {
-            throw $exc;
-        }
-        return false;
-    }
-
-    public function editarEstardo($cod_citaEstado, $estado_cita) {
-        try {
-            $sql = "
-                update 
-                    cita 
-                set  
-                    estado = '$estado_cita'
-                where
-                    cita_id = $cod_citaEstado
-                ";
-            $sentencia = $this->dblink->prepare($sql);
-            $sentencia->execute();
-            return true;
-        } catch (Exception $exc) {
-            throw $exc;
-        }
-        return false;
-    }
-
+    */
 }

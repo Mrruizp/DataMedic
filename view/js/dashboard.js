@@ -1,16 +1,22 @@
 
 $(document).ready(function () {
     
-    listar();
+    //listar();
     
 });
 
 //cargarCbCodigoDoctor("#doctor", "seleccione");
 
-function listar() {
+function listar(mes, numero, ano, estado) {
     $.post
             (
-                    "../controller/gestionarTratamiento.listar.controller.php"
+                    "../controller/dashboard.listar.controller.php",
+                    {
+                        p_mes: mes,
+                        p_numero: numero,
+                        p_ano: ano,
+                        p_estado: estado
+                    }
 
                     ).done(function (resultado) {
         var datosJSON = resultado;
@@ -23,15 +29,23 @@ function listar() {
             html += '<thead>';
             html += '<tr class="bg-light">';
             html += '<th style="text-align:center">CODIGO</th>';
-            html += '<th style="text-align:center">TRATAMIENTO</th>';
+            html += '<th style="text-align:center">FECHA</th>';
+            html += '<th style="text-align:center">HORA</th>';
+            html += '<th style="text-align:center">HORARIO</th>';
+            html += '<th style="text-align:center">CONSULTORIO</th>';
+            html += '<th style="text-align:center">DOCTOR</th>';
             html += '<th style="text-align:center">OPCIÓN</th>';
             html += '</tr>';
             html += '</thead>';
             html += '<tbody>';
             $.each(datosJSON.datos, function (i, item) {
                 html += '<tr>';
-                html += '<td align="center" style="font-weight:normal">' + item.tratamiento_id + '</td>';
-                html += '<td align="center" style="font-weight:normal">' + item.nombre_tratamiento + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.cita_id + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.fecha + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.hora + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.horario + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.nombre_consultorio + '</td>';
+                html += '<td align="center" style="font-weight:normal">' + item.nombre_doctor + '</td>';
                 html += '<td align="center">';
                 html += '<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal" onclick="leerDatos(' + item.tratamiento_id + ')"><ion-icon name="create-outline"></ion-icon></button>';
                 html += '&nbsp;&nbsp;'
@@ -74,48 +88,67 @@ function listar() {
 
 $("#frmgrabar").submit(function (event) {
     event.preventDefault();
-
-    swal({
-        title: "Confirme",
-        text: "¿Esta seguro de grabar los datos ingresados?",
-        showCancelButton: true,
-        confirmButtonColor: '#3d9205',
-        confirmButtonText: 'Si',
-        cancelButtonText: "No",
-        closeOnConfirm: false,
-        closeOnCancel: true,
-        imageUrl: "../images/pregunta.png"
-    },
-            function (isConfirm) {
-
-                if (isConfirm) { //el usuario hizo clic en el boton SI     
-                    //procedo a grabar
-                    //Llamar al controlador para grabar los datos
-
-                    //var codLab = ($("#txtTipoOperacion").val()==="agregar")? 
-
-                    var codCita = "";
-                    if ($("#txtTipoOperacion").val() === "agregar") {
-                        codTratamiento = "0";
-                    } else {
-                        codTratamiento = $("#txtCodigo").val();
-                    }
+   
+                   
                     $.post(
-                            "../controller/gestionarTratamiento.agregar.editar.controller.php",
+                            "../controller/dashboard.listar.controller.php",
                             {
-                               // p_cod_tratamiento:       $("#txtCodigo").val(),
-                                p_nombre_tratamiento:        $("#txtTratamiento").val(),
-
-                                p_tipo_ope:     $("#txtTipoOperacion").val(),
-                                p_codigo_tratamiento: codTratamiento
+                              p_mes:     $("#cbMes").val(),
+                              p_numero:  $("#cbNumero").val(),
+                              p_ano:     $("#cbAno").val(),
+                              p_estado:  $("#txtEstado").val()
                             }
                     ).done(function (resultado) {
                         var datosJSON = resultado;
 
                         if (datosJSON.estado === 200) {
-                            swal("Exito", datosJSON.mensaje, "success");
-                            $("#btncerrar").click(); //Cerrar la ventana 
-                            listar(); //actualizar la lista
+                            var cont = 0;
+                            var html = "";
+
+                            html += '<small>';
+                            html += '<table id="tabla-listado" class="table table-bordered table-hover">';
+                            html += '<thead>';
+                            html += '<tr class="bg-light">';
+                            html += '<th style="text-align:center">CODIGO</th>';
+                            html += '<th style="text-align:center">FECHA</th>';
+                            html += '<th style="text-align:center">HORA</th>';
+                            html += '<th style="text-align:center">HORARIO</th>';
+                            html += '<th style="text-align:center">CONSULTORIO</th>';
+                            html += '<th style="text-align:center">DOCTOR</th>';
+                            html += '<th style="text-align:center">PACIENTE</th>';
+                            html += '</tr>';
+                            html += '</thead>';
+                            html += '<tbody>';
+                            $.each(datosJSON.datos, function (i, item) {
+                                html += '<tr>';
+                                html += '<td align="center" style="font-weight:normal">' + item.cita_id + '</td>';
+                                html += '<td align="center" style="font-weight:normal">' + item.fecha + '</td>';
+                                html += '<td align="center" style="font-weight:normal">' + item.hora + '</td>';
+                                html += '<td align="center" style="font-weight:normal">' + item.horario + '</td>';
+                                html += '<td align="center" style="font-weight:normal">' + item.nombre_consultorio + '</td>';
+                                html += '<td align="center" style="font-weight:normal">' + item.nombre_doctor + '</td>';
+                                html += '<td align="center" style="font-weight:normal">' + item.nombrespaciente + '</td>';
+                                
+                                html += '</tr>';
+                                cont ++;
+                            });
+
+                            html += '</tbody>';
+                            html += '</table>';
+                            html += '</small>';
+                            $("#textTotalCitas").val(cont);
+                            $("#listado").html(html);
+                            
+
+                /*
+                            $('#tabla-listado').dataTable({
+                                "aaSorting": [[1, "asc"]]
+                            });
+
+                            */
+                           
+
+                            
                         } else {
                             swal("Mensaje del sistema", resultado, "warning");
                         }
@@ -125,81 +158,34 @@ $("#frmgrabar").submit(function (event) {
                         swal("Error", datosJSON.mensaje, "error");
                     });
 
-                }
-            });
+              
 
 });
-
-
-$("#btnagregar").click(function () {
-    $("#txtTipoOperacion").val("agregar");
-    $("#txtCodigo").val("");
-    $("#txtCurso").val("");
-$("#titulomodal").html("Agregar nuevo Curso");
-});
-
-
-$("#myModal").on("shown.bs.modal", function () {
-    $("#txtPuesto").focus();
-});
-
-
-function leerDatos(codigo_tratamiento) {
+/*
+function leerDatos() {
     $.post
             (
-                    "../controller/gestionarTratamiento.leer.datos.controller.php",
+                    "../controller/dashboard.listar.controller.php",
                     {
-                        p_codigo_tratamiento: codigo_tratamiento
+                          p_mes:     $("#cbMes").val(),
+                          p_numero:  $("#cbNumero").val(),
+                          p_ano:     $("#cbAno").val(),
+                          p_estado:  $("#txtEstado").val()
                     }
             ).done(function (resultado) {
         var jsonResultado = resultado;
         if (jsonResultado.estado === 200) {
-            $("#txtTipoOperacion").val("editar");
-            // Paciente:
-            $("#txtCodigo").val(jsonResultado.datos.tratamiento_id);
-            $("#txtTratamiento").val(jsonResultado.datos.nombre_tratamiento);
+          
+            $("#cbMes").val(jsonResultado.datos.consultorio_id);
+            $("#cbNumero").val(jsonResultado.datos.nombre_consultorio);
+            $("#cbAno").val(jsonResultado.datos.sede_id);
+            $("#txtEstado").val(jsonResultado.datos.area_id);
 
-           
-            $("#titulomodalTratamiento").html("Datos del Tratamiento");
+            $("#titulomodalConsultorio").html("Datos del Consultorio");
         }
     }).fail(function (error) {
         var datosJSON = $.parseJSON(error.responseText);
         swal("Error", datosJSON.mensaje, "error");
     });
 }
-
-function eliminar(codTratamiento) {
-    swal({
-        title: "Confirme",
-        text: "¿Esta seguro de eliminar el registro seleccionado?",
-        showCancelButton: true,
-        confirmButtonColor: '#d93f1f',
-        confirmButtonText: 'Si',
-        cancelButtonText: "No",
-        closeOnConfirm: false,
-        closeOnCancel: true,
-        imageUrl: "../images/eliminar2.png"
-    },
-            function (isConfirm) {
-                if (isConfirm) {
-                    $.post(
-                            "../controller/gestionarTratamiento.eliminar.controller.php",
-                            {
-                                p_codigo_tratamiento: codTratamiento
-                            }
-                    ).done(function (resultado) {
-                        var datosJSON = resultado;
-                        if (datosJSON.estado === 200) { //ok
-                            listar();
-                            swal("Exito", datosJSON.mensaje, "success");
-                        }
-
-                    }).fail(function (error) {
-                        var datosJSON = $.parseJSON(error.responseText);
-                        swal("Error", datosJSON.mensaje, "error");
-                    });
-
-                }
-            });
-
-}
+*/
