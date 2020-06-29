@@ -4,7 +4,12 @@
 
     require_once '../logic/Usuario.class.php';
     require_once '../util/functions/Helper.class.php';
-
+/*
+    echo '<pre>';
+    echo 'Datos que llegan por POST';
+    print_r($_POST);
+    echo '</pre>';
+*/
     if
     (
             !isset($_POST["p_dni"]) ||
@@ -34,10 +39,16 @@
 
     
         $objUsuario->setDni($Dni);
-        $objUsuario->setNombresCompleto($NombresCompleto);
+        $objUsuario->setNombreCompleto($NombresCompleto);
         $objUsuario->setEmail($Email);
-        $objUsuario->setPassword($Password);
+        $objUsuario->setConstrasenia($Password);
         $resultado = $objUsuario->agregar();
+/*
+        echo '<pre>';
+        echo 'Datos que llegan por POST';
+        print_r($resultado);
+        echo '</pre>';
+*/
         if ($resultado) {
             Helper::imprimeJSON(200, "Agregado correctamente", "");
         }

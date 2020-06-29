@@ -128,8 +128,8 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                 </div>
               </div>
               <form id="frmgrabar" class="form-horizontal">
-              <div class="row col-12">
-                            <div class="col-2 ">
+              <div class="row col-md-12">
+                            <div class="col-md-2">
                                 <p>
                                    
                                     Mes<select id="cbMes" name="cbMes" class="form-control" required> 
@@ -149,7 +149,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                                 </select>
                                 </p>
                             </div>
-                            <div class="col-1">
+                            <div class="col-md-1">
                                 <p>
                                    
                                     Número<select id="cbNumero" name="cbNumero" class="form-control" required> 
@@ -188,7 +188,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                                 </select>
                                 </p>
                             </div>
-                            <div class="col-1">
+                            <div class="col-md-1">
                                 <p>
                                    
                                     Año<select id="cbAno" name="cbAno" class="form-control" required> 
@@ -209,7 +209,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                                 </select>
                                 </p>
                             </div>
-                            <div class="col-2">
+                            <div class="col-md-2">
                                 <p>
                                    
                                     Estado <select class="form-control" name="txtEstado" id="txtEstado">
@@ -221,7 +221,7 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                                           </select>
                                 </p>
                             </div>
-                            <div class="col-2">
+                            <div class="col-md-2">
                                 <p>
                                    
                                     <br/> <button type="submit" class="btn btn-outline-info"><ion-icon name="search-outline"></ion-icon></button>
@@ -229,18 +229,14 @@ require_once '../controller/perfil.usuario.leer.datos.controller.php';
                             </div>
                 </div>
               </form>
-                <div class="row col-12">
-                  <div class="col-8">
+                <div class="row col-md-12">
+                  <div class="col-md-12">
                                   <div id="listado" class="table table-responsive"></div>
                                   <input type="hidden" id="textTotalCitas" name="textTotalCitas">
                   </div>
-                  <div class="col-2">
-                                
-                                  <!--<canvas id="pieChart" style="height:230px; min-height:230px"></canvas>-->
-                  </div>
                 </div>
               <div class="card-body">
-                
+                  <!--<canvas id="pieChart" style="height:230px; min-height:230px"></canvas>-->
               </div>
               <!-- /.card-body -->
             </div>

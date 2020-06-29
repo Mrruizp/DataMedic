@@ -160,7 +160,7 @@ CREATE TABLE CREDENCIALES_ACCESO
 	codigo_usuario integer not null,
 	clave character(32) not NULL,
 	tipo char(1) not null, -- Amin: A, Docente: D, Estudiante: E
-   -- p_foto bytea,
+    -- p_foto bytea,
 	estado char(1),
     fecha_registro varchar(50),
     doc_ID varchar(20),
@@ -1470,6 +1470,7 @@ set numero = 8
 where tabla = 'usuario'
 
 select * from usuario
+
 									 
 CREATE OR REPLACE FUNCTION fn_registrarUsuario(
 												p_codigo_usuario integer, 
@@ -1610,20 +1611,20 @@ CREATE OR REPLACE FUNCTION fn_insert_log_usuario
 											(
 											p_doc_id_log character varying(20), 
 											p_nombres_log character varying(100),
-											p_cargo_id_log int, 
+											p_cargo_id_log int,
 											p_tipo_log char(1), 
 											p_cod_usuario int,
-											p_doc_id character varying(20), 
-											p_nombres character varying(100),												
-											p_direccion character varying(200), 
-											p_telefono character varying(25), 
-											p_email character varying(150), 
+											p_doc_id character varying(20),
+											p_nombres character varying(100),
+											p_direccion character varying(200),
+											p_telefono character varying(25),
+											p_email character varying(150),
 											p_cargo_id int,
 											p_clave character varying(32),
 											p_tipo char(1),
 											p_estado char(1),
 											p_tipo_operacion character varying(100),
-											p_ip character varying(200)												
+											p_ip character varying(200)								
 											)returns void as
 $$
 declare
@@ -1632,55 +1633,93 @@ declare
 begin
 							
 							-- if estado = 0 then
-							
+							if 
+								p_doc_id_log is null and 
+								p_nombres_log is null and
+								p_cargo_id_log is null and 
+								p_tipo_log is null	then
+								
 								insert into log_usuario
 										(
-											usuarioqueregistra_doc_id, 
+											usuarioqueregistra_doc_id,
 											usuarioqueregistra_nombres,
-											usuarioqueregistra_cargo_id, 
+											usuarioqueregistra_cargo_id,
 											usuarioqueregistra_tipo,
 											fecha,
 											tiempo,
 											tipo_operacion,
 											ip,
-											doc_id, 
+											doc_id,
 											nombrecompleto,
-											direccion, 
-											telefono, 
-											email, 
-											cargo_id 
-											
+											direccion,
+											telefono,
+											email,
+											cargo_id
 										)
 									values (
-												p_doc_id_log, 
+												null,
+												null,
+												3,
+												'C',
+												p_fecha,
+												p_tiempo,
+												p_tipo_operacion,
+												p_ip,
+												p_doc_id,
+												p_nombres,
+												p_direccion,
+												p_telefono,
+												p_email,
+												p_cargo_id
+											);
+							else
+								insert into log_usuario
+										(
+											usuarioqueregistra_doc_id,
+											usuarioqueregistra_nombres,
+											usuarioqueregistra_cargo_id,
+											usuarioqueregistra_tipo,
+											fecha,
+											tiempo,
+											tipo_operacion,
+											ip,
+											doc_id,
+											nombrecompleto,
+											direccion,
+											telefono,
+											email,
+											cargo_id
+										)
+									values (
+												p_doc_id_log,
 												p_nombres_log,
-												p_cargo_id_log, 
+												p_cargo_id_log,
 												p_tipo_log,
 												p_fecha,
 												p_tiempo,
 												p_tipo_operacion,
 												p_ip,
-												p_doc_id, 
-												p_nombres, 
-												p_direccion, 
-												p_telefono, 
-												p_email, 
+												p_doc_id,
+												p_nombres,
+												p_direccion,
+												p_telefono,
+												p_email,
 												p_cargo_id
-												
 											); 
+							end if;				
 										INSERT INTO log_credenciales_acceso
 																( 
-																	clave, 
-																	tipo, 
-																	estado, 
-																	fecha_registro, 
+																	clave,
+																	tipo,
+																	estado,
+																	fecha_registro,
 																	doc_id
 																)
 										VALUES (
-													p_clave, 
-													p_tipo, 
-													p_estado, 
-													(select now()), 
+													p_clave,
+													p_tipo,
+													p_estado,
+													(select now()),
 													p_doc_id
 												);
 										
@@ -1708,11 +1747,11 @@ select * from fn_insert_log_usuario
 											'192.168.1.1'												
 											);
 -- 
-select * from correlativo;
+select * from log_credenciales_acceso;
 select * from credenciales_acceso;
 select * from cargo;
 select * from usuario
-
+delete from log_credenciales_acceso
 -- FUNCIÓN REGISTRAR el log de especialidad
 CREATE OR REPLACE FUNCTION fn_insert_log_especialidad
 											(
