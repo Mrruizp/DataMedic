@@ -390,38 +390,6 @@ class Cita extends Conexion {
                 $nuevoCodigo = $resultado["nc"];
                 $this->setCita_id($nuevoCodigo);
 
-               /* 
-                $sql = "
-
-                    select * from fn_registrarCita_paciente(
-                                                '$_SESSION[s_doc_id]', 
-                                                '$_SESSION[s_usuario]',
-                                                $_SESSION[cargo_id], 
-                                                '$_SESSION[tipo]', 
-                                                '$_SERVER[REMOTE_ADDR]',
-                                                :p_cita_id,
-                                                :p_fecha,
-                                                :p_consultorio,
-                                                :p_descripcion,
-                                                :p_doc_id_usuario,
-                                                :p_doctor_id,
-                                                :p_doc_id_paciente,
-                                                :p_nombre_paciente,
-                                                :p_apellidos_paciente,
-                                                :p_edad_paciente,
-                                                :p_sexo_paciente,
-                                                :p_ciudad_paciente,
-                                                :p_estadoCivil_paciente,
-                                                :p_ocupacion_paciente,
-                                                :p_religion_paciente,
-                                                :p_domicilio_paciente,
-                                                :p_telefono_paciente,
-                                                :p_personaResponsable_paciente,
-                                                :p_telefonoResponsable_paciente
-                                             );
-                    ";
-                    */
-                    
                 $sql = "
 
                     select * from fn_registrarCita_paciente(
@@ -475,6 +443,44 @@ class Cita extends Conexion {
                 $sentencia->bindParam(":p_telefono_paciente", $this->getTelefono_paciente());
                 $sentencia->bindParam(":p_personaResponsable_paciente", $this->getPersonaResponsable_paciente());
                 $sentencia->bindParam(":p_telefonoResponsable_paciente", $this->getTelefonoResponsable_paciente());
+                $sentencia->execute();
+
+                $sql = "
+
+                                insert into log_cita
+                                values(
+                                        '$_SESSION[s_doc_id]',
+                                        '$_SESSION[s_usuario]',
+                                         $_SESSION[cargo_id],
+                                        '$_SESSION[tipo]',
+                                        (select current_date),
+                                        (select current_time),
+                                        'Insert',
+                                        '$_SERVER[REMOTE_ADDR]',
+                                        :p_cita_id
+                                       );
+                    ";
+                $sentencia = $this->dblink->prepare($sql);
+                $sentencia->bindParam(":p_cita_id", $this->getCita_id());
+                $sentencia->execute();
+
+                $sql = "
+
+                                insert into log_paciente
+                                values(
+                                        '$_SESSION[s_doc_id]',
+                                        '$_SESSION[s_usuario]',
+                                         $_SESSION[cargo_id],
+                                        '$_SESSION[tipo]',
+                                        (select current_date),
+                                        (select current_time),
+                                        'Insert',
+                                        '$_SERVER[REMOTE_ADDR]',
+                                        :p_doc_id_paciente
+                                       );
+                    ";
+                $sentencia = $this->dblink->prepare($sql);
+                $sentencia->bindParam(":p_doc_id_paciente", $this->getDoc_id_paciente());
                 $sentencia->execute();
                 
                 $this->dblink->commit();
@@ -701,24 +707,25 @@ class Cita extends Conexion {
                 $sentencia->bindParam(":p_telefonoResponsable_paciente", $this->getTelefonoResponsable_paciente());
                 $sentencia->bindParam(":p_descripcion", $this->getDescripcion());
                 $sentencia->execute();
-                /*
-            $sql = "select * from fn_insert_log_curso
-                                    (
+                
+                $sql = "
+
+                                insert into log_cita
+                                values(
                                         '$_SESSION[s_doc_id]',
                                         '$_SESSION[s_usuario]',
-                                        '$_SESSION[s_apellidos]',
-                                        $_SESSION[cargo_id],
+                                         $_SESSION[cargo_id],
                                         '$_SESSION[tipo]',
-                                        :p_curso_id,
-                                        :p_nombre_curso,
+                                        (select current_date),
+                                        (select current_time),
                                         'Update',
-                                        '$_SERVER[REMOTE_ADDR]'
-                                    );";
+                                        '$_SERVER[REMOTE_ADDR]',
+                                        :p_cita_id
+                                       );
+                    ";
                 $sentencia = $this->dblink->prepare($sql);
-                $sentencia->bindParam(":p_curso_id", $this->getCodigo_curso());
-                $sentencia->bindParam(":p_nombre_curso", $this->getNombre_curso());
+                $sentencia->bindParam(":p_cita_id", $this->getCita_id());
                 $sentencia->execute();
-                */
             return true;
         } catch (Exception $exc) {
             throw $exc;
@@ -735,21 +742,24 @@ class Cita extends Conexion {
             $sentencia->bindParam(":p_curso_id", $this->getCodigo_curso());
             $sentencia->execute();
 
-            $sql = "select * from fn_insert_log_curso
-                                    (
+            $sql = "
+
+                                insert into log_cita
+                                values(
                                         '$_SESSION[s_doc_id]',
                                         '$_SESSION[s_usuario]',
-                                        '$_SESSION[s_apellidos]',
-                                        $_SESSION[cargo_id],
+                                         $_SESSION[cargo_id],
                                         '$_SESSION[tipo]',
-                                        :p_curso_id,
-                                        null,
-                                        'Eliminar',
-                                        '$_SERVER[REMOTE_ADDR]'
-                                    );";
+                                        (select current_date),
+                                        (select current_time),
+                                        'Delete',
+                                        '$_SERVER[REMOTE_ADDR]',
+                                        :p_cita_id
+                                       );
+                    ";
                 $sentencia = $this->dblink->prepare($sql);
-                $sentencia->bindParam(":p_curso_id", $this->getCodigo_curso());
-                //$sentencia->bindParam(":p_nombre_curso", $this->getNombre_curso());
+                $sentencia->bindParam(":p_cita_id", $this->getCita_id());
+                $sentencia->execute();
                 $sentencia->execute();
             return true;
         } catch (Exception $exc) {

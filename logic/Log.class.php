@@ -67,30 +67,7 @@ class Log extends Conexion {
         try {
             $sql = "
                    select 
-                            usuarioQueRegistra_doc_id,
-                            usuarioQueRegistra_nombres,
-                            usuarioQueRegistra_cargo_id,
-                            usuarioQueRegistra_tipo,
-                            fecha,
-                            hora,
-                            ip,
-                            nombres,
-                            apellidos,
-                            edad,
-                            sexo,
-                            naturalde,
-                            estado_civil,
-                            ocupacion,
-                            religion,
-                            domicilio,
-                            telefono,
-                            personaresponsable,
-                            personaresponsable_telefono,
-                            fecha_ingreso,
-                            hora,
-                            modoingreso,
-                            fecha_historia_clinica,
-                            descripcion_enfermedad_actual
+                            *
                     from 
                             log_paciente;
                 ";
@@ -127,6 +104,40 @@ class Log extends Conexion {
                             *
                     from 
                             log_especialidad;
+                ";
+            $sentencia = $this->dblink->prepare($sql);
+            $sentencia->execute();
+            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function listarLog_doctor() {
+        try {
+            $sql = "
+                   select 
+                            *
+                    from 
+                            log_doctor;
+                ";
+            $sentencia = $this->dblink->prepare($sql);
+            $sentencia->execute();
+            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+    }
+
+    public function listarLog_doctor_especializacion() {
+        try {
+            $sql = "
+                   select 
+                            *
+                    from 
+                            log_doctorEspecializacion;
                 ";
             $sentencia = $this->dblink->prepare($sql);
             $sentencia->execute();

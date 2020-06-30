@@ -112,6 +112,21 @@ CREATE TABLE doctorEspecializacion
   CONSTRAINT fk_doctorEspecializacion_doctor_id foreign key (doctor_id) references doctor(doctor_id)	
 );
 
+CREATE TABLE log_doctorEspecializacion
+(
+  usuarioQueRegistra_doc_id character varying(20),
+  usuarioQueRegistra_nombres character varying(50),
+  usuarioQueRegistra_cargo_id int,
+  usuarioQueRegistra_tipo char(1),
+  fecha character varying(50),
+  tiempo character varying(50),
+  tipo_operacion character varying(100),
+  ip character varying(200),
+  doctorEspecializacion_id integer not NULL,
+  especialidad_id integer,
+  doctor_id integer
+);
+		
 CREATE TABLE doctor
 (
   doctor_id integer not NULL,
@@ -337,7 +352,7 @@ CREATE TABLE log_doctor
 (
   usuarioQueRegistra_doc_id character varying(20),
   usuarioQueRegistra_nombres character varying(50),
-  usuarioQueRegistra_apellidos character varying(50),
+  -- usuarioQueRegistra_apellidos character varying(50),
   usuarioQueRegistra_cargo_id int,
   usuarioQueRegistra_tipo char(1),
   fecha character varying(50),
@@ -351,8 +366,7 @@ CREATE TABLE log_doctor
   apellido character varying(100),
   direccion character varying(200),
   telefono character varying(20),
-  email character varying(150),
-  especialidad_id int
+  email character varying(150)
 );
 
 
@@ -367,28 +381,7 @@ CREATE TABLE log_paciente
   tiempo character varying(50),
   tipo_operacion character varying(100),
   ip character varying(200),
-  paciente_id integer,
-  doc_id character varying(20),
-  nombres character varying(100),
-  apellidos character varying(100),
-  edad character varying(3),
-  sexo char(1),
-  raza char(1),
-  naturalde character varying(100),-- Lugar de nacimiento
-  procedencia character varying(100),
-  estado_civil char(1),
-  ocupacion character varying(200),
-  instruccion character varying(200),
-  religion character varying(100),
-  domicilio character varying(200),
-  telefono character varying(20),
-  personaresponsable character varying(100),
-  personaresponsable_telefono character varying(20),
-  fecha_ingreso character varying(50),
-  hora character varying(20),
-  modoingreso character varying(50),
-  fecha_historia_clinica character varying(50),
-  descripcion_enfermedad_actual character varying(1000)
+  doc_id character varying(20)
 );
 
 CREATE TABLE log_historial_tratamiento
@@ -413,22 +406,14 @@ CREATE TABLE log_historial_tratamiento
 CREATE TABLE log_cita
 (
   usuarioQueRegistra_doc_id character varying(20),
-  usuarioQueRegistra_nombres character varying(50),
-  usuarioQueRegistra_apellidos character varying(50),
+  usuarioQueRegistra_nombres character varying(100),
   usuarioQueRegistra_cargo_id int,
   usuarioQueRegistra_tipo char(1),
   fecha character varying(50),
   tiempo character varying(50),
   tipo_operacion character varying(100),
   ip character varying(200),
-  cita_id integer not NULL,
-  fecha_cita character varying(50)not null,
-  hora_cita character varying(50) not NULL,
-  descripcion character varying(500) not NULL,
-  doc_id_usuario character varying(20), -- si es el paciente el que registra, será el mismo ----> usuarioQueRegistra_doc_id
-  doctor_id int,
-  estado character varying(50)not null,-- el que habilita o no la cita es el admin y debe haber un registro de eso
-  paciente_id int
+  cita_id integer not NULL
 );
 
 CREATE TABLE log_especialidad

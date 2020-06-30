@@ -96,22 +96,29 @@ class Especializacion extends Conexion {
                 $sentencia->execute();
                 /*Insertar en la tabla laboratorio*/
                 
-        /*        
-                $sql = "select * from fn_insert_log_especialidad(
-                                                                    '$_SESSION[s_doc_id]',
-                                                                    '$_SESSION[s_usuario]',
-                                                                     $_SESSION[cargo_id],
-                                                                    '$_SESSION[tipo]',
-                                                                    'Registro',
-                                                                    '$_SERVER[REMOTE_ADDR]',
-                                                                    :p_especialidad_id,
-                                                                    :p_especialidad
-                                                                );";
+                
+                $sql = "
+                            insert into log_doctorEspecializacion
+                            values(
+                                    '$_SESSION[s_doc_id]',
+                                    '$_SESSION[s_usuario]',
+                                     $_SESSION[cargo_id],
+                                    '$_SESSION[tipo]',
+                                    (select current_date),
+                                    (select current_time),
+                                    'Insert',
+                                    '$_SERVER[REMOTE_ADDR]',
+                                    :p_Especializacion_id,
+                                    :p_Especialidad_id,
+                                    :p_doctor_id
+                                );
+                        ";
                         $sentencia = $this->dblink->prepare($sql);
-                        $sentencia->bindParam(":p_especialidad_id", $this->getEspecialidad_id());
-                        $sentencia->bindParam(":p_especialidad", $this->getEspecialidad());
+                        $sentencia->bindParam(":p_Especializacion_id", $this->getEspecializacion_id());
+                        $sentencia->bindParam(":p_Especialidad_id", $this->getEspecialidad_id());
+                        $sentencia->bindParam(":p_doctor_id", $this->getDoctor_id());
                         $sentencia->execute();
-        */                
+                        
                         /*Actualizar el correlativo*/
                 $sql = "update correlativo set numero = numero + 1 
                     where tabla='doctorespecializacion'";
@@ -203,22 +210,28 @@ class Especializacion extends Conexion {
             $sentencia = $this->dblink->prepare($sql);
             $sentencia->bindParam(":p_especializaion_id", $this->getEspecializacion_id());
             $sentencia->execute();
-        /*    
-            $sql = "select * from fn_insert_log_especialidad(
-                                                                    '$_SESSION[s_doc_id]',
-                                                                    '$_SESSION[s_usuario]',
-                                                                     $_SESSION[cargo_id],
-                                                                    '$_SESSION[tipo]',
-                                                                    'Eliminar',
-                                                                    '$_SERVER[REMOTE_ADDR]',
-                                                                    :p_especialidad_id,
-                                                                    :p_especialidad
-                                                                );";
+            
+            $sql = "insert into log_doctorEspecializacion
+                            values(
+                                    '$_SESSION[s_doc_id]',
+                                    '$_SESSION[s_usuario]',
+                                     $_SESSION[cargo_id],
+                                    '$_SESSION[tipo]',
+                                    (select current_date),
+                                    (select current_time),
+                                    'delete',
+                                    '$_SERVER[REMOTE_ADDR]',
+                                    :p_Especializacion_id,
+                                    :p_Especialidad_id,
+                                    :p_doctor_id
+                                );
+                        ";
                         $sentencia = $this->dblink->prepare($sql);
-                        $sentencia->bindParam(":p_especialidad_id", $this->getEspecialidad_id());
-                        $sentencia->bindParam(":p_especialidad", $this->getEspecialidad());
+                        $sentencia->bindParam(":p_Especializacion_id", $this->getEspecializacion_id());
+                        $sentencia->bindParam(":p_Especialidad_id", $this->getEspecialidad_id());
+                        $sentencia->bindParam(":p_doctor_id", $this->getDoctor_id());
                         $sentencia->execute();
-        */
+        
             return true;
         } catch (Exception $exc) {
             throw $exc;

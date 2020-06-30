@@ -168,6 +168,38 @@ class Doctor extends Conexion {
                         $sentencia->execute();
          */                
                         /*Actualizar el correlativo*/
+
+                        $sql = "
+                                insert into log_doctor
+                                values(
+                                        '$_SESSION[s_doc_id]',
+                                        '$_SESSION[s_usuario]',
+                                         $_SESSION[cargo_id],
+                                        '$_SESSION[tipo]',
+                                        (select current_date),
+                                        (select current_time),
+                                        'Insert',
+                                        '$_SERVER[REMOTE_ADDR]',
+                                        :p_doctor_id,
+                                        :p_colegio,
+                                        :p_codigo_colegio,
+                                        :p_nombre,
+                                        :p_apellido,
+                                        :p_direccion,
+                                        :p_telefono,
+                                        :p_email
+                                      );";
+                        $sentencia = $this->dblink->prepare($sql);
+                        $sentencia->bindParam(":p_doctor_id", $this->getDoctor_id());
+                        $sentencia->bindParam(":p_colegio", $this->getColegio());
+                        $sentencia->bindParam(":p_codigo_colegio", $this->getCodigo_colegio());
+                        $sentencia->bindParam(":p_nombre", $this->getNombre());
+                        $sentencia->bindParam(":p_apellido", $this->getApellido());
+                        $sentencia->bindParam(":p_direccion", $this->getDireccion());
+                        $sentencia->bindParam(":p_telefono", $this->getTelefono());
+                        $sentencia->bindParam(":p_email", $this->getEmail());
+                        $sentencia->execute();
+
                 $sql = "update correlativo set numero = numero + 1 
                     where tabla='doctor'";
                 $sentencia = $this->dblink->prepare($sql);
