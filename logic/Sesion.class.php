@@ -27,24 +27,12 @@ class Sesion extends Conexion {
         try {
             $sql = "
                     select 
-                            u.doc_id,
-                            u.nombreCompleto,
-                            u.direccion,
-                            u.telefono,
-                            r.clave,                            
-                            r.estado,
-                            r.codigo_usuario,                           
-                            c.descripcion as cargo,
-                            c.cargo_id,
-                            r.tipo
+                            user_clave,
+                            user_estado_sesion
                     from
-                            cargo c inner join usuario u 
-                    on 
-                            (c.cargo_id = u.cargo_id) inner join credenciales_acceso r
-                    on
-                            (r.doc_id = u.doc_id) 
+                            user_cliente
                     where
-                            u.email = :p_email;
+                            user_correo = :p_email;
                 ";
 
 
@@ -56,31 +44,15 @@ class Sesion extends Conexion {
             if ($sentencia->rowCount()) {//Le pregunto si ha devuelto registros
                 //El usuario si existe
                 $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
-                if ($resultado["clave"] === md5($this->getClave())) {
-                    if ($resultado["estado"] === "I") {
+                if ($resultado["user_clave"] === md5($this->getClave())) {
+                    if ($resultado["user_estado_sesion"] === "I") {
                         return "IN"; //Usuario Inactivo
                     } else {
-                        session_name("DataMedic");
+                        session_name("lachuspita");
                         session_start();
 
-//                        $_SESSION["s_usuario"]  = $resultado["nombre"] . ' ' . $resultado["apellidos"];
-                        $_SESSION["s_usuario"] = $resultado["nombrecompleto"];
                         $_SESSION["s_email"] = $this->getEmail();
-                        $_SESSION["s_doc_id"] = $resultado["doc_id"];
-                        $_SESSION["codigo_usuario"] = $resultado["codigo_usuario"];
-                        $_SESSION["cargo_id"] = $resultado["cargo_id"];
-                        $_SESSION["cargo"] = $resultado["cargo"]; // descripción del cargo
-                        $_SESSION["tipo"] = $resultado["tipo"]; // tipo de usuario rol
 
-                        $sql2 = "select * from fn_insert_log_inicioseseion(
-                                                                        :p_email, 
-                                                                        '$_SESSION[cargo]',
-                                                                        '$_SESSION[tipo]', 
-                                                                        '$_SERVER[REMOTE_ADDR]'
-                                                                    );";
-                        $sentencia2 = $this->dblink->prepare($sql2);
-                        $sentencia2->bindParam(":p_email", $this->getEmail());
-                        $sentencia2->execute();
                         return "SI"; //Si ingresa
                     }
                 } else { //la contraseña no es igual

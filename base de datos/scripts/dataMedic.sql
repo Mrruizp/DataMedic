@@ -6,7 +6,7 @@ CREATE TABLE correlativo
 	numero integer not null,
 	CONSTRAINT pk_correlativo PRIMARY KEY (tabla)
  );
--- select * from empresa
+-- AGREGADO AL CPANEL
 CREATE TABLE empresa
 (
   empresa_id int,
@@ -16,10 +16,7 @@ CREATE TABLE empresa
   CONSTRAINT pk_empresa_id PRIMARY KEY (empresa_id)
 );
 
--- ALTER TABLE empresa
--- RENAME column nombre_empresa TO razon_social; 
-select * from sede
-
+-- AGREGADO AL CPANEL
 CREATE TABLE sede
 (
   sede_id int,
@@ -28,19 +25,19 @@ CREATE TABLE sede
   provincia_sede character varying(100) NOT NULL,
   distrito_sede character varying(100) NOT NULL,
   direccion_sede character varying(200) NOT NULL,
-  tipo_sede char(1) NOT NULL;, -- P: Principal, S: Secundario
+  tipo_sede char(1) NOT NULL, -- P: Principal, S: Secundario
   empresa_id int,
   CONSTRAINT pk_sede_id PRIMARY KEY (sede_id),
   CONSTRAINT fk_sede_empresa_id FOREIGN KEY (empresa_id) references empresa(empresa_id)  
 );
-
+-- AGREGADO AL CPANEL
 CREATE TABLE area
 (
   area_id int,
   nombre_area character varying(100) NOT NULL,
   CONSTRAINT pk_area_id PRIMARY KEY (area_id)
 );
-
+-- AGREGADO AL CPANEL
 CREATE TABLE consultorio
 (
   consultorio_id int,
@@ -51,14 +48,14 @@ CREATE TABLE consultorio
   CONSTRAINT fk_consultorio_sede_id FOREIGN KEY (sede_id) references sede(sede_id),
   CONSTRAINT fk_consultorio_area_id FOREIGN KEY (area_id) references area(area_id)
 );
-
+-- AGREGADO AL CPANEL
 CREATE TABLE cargo
 (
   cargo_id serial not NULL,
   descripcion character varying(50) NOT NULL,
   CONSTRAINT pk_cargo PRIMARY KEY (cargo_id)
 );
-
+-- AGREGADO AL CPANEL
 CREATE TABLE USUARIO
 (
 	doc_id character varying(20),
@@ -74,7 +71,7 @@ CREATE TABLE USUARIO
     constraint fk_usuario_cargo_id foreign key(cargo_id) references cargo(cargo_id),
 	CONSTRAINT uni_email UNIQUE (email)
 );
-
+-- AGREGADO AL CPANEL
 CREATE TABLE cita
 (
   cita_id integer not NULL,
@@ -93,14 +90,14 @@ CREATE TABLE cita
   CONSTRAINT fk_cita_paciente_id foreign key (paciente_id) references paciente(paciente_id),
   CONSTRAINT unq_cita_paciente_id_fecha UNIQUE(fecha, paciente_id)
 );
-
+-- AGREGADO AL CPANEL
 CREATE TABLE especialidad
 (
   especialidad_id integer,
   nombre_especialidad character varying(200)not null,
   CONSTRAINT pk_especialidad_especialidad_id PRIMARY KEY (especialidad_id)
 );
-
+-- AGREGADO AL CPANEL
 CREATE TABLE doctorEspecializacion
 (
   doctorEspecializacion_id integer not NULL,
@@ -111,7 +108,7 @@ CREATE TABLE doctorEspecializacion
   CONSTRAINT fk_doctorEspecializacion_especialidad_id foreign key (especialidad_id) references especialidad(especialidad_id),
   CONSTRAINT fk_doctorEspecializacion_doctor_id foreign key (doctor_id) references doctor(doctor_id)	
 );
-
+-- AGREGADO AL CPANEL
 CREATE TABLE log_doctorEspecializacion
 (
   usuarioQueRegistra_doc_id character varying(20),
@@ -126,7 +123,7 @@ CREATE TABLE log_doctorEspecializacion
   especialidad_id integer,
   doctor_id integer
 );
-		
+-- AGREGADO AL CPANEL		
 CREATE TABLE doctor
 (
   doctor_id integer not NULL,
@@ -139,7 +136,7 @@ CREATE TABLE doctor
   email character varying(150) not NULL,
   CONSTRAINT pk_doctor_doctor_id PRIMARY KEY (doctor_id)
 );
-
+-- AGREGADO AL CPANEL
 -- horario de trabajo y atención de cada doctor.
 CREATE TABLE horario_atencion 
 (
@@ -169,7 +166,7 @@ select * from consultorio
 -- ALTER TABLE USUARIO ALTER COLUMN direccion  DROP  NOT NULL;
 -- ALTER TABLE USUARIO ALTER COLUMN telefono  DROP  NOT NULL;
 
--- select * from usuario
+-- AGREGADO AL CPANEL
 CREATE TABLE CREDENCIALES_ACCESO
  ( 	
 	codigo_usuario integer not null,
@@ -216,7 +213,7 @@ CREATE TABLE menu_item_accesos
   CONSTRAINT fk_menu_item_accesos_menu_item FOREIGN KEY (codigo_menu, codigo_menu_item)
       REFERENCES menu_item (codigo_menu, codigo_menu_item)
 );
-
+-- AGREGADO AL CPANEL
 -- select * from cita
 CREATE TABLE paciente
 (
@@ -256,13 +253,14 @@ CREATE TABLE paciente
 -- drop table pago;
 -- drop table historial_tratamiento;
 
+-- AGREGADO AL CPANEL
 CREATE TABLE tratamiento
 (
   tratamiento_id integer not NULL,
   nombre_tratamiento character varying(200)not null,
   CONSTRAINT pk_tratamiento_tratamiento_id PRIMARY KEY (tratamiento_id)
 );
-
+-- AGREGADO AL CPANEL
 CREATE TABLE historial_tratamiento
 (
   historial_tratamiento_id integer not NULL,
@@ -293,7 +291,7 @@ CREATE TABLE pago
 );
 
 -- LOGS
-
+-- AGREGADO AL CPANEL
 -- tabla para el historial de log inicio sesión
   CREATE TABLE log_inicioSeseion
   (
@@ -305,7 +303,7 @@ CREATE TABLE pago
 	tiempo character varying(50) not null,
 	ip character varying(200) not null
   );
-  
+  -- AGREGADO AL CPANEL
 CREATE TABLE log_usuario
   (
 	usuarioQueRegistra_doc_id character varying(20),
@@ -323,7 +321,7 @@ CREATE TABLE log_usuario
     email character varying(150),
     cargo_id integer
   );
-  
+  -- AGREGADO AL CPANEL
   -- drop table log_credenciales_acceso
   CREATE TABLE log_credenciales_acceso
  ( 	
@@ -333,7 +331,7 @@ CREATE TABLE log_usuario
     fecha_registro varchar(50),
     doc_ID varchar(20)
  );
- 
+ -- AGREGADO AL CPANEL
 CREATE TABLE log_tratamiento
 (
   usuarioQueRegistra_doc_id character varying(20),
@@ -347,7 +345,7 @@ CREATE TABLE log_tratamiento
   tratamiento_id int,
   nombre_tratamiento character varying(200)
 );
-
+ -- AGREGADO AL CPANEL
 CREATE TABLE log_doctor
 (
   usuarioQueRegistra_doc_id character varying(20),
@@ -369,8 +367,7 @@ CREATE TABLE log_doctor
   email character varying(150)
 );
 
-
-
+ -- AGREGADO AL CPANEL
 CREATE TABLE log_paciente
 (
   usuarioQueRegistra_doc_id character varying(20),
@@ -383,12 +380,11 @@ CREATE TABLE log_paciente
   ip character varying(200),
   doc_id character varying(20)
 );
-
+-- AGREGADO AL CPANEL
 CREATE TABLE log_historial_tratamiento
 (
   usuarioQueRegistra_doc_id character varying(20),
   usuarioQueRegistra_nombres character varying(50),
-  usuarioQueRegistra_apellidos character varying(50),
   usuarioQueRegistra_cargo_id int,
   usuarioQueRegistra_tipo char(1),
   fecha character varying(50),
@@ -402,7 +398,7 @@ CREATE TABLE log_historial_tratamiento
   paciente_id int,
   tratamiento_id int
 );
-
+-- AGREGADO AL CPANEL
 CREATE TABLE log_cita
 (
   usuarioQueRegistra_doc_id character varying(20),
@@ -415,7 +411,7 @@ CREATE TABLE log_cita
   ip character varying(200),
   cita_id integer not NULL
 );
-
+-- AGREGADO AL CPANEL
 CREATE TABLE log_especialidad
 (
   usuarioQueRegistra_doc_id character varying(20),
@@ -600,11 +596,11 @@ values(10,3,4,1);
 insert into menu(codigo_menu,nombre)
 values(8,'Empresa');
 
-select * from menu_item_accesos where codigo_menu = 8 and codigo_menu_item = 1 and cargo_id = 1;
+select * from menu_item_accesos where codigo_menu = 2 and codigo_menu_item = 2 and cargo_id = 4;
 
 update menu_item_accesos
-set acceso = 1
-where codigo_menu = 2 and codigo_menu_item = 1 and cargo_id = 2;
+set acceso = 0
+where codigo_menu = 2 and codigo_menu_item = 2 and cargo_id = 4;
 
 insert into menu(codigo_menu,nombre)
 values(8,'Empresa');

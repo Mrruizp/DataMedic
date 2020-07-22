@@ -153,32 +153,20 @@ class Usuario extends Conexion {
         }
     }
    
-    public function leerDatos($p_dni) {
+    public function leerDatos($p_email) {
         try {
             $sql = "
                     select 
-                            u.doc_id,
-                            u.nombreCompleto,
-                            u.direccion,
-                            u.telefono,
-                            c.clave,                            
-                            c.estado,
-                            c.codigo_usuario,
-                            c.tipo,
-                            u.email,
-                            u.cargo_id
-                        
+                            user_correo                        
                     from 
-                        usuario u inner join credenciales_acceso c
-                    on
-                        u.doc_id = c.doc_id
+                        user_cliente
                     where 
-                        u.doc_id = :p_dni;
+                        user_correo = :p_email;
 
                 ";
             
             $sentencia = $this->dblink->prepare($sql);
-            $sentencia->bindParam(":p_dni", $p_dni);
+            $sentencia->bindParam(":p_email", $p_email);
             $sentencia->execute();
             $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
             return $resultado;
@@ -214,7 +202,7 @@ class Usuario extends Conexion {
         $this->dblink->beginTransaction();
         
         try {
-            $sql = "select * from f_generar_correlativo('credenciales_acceso') as nc";
+            $sql = "select * from f_generar_correlativo('user_cliente') as nc";
             $sentencia = $this->dblink->prepare($sql);
             $sentencia->execute();
             
@@ -229,96 +217,37 @@ class Usuario extends Conexion {
 //                    values(:p_cod_lab, :p_nomb, :p_codigo_pais)
 //                    ";
                 
-                $sql = "select * from fn_registrarUsuario(                    
-                                        :p_cod_usuario,
-                                        :p_doc_id, 
-                                        :p_nombres,
-                                        :p_direccion, 
-                                        :p_telefono, 
-                                        :p_email, 
-                                         3, 
-                                        :p_clave,
-                                        'C',
-                                        'A'
-                                     );";
+                $sql = "    insert into user_cliente(
+                                                        user_codCliente, 
+                                                        user_correo, 
+                                                        user_clave, 
+                                                        user_estado_sesion
+                                                    )
+                            values(
+                                    :p_user_codCliente,
+                                    :p_user_correo,
+                                    (select md5(:p_user_clave)),
+                                    'A'
+                                    );";
+
                 $sentencia = $this->dblink->prepare($sql);
                 // $sentencia->bindParam(":p_codigoCandidato", $this->getCodigoCandidato());
-                $sentencia->bindParam(":p_cod_usuario", $this->getCodigoUsuario());
-                $sentencia->bindParam(":p_doc_id", $this->getDni());
-                $sentencia->bindParam(":p_nombres", $this->getNombreCompleto());
-                $sentencia->bindParam(":p_direccion", $this->getDireccion());
-                $sentencia->bindParam(":p_telefono", $this->getTelefono());
-                $sentencia->bindParam(":p_email", $this->getEmail());
-                //$sentencia->bindParam(":p_cargo_id", $this->getCargo());
-                $sentencia->bindParam(":p_clave", $this->getConstrasenia());
-                //$sentencia->bindParam(":p_tipo", $this->getTipo());
-                //$sentencia->bindParam(":p_estado", $this->getEstado());
+                $sentencia->bindParam(":p_user_codCliente", $this->getCodigoUsuario());
+                $sentencia->bindParam(":p_user_correo", $this->getEmail());
+                $sentencia->bindParam(":p_user_clave", $this->getConstrasenia());
+                //$sentencia->bindParam(":p_user_estado_sesion", $this->getDireccion());
                 $sentencia->execute();
-               /* $sql = "update correlativo set numero = numero + 1 
-                        where tabla='credenciales_acceso'";
-                $sentencia = $this->dblink->prepare($sql);
-                $sentencia->execute();
-                */
-                if($_SESSION["cargo_id"] === null)
-                {
-                    $sql = "select * from fn_insert_log_usuario
-                                    (
-                                         null,
-                                         null,
-                                         null,
-                                         null,
-                                        :p_cod_usuario,
-                                        :p_doc_id,
-                                        :p_nombres,                                             
-                                        :p_direccion,
-                                        :p_telefono,
-                                        :p_email,
-                                         3,
-                                        :p_clave,
-                                        'C',
-                                        'A',
-                                        'Insert',
-                                        '$_SERVER[REMOTE_ADDR]'
-                                    );";
-                }else{
                 
-                    $sql = "select * from fn_insert_log_usuario
-                                    (
-                                        '$_SESSION[s_doc_id]',
-                                        '$_SESSION[s_usuario]',
-                                         $_SESSION[cargo_id],
-                                        '$_SESSION[tipo]',
-                                        :p_cod_usuario,
-                                        :p_doc_id,
-                                        :p_nombres,                                             
-                                        :p_direccion,
-                                        :p_telefono,
-                                        :p_email,
-                                         3,
-                                        :p_clave,
-                                        'C',
-                                        'A',
-                                        'Insert',
-                                        '$_SERVER[REMOTE_ADDR]'
-                                    );";
-                }
+                $sql = "update correlativo set numero = numero + 1 
+                    where tabla='user_cliente'";
                 $sentencia = $this->dblink->prepare($sql);
-                $sentencia->bindParam(":p_cod_usuario", $this->getCodigoUsuario());
-                $sentencia->bindParam(":p_doc_id", $this->getDni());
-                $sentencia->bindParam(":p_nombres", $this->getNombreCompleto());
-                $sentencia->bindParam(":p_direccion", $this->getDireccion());
-                $sentencia->bindParam(":p_telefono", $this->getTelefono());
-                $sentencia->bindParam(":p_email", $this->getEmail());
-                //$sentencia->bindParam(":p_cargo_id", $this->getCargo());
-                $sentencia->bindParam(":p_clave", $this->getConstrasenia());
-                //$sentencia->bindParam(":p_tipo", $this->getTipo());
-                //$sentencia->bindParam(":p_estado", $this->getEstado());
                 $sentencia->execute();
+                //*Actualizar el correlativo*/
                 $this->dblink->commit();
                 return true;
                 
             }else{
-                throw new Exception("No se ha configurado el correlativo para la tabla credenciales_acceso");
+                throw new Exception("No se ha configurado el correlativo para la tabla user_cliente");
             }
             
         } catch (Exception $exc) {
@@ -357,7 +286,7 @@ class Usuario extends Conexion {
             $sentencia->bindParam(":p_estado", $this->getEstado());
             $sentencia->execute();
 
-            session_name("DataMedic");
+            session_name("lachuspita");
             session_start();
                 $sql = "select * from fn_insert_log_usuario
                                     (
