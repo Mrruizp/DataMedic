@@ -6,12 +6,12 @@ require_once '../logic/Usuario.class.php';
 
 //Haciendo lectura de la variable $_POST["dniUsuarioSesion"] que viene del archivo perfil.usuario.view.php
 //$dni = $_POST["dniUsuarioSesion"];
-$dni = $_POST["s_usuario"];
+$email = $_POST["s_email"];
 
 try {
     $objUsuario  = new Usuario();
 //  a. Estado = Cita Atendida
-    $objUsuario1 = new Usuario();
+   /* $objUsuario1 = new Usuario();
     $objUsuario2 = new Usuario();
     $objUsuario3 = new Usuario();
     $objUsuario4 = new Usuario();
@@ -25,7 +25,7 @@ try {
     $objUsuario12 = new Usuario();
     $objUsuario13 = new Usuario();
     $objUsuario14 = new Usuario();
-    /*
+    
     $objUsuario14 = new Usuario();
     $objUsuario15 = new Usuario();
     $objUsuario16 = new Usuario();
@@ -39,11 +39,11 @@ try {
     $objUsuario24 = new Usuario();
     */
 // --------------------------------------------------   
-    $resultado   = $objUsuario->leerDatos($dni);
+    $resultado   = $objUsuario->leerDatos($email);
 
 // REPORTE 1: Número de citas: por estado y mes 
 //  a. Estado = Cita Atendida
-    $resultado1  = $objUsuario1->reporte1_enero();
+ /*   $resultado1  = $objUsuario1->reporte1_enero();
     $resultado2  = $objUsuario2->reporte1_febrero();
     $resultado3  = $objUsuario3->reporte1_marzo();
     $resultado4  = $objUsuario4->reporte1_abril();
@@ -57,7 +57,7 @@ try {
     $resultado12 = $objUsuario12->reporte1_diciembre();
     $resultado13 = $objUsuario13->reporte2_consultorio_1();
     $resultado14 = $objUsuario14->reporte2_consultorio_2();
-    /*
+    
     $resultado14 = $objUsuario14->reporte2_consultorio_1_febrero();
     $resultado15 = $objUsuario15->reporte2_consultorio_1_marzo();
     $resultado16 = $objUsuario16->reporte2_consultorio_1_abril();

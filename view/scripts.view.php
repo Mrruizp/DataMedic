@@ -28,11 +28,11 @@
 <script src="../util/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
 <!--<script src="../util/dist/js/adminlte.js"></script>-->
-<script src="../util/dist/js/adminlte.min.js"></script>
+<!--<script src="../util/dist/js/adminlte.min.js"></script> -->
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="../util/dist/js/pages/dashboard.js"></script>
+<!--<script src="../util/dist/js/pages/dashboard.js"></script> -->
 <!-- AdminLTE for demo purposes -->
-<script src="../util/dist/js/demo.js"></script>
+<!--<script src="../util/dist/js/demo.js"></script> -->
 <!--sweetalert-->
 <script src="../util/plugins/swa/sweetalert-dev.js"></script>
 <script src="../util/plugins/datatables/jquery.dataTables.js"></script>
@@ -45,6 +45,9 @@
 <script src="../util/plugins/ckeditor/ckeditor.js"></script>
 <!-- overlayScrollbars -->
 <script src="../util/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="../util/js/core.min.js"></script>
+<script src="../util/js/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/alertify.min.js"></script>
 
 <script>
             function mostrarR() {

@@ -1,7 +1,7 @@
 <?php
 
 class Helper {
-    public static $DIRECTORIO_PRINCIPAL = "DataMedic";
+    public static $DIRECTORIO_PRINCIPAL = "lachuspita";
         
     public static function generarHTMLReporte($htmlDatos) {
         $html = '

@@ -89,9 +89,9 @@ $("#frmgrabar").submit(function (event) {
                                     break;
 
                                 default: //SI
-                                numSesion();
-                               // location.href = "../view/menu.principal.view.php";
-                               // swal("Iniciando Sesión", "", "success");
+                                //numSesion();
+                                location.href = "../view/menu.principal.view.php";
+                                swal("Iniciando Sesión", "", "success");
                                 
                                 break;
                             }
