@@ -8,21 +8,23 @@ class Conexion{
     
     public function __construct() {
         $this->abrirConexion();
-        //echo "conexión abierta";
+        //echo "conexi¨®n abierta";
     }
     
     public function __destruct() {
         $this->dblink = NULL;
-        //echo "Conexión cerrada";
+        //echo "Conexi¨®n cerrada";
     }
     
     protected function abrirConexion(){
-        $servidor = "pgsql:host=".BD_SERVIDOR.";port=".BD_PUERTO.";dbname=".BD_NOMBRE_BD;
+        $servidor = "mysql:host=".BD_SERVIDOR.";dbname=".BD_NOMBRE_BD;
+        //$servidor = "mysql:host=".BD_SERVIDOR.";port=".BD_PUERTO.";dbname=".BD_NOMBRE_BD;
         $usuario = BD_USUARIO;
         $clave = BD_CLAVE;
         
         try {
             $this->dblink = new PDO($servidor, $usuario, $clave);
+            $this->dblink->exec('SET NAMES utf8');
             $this->dblink->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (Exception $exc) {
             Helper::mensaje($exc->getMessage(), "e");

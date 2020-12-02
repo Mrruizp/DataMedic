@@ -58,7 +58,7 @@
               <div class="row">
                 <div class="col-10">
                     <small>
-                      ¿No tiene una cuenta?<a href="#" onclick="mostrarR()" class="text-primary"> Regístrate</a>
+                      ¿No tiene una cuenta?<a href="#" onclick="mostrarR()"> Regístrate</a>
 
                       <!--<button type="button" class="btn btn-default col-lg-2" class="btn btn-default" onclick="mostrarR()" >
                         Cree una

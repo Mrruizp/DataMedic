@@ -214,23 +214,9 @@ class Usuario extends Conexion {
         $this->dblink->beginTransaction();
         
         try {
-            $sql = "select * from f_generar_correlativo('credenciales_acceso') as nc";
-            $sentencia = $this->dblink->prepare($sql);
-            $sentencia->execute();
             
-            if ($sentencia->rowCount()){
-                $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
-                $nuevoCodigo = $resultado["nc"];
-                $this->setCodigoUsuario($nuevoCodigo);
                 
-                /*Insertar en la tabla candidato*/
-//                $sql = "
-//                    insert into laboratorio(codigo_laboratorio,nombre,codigo_pais) 
-//                    values(:p_cod_lab, :p_nomb, :p_codigo_pais)
-//                    ";
-                
-                $sql = "select * from fn_registrarUsuario(                    
-                                        :p_cod_usuario,
+                $sql = "call fn_registrarUsuario(                    
                                         :p_doc_id, 
                                         :p_nombres,
                                         :p_direccion, 
@@ -243,7 +229,7 @@ class Usuario extends Conexion {
                                      );";
                 $sentencia = $this->dblink->prepare($sql);
                 // $sentencia->bindParam(":p_codigoCandidato", $this->getCodigoCandidato());
-                $sentencia->bindParam(":p_cod_usuario", $this->getCodigoUsuario());
+                //$sentencia->bindParam(":p_cod_usuario", $this->getCodigoUsuario());
                 $sentencia->bindParam(":p_doc_id", $this->getDni());
                 $sentencia->bindParam(":p_nombres", $this->getNombreCompleto());
                 $sentencia->bindParam(":p_direccion", $this->getDireccion());
@@ -261,7 +247,7 @@ class Usuario extends Conexion {
                 */
                 if($_SESSION["cargo_id"] === null)
                 {
-                    $sql = "select * from fn_insert_log_usuario
+                    $sql = "call fn_insert_log_usuario
                                     (
                                          null,
                                          null,
@@ -282,7 +268,7 @@ class Usuario extends Conexion {
                                     );";
                 }else{
                 
-                    $sql = "select * from fn_insert_log_usuario
+                    $sql = "call fn_insert_log_usuario
                                     (
                                         '$_SESSION[s_doc_id]',
                                         '$_SESSION[s_usuario]',
@@ -317,9 +303,7 @@ class Usuario extends Conexion {
                 $this->dblink->commit();
                 return true;
                 
-            }else{
-                throw new Exception("No se ha configurado el correlativo para la tabla credenciales_acceso");
-            }
+           
             
         } catch (Exception $exc) {
             $this->dblink->rollBack();
